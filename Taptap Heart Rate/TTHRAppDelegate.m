@@ -7,6 +7,9 @@
 //
 
 #import "TTHRAppDelegate.h"
+#import "TTHRMainViewController.h"
+#import <Parse/Parse.h>
+#import "TTHRParseDevice.h"
 
 @implementation TTHRAppDelegate
 
@@ -14,8 +17,21 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    self.window.rootViewController = [[TTHRMainViewController alloc] init];
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    // Parse services
+    [Parse setApplicationId:@"ifM1WwMLZMMsCWNgwsCbQteYiBjcBLZPuWKQULFH"
+                  clientKey:@"fEf84dVgJkeYojraNDbTgB9u8HLKwaYPratdEPEP"];
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    BOOL testMode = YES;
+    if (testMode) {
+        [TTHRParseDevice trackDevice];
+    }
+//    [TTHRParseDevice queryDeviceWithDefaultName:@"iPhone"];
     return YES;
 }
 
