@@ -7,6 +7,7 @@
 //
 
 #import "TTHRMainViewController.h"
+#import "TTHRTapButton.h"
 
 @interface TTHRMainViewController ()
 
@@ -55,7 +56,7 @@
     CGFloat heartRateLabelY = 70;
     CGRect heartRateLabelFrame = CGRectMake(heartRateLabelX, heartRateLabelY, heartRateLabelWidth, heartRateLabelHeight);
     _heartRateLabel = [[UILabel alloc] initWithFrame:heartRateLabelFrame];
-    [_heartRateLabel setText:[NSString stringWithFormat:@"%d", _heartRate]];
+    [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
     [_heartRateLabel setFont:[UIFont fontWithName:@"Helvetica-Light" size:120]];
     [_heartRateLabel setTextAlignment:NSTextAlignmentCenter];
     [_heartRateLabel setTextColor:[UIColor blackColor]];
@@ -71,8 +72,8 @@
     [_timerLabel setTextAlignment:NSTextAlignmentRight];
     [_timerLabel setTextColor:[UIColor blackColor]];
     
-    CGFloat tapButtonHeight = 50;
-    CGFloat tapButtonWidth = 50;
+    CGFloat tapButtonHeight = 250;
+    CGFloat tapButtonWidth = 250;
     CGFloat tapButtonX = (mainScreenSize.width - tapButtonWidth) / 3;
     CGFloat tapButtonY = mainScreenSize.height - tapButtonHeight - 50;
     CGRect tapButtonFrame = CGRectMake(tapButtonX, tapButtonY, tapButtonWidth, tapButtonHeight);
@@ -88,10 +89,20 @@
     _resetButton = [[UIButton alloc] initWithFrame:resetButtonFrame];
     [_resetButton setTitle:@"Reset" forState:UIControlStateNormal];
     [_resetButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [_resetButton setTitleColor:[UIColor greenColor] forState:UIControlStateHighlighted];
     [_resetButton addTarget:self action:@selector(resetButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:_tapButton];
-    [self.view addSubview:_resetButton];
+    TTHRTapButton *my = [[TTHRTapButton alloc] initWithFrame:tapButtonFrame];
+    [my setTitle:@"Tap" forState:UIControlStateNormal];
+    [my setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [my setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
+    my.backgroundColor = [UIColor clearColor];
+    [my addTarget:self action:@selector(tapButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:my];
+    
+//    [self.view addSubview:_tapButton];
+//    [self.view addSubview:_resetButton];
     [self.view addSubview:_heartRateLabel];
     [self.view addSubview:_timerLabel];
 }
@@ -141,7 +152,7 @@
 - (void)updateLabels{
     NSInteger tapCount = [_tappedSeconds count];
     if (tapCount < 3) {
-        [_heartRateLabel setText:[NSString stringWithFormat:@"%d", _heartRate]];
+        [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
         [_timerLabel setText:@"+00.00"];
         return;
     }
@@ -158,7 +169,7 @@
     double totalOffset = [[_tappedSeconds lastObject] doubleValue] - [[_tappedSeconds firstObject] doubleValue];
     double averageOffset = totalOffset / (tapCount - 1);
     _heartRate = 60 / averageOffset;
-    [_heartRateLabel setText:[NSString stringWithFormat:@"%d", _heartRate]];
+    [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
     //NSLog(@"%0.2f", offset2 - offset1);
 }
 @end
