@@ -1,12 +1,12 @@
 //
-//  ZHHHandyFunctions.m
+//  ZHHHandyMacros.m
 //  Demo
 //
 //  Created by Zhang Honghao on 6/10/14.
 //  Copyright (c) 2014 org-honghao. All rights reserved.
 //
 
-#import "ZHHHandyFunctions.h"
+#import "ZHHHandyMacros.h"
 
 void ConciseNSLog(const char *file, int lineNumber, const char *functionName, NSString *format, ...)
 {

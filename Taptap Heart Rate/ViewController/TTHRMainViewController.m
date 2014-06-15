@@ -261,7 +261,7 @@
         NSInteger min = (NSInteger)((NSInteger)secondsOffset / 60);
         double sec = secondsOffset - min * 60;
 //        NSLog(@"%f, %f // min: %d, sec: %f, sec:", startTime, currentTime, min, secondsOffset, sec);
-        [_timerLabel setText:[NSString stringWithFormat:@"Time: %02d:%05.2f", min, sec]];
+        [_timerLabel setText:[NSString stringWithFormat:@"Time: %02ld:%05.2f", (long)min, sec]];
     }
 }
 
