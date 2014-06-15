@@ -11,14 +11,25 @@
 
 @interface TTHRMainViewController ()
 
-@property (nonatomic, assign) NSInteger tappedTime;
-@property (nonatomic, assign) NSInteger heartRate;
-@property (nonatomic, strong) NSMutableArray *tappedSeconds;
+@property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong) UIColor *buttonColor;
 
+@property (nonatomic, assign) BOOL isTracking;
+@property (nonatomic, strong) NSNumber *startTime;
+@property (nonatomic, assign) NSInteger beatNumber;
+@property (nonatomic, assign) NSInteger heartRate;
+@property (nonatomic, strong) NSMutableArray *tappedTimes;
+@property (nonatomic, strong) NSTimer *timer;
+
+@property (nonatomic, strong) UILabel *heartRateTilteLabel;
 @property (nonatomic, strong) UILabel *heartRateLabel;
+
+@property (nonatomic, strong) UILabel *beatLabel;
 @property (nonatomic, strong) UILabel *timerLabel;
-@property (nonatomic, strong) UIButton *tapButton;
-@property (nonatomic, strong) UIButton *resetButton;
+@property (nonatomic, strong) UILabel *offsetLabel;
+
+@property (nonatomic, strong) TTHRTapButton *tapButton;
+@property (nonatomic, strong) TTHRTapButton *resetButton;
 
 
 @end
@@ -38,7 +49,12 @@
     LogMethod;
     self = [super init];
     if (self) {
-        ;
+        _backgroundColor = [UIColor colorWithRed:0.73 green:0.03 blue:0.10 alpha:1];//[UIColor colorWithRed:0.8 green:0.1 blue:0.16 alpha:1];//[UIColor colorWithRed:0.95 green:0.3 blue:0.22 alpha:1];
+        _buttonColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.83];
+        _isTracking = NO;
+        _beatNumber = 0;
+        _heartRate = 0;
+        _tappedTimes = nil;
     }
     return self;
 }
@@ -50,61 +66,117 @@
     
     CGSize mainScreenSize = [UIScreen mainScreen].bounds.size;
     
+    // Heart Rate Label
     CGFloat heartRateLabelHeight = 100;
-    CGFloat heartRateLabelWidth = 200;
+    CGFloat heartRateLabelWidth = 220;
     CGFloat heartRateLabelX = (mainScreenSize.width - heartRateLabelWidth) / 2;
-    CGFloat heartRateLabelY = 70;
+    CGFloat heartRateLabelY = 0;
+    // On 4inch Screen, move label down
+    if (IS_IPHONE_5) {
+        heartRateLabelY = 65;
+    } else {
+        heartRateLabelY = 55;
+    }
     CGRect heartRateLabelFrame = CGRectMake(heartRateLabelX, heartRateLabelY, heartRateLabelWidth, heartRateLabelHeight);
     _heartRateLabel = [[UILabel alloc] initWithFrame:heartRateLabelFrame];
-    [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
-    [_heartRateLabel setFont:[UIFont fontWithName:@"Helvetica-Light" size:120]];
+    [_heartRateLabel setText:_heartRate == 0? @"---": [NSString stringWithFormat:@"%ld", (long)_heartRate]];
+    [_heartRateLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:130]];
     [_heartRateLabel setTextAlignment:NSTextAlignmentCenter];
-    [_heartRateLabel setTextColor:[UIColor blackColor]];
+    [_heartRateLabel setTextColor:_buttonColor];
     
-    CGFloat timerLabelHeight = 50;
-    CGFloat timerLabelWidth = 100;
-    CGFloat timerLabelX = (mainScreenSize.width - timerLabelWidth) / 2;
-    CGFloat timerLabelY = 20 + heartRateLabelY + heartRateLabelHeight;
+    // Heart Rate Title Label
+    CGFloat heartRateTitleLabelHeight = 30;
+    CGFloat heartRateTitleLabelWidth = 43;
+    CGFloat heartRateTitleLabelX = heartRateLabelX - heartRateTitleLabelWidth + 15;
+    CGFloat heartRateTitleLabelY = heartRateLabelY - heartRateTitleLabelHeight;
+    CGRect heartRateTitleLabelFrame = CGRectMake(heartRateTitleLabelX, heartRateTitleLabelY, heartRateTitleLabelWidth, heartRateTitleLabelHeight);
+    _heartRateTilteLabel = [[UILabel alloc] initWithFrame:heartRateTitleLabelFrame];
+    [_heartRateTilteLabel setText:@"BMP:"];
+    [_heartRateTilteLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
+    [_heartRateTilteLabel setTextAlignment:NSTextAlignmentLeft];
+    [_heartRateTilteLabel setTextColor:_buttonColor];
+    
+    // Beat Label
+    CGFloat beatLabelHeight = 30;
+    CGFloat beatLabelWidth = 79;
+    CGFloat beatLabelX = heartRateTitleLabelX;
+    CGFloat beatLabelY = heartRateLabelY + heartRateLabelHeight + 10;
+    CGRect beatLabelFrame = CGRectMake(beatLabelX, beatLabelY, beatLabelWidth, beatLabelHeight);
+    _beatLabel = [[UILabel alloc] initWithFrame:beatLabelFrame];
+    [_beatLabel setText:[NSString stringWithFormat:@"Beats: %ld", (long)_beatNumber]];
+    [_beatLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:15]];
+    [_beatLabel setTextAlignment:NSTextAlignmentLeft];
+    [_beatLabel setTextColor:_buttonColor];
+    
+    // Timer Label
+    CGFloat timerLabelHeight = 30;
+    CGFloat timerLabelWidth = 97;
+    CGFloat timerLabelX = beatLabelX + beatLabelWidth + 2;
+    CGFloat timerLabelY = beatLabelY;
     CGRect timerLabelFrame = CGRectMake(timerLabelX, timerLabelY, timerLabelWidth, timerLabelHeight);
     _timerLabel = [[UILabel alloc] initWithFrame:timerLabelFrame];
-    [_timerLabel setText:@"+00.00"];
-    [_timerLabel setFont:[UIFont fontWithName:@"Helvetica-Light" size:30]];
-    [_timerLabel setTextAlignment:NSTextAlignmentRight];
-    [_timerLabel setTextColor:[UIColor blackColor]];
+    [_timerLabel setText:@"Time: 00:00.00"];
+    [_timerLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:15]];
+    [_timerLabel setTextAlignment:NSTextAlignmentLeft];
+    [_timerLabel setTextColor:_buttonColor];
     
-    CGFloat tapButtonHeight = 250;
-    CGFloat tapButtonWidth = 250;
-    CGFloat tapButtonX = (mainScreenSize.width - tapButtonWidth) / 3;
-    CGFloat tapButtonY = mainScreenSize.height - tapButtonHeight - 50;
+    // Offset Label
+    CGFloat offsetLabelHeight = 30;
+    CGFloat offsetLabelWidth = 100;
+    CGFloat offsetLabelX = timerLabelX + timerLabelWidth + 10;
+    CGFloat offsetLabelY = timerLabelY;
+    CGRect offsetLabelFrame = CGRectMake(offsetLabelX, offsetLabelY, offsetLabelWidth, offsetLabelHeight);
+    _offsetLabel = [[UILabel alloc] initWithFrame:offsetLabelFrame];
+    [_offsetLabel setText:@"Offset: +00.00"];
+    [_offsetLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:15]];
+    [_offsetLabel setTextAlignment:NSTextAlignmentLeft];
+    [_offsetLabel setTextColor:_buttonColor];
+    
+    
+    // Tap Button
+    CGFloat tapButtonHeight = 230;
+    CGFloat tapButtonWidth = 230;
+    CGFloat tapButtonX = (mainScreenSize.width - tapButtonWidth) / 2;
+    CGFloat tapButtonY = 0;
+    // On 4inch Screen, move label up
+    if (IS_IPHONE_5) {
+        tapButtonY = mainScreenSize.height - tapButtonHeight - 50;
+    } else {
+        tapButtonY = mainScreenSize.height - tapButtonHeight - 30;
+    }
     CGRect tapButtonFrame = CGRectMake(tapButtonX, tapButtonY, tapButtonWidth, tapButtonHeight);
-    _tapButton = [[UIButton alloc] initWithFrame:tapButtonFrame];
+    _tapButton = [[TTHRTapButton alloc] initWithFrame:tapButtonFrame];
     [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
-    [_tapButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_tapButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+    [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:46]];
+    [_tapButton setTitleColor:_backgroundColor forState:UIControlStateNormal];
+    [_tapButton setTitleColor:_backgroundColor forState:UIControlStateHighlighted];
     _tapButton.backgroundColor = [UIColor clearColor];
     [_tapButton addTarget:self action:@selector(tapButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-    CGFloat resetButtonX = tapButtonX * 2;
-    CGRect resetButtonFrame = CGRectMake(resetButtonX, tapButtonY, tapButtonWidth, tapButtonHeight);
-    _resetButton = [[UIButton alloc] initWithFrame:resetButtonFrame];
+    // Reset Button
+    CGFloat resetButtonHeight = 70;
+    CGFloat resetButtonWidth = 70;
+    CGFloat resetButtonX = tapButtonX + tapButtonWidth - 25;
+    CGFloat resetButtonY = tapButtonY + tapButtonHeight - resetButtonHeight + 6;
+    CGRect resetButtonFrame = CGRectMake(resetButtonX, resetButtonY, resetButtonWidth, resetButtonHeight);
+    _resetButton = [[TTHRTapButton alloc] initWithFrame:resetButtonFrame circleWidth:0 buttonColor:[self dimColor:_buttonColor with:0.1] circleColor:nil];
     [_resetButton setTitle:@"Reset" forState:UIControlStateNormal];
-    [_resetButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_resetButton setTitleColor:[UIColor greenColor] forState:UIControlStateHighlighted];
+    [_resetButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
+    [_resetButton setTitleColor:_backgroundColor forState:UIControlStateNormal];
     [_resetButton addTarget:self action:@selector(resetButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-    TTHRTapButton *my = [[TTHRTapButton alloc] initWithFrame:tapButtonFrame];
-    [my setTitle:@"Tap" forState:UIControlStateNormal];
-    [my setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [my setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
-    my.backgroundColor = [UIColor clearColor];
-    [my addTarget:self action:@selector(tapButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:my];
-    
-//    [self.view addSubview:_tapButton];
-//    [self.view addSubview:_resetButton];
+    [self.view addSubview:_heartRateTilteLabel];
     [self.view addSubview:_heartRateLabel];
+    
+    [self.view addSubview:_beatLabel];
     [self.view addSubview:_timerLabel];
+    [self.view addSubview:_offsetLabel];
+    
+    [self.view addSubview:_tapButton];
+    [self.view addSubview:_resetButton];
+    
+    [self.view setBackgroundColor:_backgroundColor];
 }
 
 - (void)viewDidLoad
@@ -112,64 +184,91 @@
     LogMethod;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _tappedTime = 0;
+    _beatNumber = 0;
     _heartRate = 0;
-    _tappedSeconds = [[NSMutableArray alloc] init];
+    _tappedTimes = [[NSMutableArray alloc] init];
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (void)tapButtonTapped:(id)sender {
     LogMethod;
-    _tappedTime++;
-    [_tappedSeconds addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
+    if (!_isTracking) {
+        NSRunLoop *runloop = [NSRunLoop currentRunLoop];
+        _timer = [NSTimer timerWithTimeInterval:0.01 target:self selector:@selector(timer:) userInfo:nil repeats:YES];
+        [runloop addTimer:_timer forMode:NSRunLoopCommonModes];
+        [runloop addTimer:_timer forMode:UITrackingRunLoopMode];
+        _isTracking = YES;
+    }
+    _beatNumber++;
+    [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
     [self updateLabels];
 }
 
 - (void)resetButtonTapped:(id)sender {
     LogMethod;
-    _tappedTime = 0;
+    _isTracking = NO;
+    _startTime = nil;
+    [_timer invalidate];
+    _beatNumber = 0;
     _heartRate = 0;
-    [_tappedSeconds removeAllObjects];
+    [_tappedTimes removeAllObjects];
     [self updateLabels];
 }
 
 - (void)updateLabels{
-    NSInteger tapCount = [_tappedSeconds count];
-    if (tapCount < 3) {
-        [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
-        [_timerLabel setText:@"+00.00"];
+    [_beatLabel setText:[NSString stringWithFormat:@"Beats: %ld", (long)_beatNumber]];
+    if (_startTime == nil) {
+        [_timerLabel setText:@"Time: 00:00.00"];
+    }
+    if (_beatNumber < 3) {
+        [_heartRateLabel setText:_heartRate == 0? @"---": [NSString stringWithFormat:@"%ld", (long)_heartRate]];
+        [_offsetLabel setText:@"Offset: +00.00"];
         return;
     }
-    NSNumber *lastTapTime = [_tappedSeconds lastObject];
-    NSNumber *lastSecondTapTime = [_tappedSeconds objectAtIndex:tapCount - 2];
-    NSNumber *lastThirdTapTime = [_tappedSeconds objectAtIndex:tapCount - 3];
+    NSNumber *lastTapTime = [_tappedTimes lastObject];
+    NSNumber *lastSecondTapTime = [_tappedTimes objectAtIndex:_beatNumber - 2];
+    NSNumber *lastThirdTapTime = [_tappedTimes objectAtIndex:_beatNumber - 3];
     double offset1 = [lastSecondTapTime doubleValue] - [lastThirdTapTime doubleValue];
     double offset2 = [lastTapTime doubleValue] - [lastSecondTapTime doubleValue];
     double offset = offset2 - offset1;
-    [_timerLabel setText:[NSString stringWithFormat:offset < 0 ? @"%06.2f": @"+%05.2f", offset]];
+    [_offsetLabel setText:[NSString stringWithFormat:offset < 0 ? @"Offset: %06.2f": @"Offset: +%05.2f", offset]];
     
     //double averageOffset = (offset1 + offset2) / 2;
     
-    double totalOffset = [[_tappedSeconds lastObject] doubleValue] - [[_tappedSeconds firstObject] doubleValue];
-    double averageOffset = totalOffset / (tapCount - 1);
+    double totalOffset = [[_tappedTimes lastObject] doubleValue] - [[_tappedTimes firstObject] doubleValue];
+    double averageOffset = totalOffset / (_beatNumber - 1);
     _heartRate = 60 / averageOffset;
     [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
-    //NSLog(@"%0.2f", offset2 - offset1);
+}
+
+- (void)timer:(id)sender {
+    if (_startTime == nil) {
+        _startTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+    } else {
+        double currentTime = [[NSDate date] timeIntervalSince1970];
+        double startTime = [_startTime doubleValue];
+        double secondsOffset = currentTime - startTime;
+        NSInteger min = (NSInteger)((NSInteger)secondsOffset / 60);
+        double sec = secondsOffset - min * 60;
+//        NSLog(@"%f, %f // min: %d, sec: %f, sec:", startTime, currentTime, min, secondsOffset, sec);
+        [_timerLabel setText:[NSString stringWithFormat:@"Time: %02d:%05.2f", min, sec]];
+    }
+}
+
+- (UIColor *)dimColor:(UIColor *)color with:(CGFloat)dim {
+    CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+    [color getRed:&red green:&green blue:&blue alpha:&alpha];
+    UIColor *newColor = [UIColor colorWithRed:red green:green blue:blue alpha:alpha - dim];
+    return newColor;
 }
 @end

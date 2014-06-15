@@ -34,3 +34,5 @@ void ExtendNSLog(const char *file, int lineNumber, const char *functionName, NSS
 // Print an Object, to see if this object is nil
 #define PrintNil(object) NSLog(@"%@ is %@", [object class], object == nil? @"nil" : @"not nil")
 
+// Detect 4inch or 3.5inch
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )

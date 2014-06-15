@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B1A376A194BFD0500C9F9EC /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B1A3769194BFD0500C9F9EC /* Parse.framework */; };
+		1B058300194CD759000D43C2 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0582FF194CD759000D43C2 /* Parse.framework */; };
 		1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */; };
 		1B1B75D91947F18600C7FAC3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAB19479FFC006718B5 /* Foundation.framework */; };
 		1BC002511947DC810040E828 /* ZHHHandyFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC002501947DC810040E828 /* ZHHHandyFunctions.m */; };
@@ -48,7 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1B1A3769194BFD0500C9F9EC /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		1B0582FF194CD759000D43C2 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		1B1A376B194BFD6E00C9F9EC /* TTHRTapButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRTapButton.h; path = Views/TTHRTapButton.h; sourceTree = "<group>"; };
 		1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRTapButton.m; path = Views/TTHRTapButton.m; sourceTree = "<group>"; };
 		1BC0024F1947DC810040E828 /* ZHHHandyFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHHHandyFunctions.h; sourceTree = "<group>"; };
@@ -99,10 +99,10 @@
 				1BDA8EEA1947BEA7006718B5 /* Security.framework in Frameworks */,
 				1BDA8EE81947BEA2006718B5 /* QuartzCore.framework in Frameworks */,
 				1BDA8EE61947BE9E006718B5 /* MobileCoreServices.framework in Frameworks */,
+				1B058300194CD759000D43C2 /* Parse.framework in Frameworks */,
 				1BDA8EE41947BE98006718B5 /* libz.dylib in Frameworks */,
 				1BDA8EE21947BE8F006718B5 /* CoreLocation.framework in Frameworks */,
 				1BDA8EAE19479FFC006718B5 /* CoreGraphics.framework in Frameworks */,
-				1B1A376A194BFD0500C9F9EC /* Parse.framework in Frameworks */,
 				1BDA8EE01947BE84006718B5 /* CFNetwork.framework in Frameworks */,
 				1BDA8EDE1947BE7E006718B5 /* AudioToolbox.framework in Frameworks */,
 				1BDA8EB019479FFC006718B5 /* UIKit.framework in Frameworks */,
@@ -249,7 +249,7 @@
 		1BDA8EF01947BF1B006718B5 /* ThirdPartyDependency */ = {
 			isa = PBXGroup;
 			children = (
-				1B1A3769194BFD0500C9F9EC /* Parse.framework */,
+				1B0582FF194CD759000D43C2 /* Parse.framework */,
 				1BC0024E1947DC810040E828 /* ZHHHandyFunctions */,
 			);
 			name = ThirdPartyDependency;
