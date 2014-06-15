@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1B058354194E2938000D43C2 /* ZHHHandyMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B058353194E2938000D43C2 /* ZHHHandyMacros.m */; };
-		1B058356194E29AB000D43C2 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B058355194E29AB000D43C2 /* Parse.framework */; };
+		1B0583B4194E30EB000D43C2 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583B3194E30EB000D43C2 /* Parse.framework */; };
+		1B0583B7194E3BE5000D43C2 /* TTHRMainScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0583B6194E3BE5000D43C2 /* TTHRMainScrollView.m */; };
 		1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */; };
 		1B1B75D91947F18600C7FAC3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAB19479FFC006718B5 /* Foundation.framework */; };
 		1BC002561947DD4A0040E828 /* TTHRParseDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC002551947DD4A0040E828 /* TTHRParseDevice.m */; };
@@ -50,7 +51,9 @@
 /* Begin PBXFileReference section */
 		1B058352194E2938000D43C2 /* ZHHHandyMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHHHandyMacros.h; sourceTree = "<group>"; };
 		1B058353194E2938000D43C2 /* ZHHHandyMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHHHandyMacros.m; sourceTree = "<group>"; };
-		1B058355194E29AB000D43C2 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = "Taptap Heart Rate/ThirdPartyDependency/Parse.framework"; sourceTree = "<group>"; };
+		1B0583B3194E30EB000D43C2 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		1B0583B5194E3BE5000D43C2 /* TTHRMainScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRMainScrollView.h; path = Views/TTHRMainScrollView.h; sourceTree = "<group>"; };
+		1B0583B6194E3BE5000D43C2 /* TTHRMainScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRMainScrollView.m; path = Views/TTHRMainScrollView.m; sourceTree = "<group>"; };
 		1B1A376B194BFD6E00C9F9EC /* TTHRTapButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRTapButton.h; path = Views/TTHRTapButton.h; sourceTree = "<group>"; };
 		1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRTapButton.m; path = Views/TTHRTapButton.m; sourceTree = "<group>"; };
 		1BC002541947DD4A0040E828 /* TTHRParseDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRParseDevice.h; path = "Taptap Heart Rate/Others/TTHRParseDevice.h"; sourceTree = "<group>"; };
@@ -99,7 +102,7 @@
 				1BDA8EEA1947BEA7006718B5 /* Security.framework in Frameworks */,
 				1BDA8EE81947BEA2006718B5 /* QuartzCore.framework in Frameworks */,
 				1BDA8EE61947BE9E006718B5 /* MobileCoreServices.framework in Frameworks */,
-				1B058356194E29AB000D43C2 /* Parse.framework in Frameworks */,
+				1B0583B4194E30EB000D43C2 /* Parse.framework in Frameworks */,
 				1BDA8EE41947BE98006718B5 /* libz.dylib in Frameworks */,
 				1BDA8EE21947BE8F006718B5 /* CoreLocation.framework in Frameworks */,
 				1BDA8EAE19479FFC006718B5 /* CoreGraphics.framework in Frameworks */,
@@ -136,6 +139,8 @@
 			children = (
 				1B1A376B194BFD6E00C9F9EC /* TTHRTapButton.h */,
 				1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */,
+				1B0583B5194E3BE5000D43C2 /* TTHRMainScrollView.h */,
+				1B0583B6194E3BE5000D43C2 /* TTHRMainScrollView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -186,7 +191,6 @@
 		1BDA8EAA19479FFC006718B5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1B058355194E29AB000D43C2 /* Parse.framework */,
 				1BDA8EED1947BEB4006718B5 /* SystemConfiguration.framework */,
 				1BDA8EEB1947BEAC006718B5 /* StoreKit.framework */,
 				1BDA8EE91947BEA7006718B5 /* Security.framework */,
@@ -250,6 +254,7 @@
 		1BDA8EF01947BF1B006718B5 /* ThirdPartyDependency */ = {
 			isa = PBXGroup;
 			children = (
+				1B0583B3194E30EB000D43C2 /* Parse.framework */,
 				1B058351194E2938000D43C2 /* ZHHHandyMacros */,
 			);
 			name = ThirdPartyDependency;
@@ -352,6 +357,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B0583B7194E3BE5000D43C2 /* TTHRMainScrollView.m in Sources */,
 				1BDA8EBC19479FFC006718B5 /* TTHRAppDelegate.m in Sources */,
 				1BC002611947DFCA0040E828 /* UIApplication+AppVersion.m in Sources */,
 				1BC002561947DD4A0040E828 /* TTHRParseDevice.m in Sources */,
@@ -478,12 +484,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Taptap",
-					Heart,
-					Rate/ThirdPartyDependency,
-					"$(PROJECT_DIR)/Taptap",
-					Heart,
-					Rate/ThirdPartyDependency,
+					"$(PROJECT_DIR)/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Taptap Heart Rate/Taptap Heart Rate-Prefix.pch";
@@ -501,12 +502,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Taptap",
-					Heart,
-					Rate/ThirdPartyDependency,
-					"$(PROJECT_DIR)/Taptap",
-					Heart,
-					Rate/ThirdPartyDependency,
+					"$(PROJECT_DIR)/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Taptap Heart Rate/Taptap Heart Rate-Prefix.pch";

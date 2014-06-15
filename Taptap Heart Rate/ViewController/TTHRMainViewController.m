@@ -8,8 +8,9 @@
 
 #import "TTHRMainViewController.h"
 #import "TTHRTapButton.h"
+#import "TTHRMainScrollView.h"
 
-@interface TTHRMainViewController ()
+@interface TTHRMainViewController () <TTHRMainScrollViewDelegate>
 
 @property (nonatomic, strong) UIColor *backgroundColor;
 @property (nonatomic, strong) UIColor *buttonColor;
@@ -21,6 +22,7 @@
 @property (nonatomic, strong) NSMutableArray *tappedTimes;
 @property (nonatomic, strong) NSTimer *timer;
 
+@property (nonatomic, strong) TTHRMainScrollView *mainScrollView;
 @property (nonatomic, strong) UILabel *heartRateTilteLabel;
 @property (nonatomic, strong) UILabel *heartRateLabel;
 
@@ -30,6 +32,9 @@
 
 @property (nonatomic, strong) TTHRTapButton *tapButton;
 @property (nonatomic, strong) TTHRTapButton *resetButton;
+
+@property (nonatomic, strong) UILabel *segmentLabel;
+@property (nonatomic, strong) UISegmentedControl *segmentControl;
 
 
 @end
@@ -62,9 +67,27 @@
 - (void)loadView {
     LogMethod;
     self.view = [[UIView alloc] init];
-    self.view.backgroundColor = [UIColor whiteColor];
+    //[self.view setBackgroundColor:_backgroundColor];
     
     CGSize mainScreenSize = [UIScreen mainScreen].bounds.size;
+    
+    _mainScrollView = [[TTHRMainScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    
+    CGSize bigSize = mainScreenSize;
+    bigSize.width *= 1.7;
+    [_mainScrollView setContentSize:bigSize];
+    [_mainScrollView setPagingEnabled:YES];
+    [_mainScrollView setBackgroundColor:_backgroundColor];
+    [_mainScrollView setOpaque:YES];
+    [_mainScrollView setMultipleTouchEnabled:NO];
+    [_mainScrollView setBounces:NO];
+    [_mainScrollView setShowsHorizontalScrollIndicator:NO];
+    [_mainScrollView setShowsVerticalScrollIndicator:NO];
+    _mainScrollView.canCancelContentTouches = NO;
+    _mainScrollView.delaysContentTouches = NO;
+    [_mainScrollView setScrollEnabled:NO];
+    _mainScrollView.screenDelegate = self;
+    [self.view addSubview:_mainScrollView];
     
     // Heart Rate Label
     CGFloat heartRateLabelHeight = 100;
@@ -152,6 +175,7 @@
     [_tapButton setTitleColor:_backgroundColor forState:UIControlStateHighlighted];
     _tapButton.backgroundColor = [UIColor clearColor];
     [_tapButton addTarget:self action:@selector(tapButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    _tapButton.adjustsImageWhenDisabled = NO;
     
     // Reset Button
     CGFloat resetButtonHeight = 70;
@@ -164,19 +188,47 @@
     [_resetButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
     [_resetButton setTitleColor:_backgroundColor forState:UIControlStateNormal];
     [_resetButton addTarget:self action:@selector(resetButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    _resetButton.adjustsImageWhenDisabled = NO;
     
     
-    [self.view addSubview:_heartRateTilteLabel];
-    [self.view addSubview:_heartRateLabel];
+    // SegmentLabel
+    CGFloat segmentLabelHeight = 30;
+    CGFloat segmentLabelWidth = 140;
+    CGFloat segmentLabelX = mainScreenSize.width + (_mainScrollView.contentSize.width - mainScreenSize.width - segmentLabelWidth) / 2;
+    CGFloat segmentLabelY = heartRateTitleLabelY;
+    CGRect segmentLabelFrame = CGRectMake(segmentLabelX, segmentLabelY, segmentLabelWidth, segmentLabelHeight);
+    _segmentLabel = [[UILabel alloc] initWithFrame:segmentLabelFrame];
+    [_segmentLabel setText:@"Choose Tap Mode"];
+    [_segmentLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
+    [_segmentLabel setTextAlignment:NSTextAlignmentCenter];
+    [_segmentLabel setTextColor:_buttonColor];
     
-    [self.view addSubview:_beatLabel];
-    [self.view addSubview:_timerLabel];
-    [self.view addSubview:_offsetLabel];
+    // SegmentControl
+    CGFloat segmentHeight = 70;
+    CGFloat segmentWidth = 150;
+    CGFloat segmentX = 10;
+    CGFloat segmentY = segmentLabelY + segmentLabelHeight + 10;
+    _segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"6", @"10", @"Tap"]];
+    segmentHeight = _segmentControl.frame.size.height;
+    segmentX = mainScreenSize.width + (_mainScrollView.contentSize.width - mainScreenSize.width - segmentWidth) / 2;
+    CGRect segmentFrame = CGRectMake(segmentX, segmentY, segmentWidth, segmentHeight);
+    _segmentControl.frame = segmentFrame;
+    [_segmentControl setTintColor:_buttonColor];
+    [_segmentControl setSelectedSegmentIndex:2];
     
-    [self.view addSubview:_tapButton];
-    [self.view addSubview:_resetButton];
     
-    [self.view setBackgroundColor:_backgroundColor];
+    [_mainScrollView addSubview:_heartRateTilteLabel];
+    [_mainScrollView addSubview:_heartRateLabel];
+    
+    [_mainScrollView addSubview:_beatLabel];
+    [_mainScrollView addSubview:_timerLabel];
+    [_mainScrollView addSubview:_offsetLabel];
+    
+    [_mainScrollView addSubview:_tapButton];
+    [_mainScrollView addSubview:_resetButton];
+    
+    [_mainScrollView addSubview:_segmentLabel];
+    [_mainScrollView addSubview:_segmentControl];
 }
 
 - (void)viewDidLoad
@@ -201,7 +253,6 @@
 
 
 - (void)tapButtonTapped:(id)sender {
-    LogMethod;
     if (!_isTracking) {
         NSRunLoop *runloop = [NSRunLoop currentRunLoop];
         _timer = [NSTimer timerWithTimeInterval:0.01 target:self selector:@selector(timer:) userInfo:nil repeats:YES];
@@ -215,7 +266,6 @@
 }
 
 - (void)resetButtonTapped:(id)sender {
-    LogMethod;
     _isTracking = NO;
     _startTime = nil;
     [_timer invalidate];
@@ -264,6 +314,20 @@
         [_timerLabel setText:[NSString stringWithFormat:@"Time: %02ld:%05.2f", (long)min, sec]];
     }
 }
+
+#pragma mark - TTHRMainScrollViewDelegate methods
+
+- (void)scrollView:(UIScrollView *)scrollView moveToScreen:(Screen)screen {
+    if (screen == Screen0) {
+        _tapButton.enabled = YES;
+        _resetButton.enabled = YES;
+    } else if (screen == Screen1) {
+        _tapButton.enabled = NO;
+        _resetButton.enabled = NO;
+    }
+}
+
+#pragma mark - Helper methods
 
 - (UIColor *)dimColor:(UIColor *)color with:(CGFloat)dim {
     CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;

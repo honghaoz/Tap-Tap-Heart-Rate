@@ -11,6 +11,8 @@
 @implementation TTHRTapButton {
     CGFloat _circleWidth;
     CGFloat _shrinkWidth;
+    CGPoint touchBeginPoint;
+    CGPoint touchEndPoint;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -37,7 +39,6 @@
 
 - (void)setbuttonColor:(UIColor *)color {
     _buttonColor = color;
-    
 }
 
 - (void)setbuttonCircleColor:(UIColor *)color {
@@ -48,39 +49,57 @@
     _buttonColorHighLighted = color;
 }
 
+#pragma mark - UIResponder methods
 
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-//- (void)drawRect:(CGRect)rect
-//{
-//    LogMethod;
-//    CGContextRef ctx = UIGraphicsGetCurrentContext();
-//    CGContextSetLineWidth(ctx, 1);
-//    CGContextSetRGBStrokeColor(ctx, buttonColor.);
-//    CGContextSetRGBFillColor(ctx, 0.1, 0.1, 0.1, 0.8);
-//    CGRect circleRect = self.bounds;
-//    CGContextFillEllipseInRect(ctx, circleRect);
-//}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    LogMethod;
+    for (UITouch *touch in touches) {
+        touchBeginPoint = [touch locationInView:self];
+    }
+    [super touchesBegan:touches withEvent:event];
+    [self.nextResponder touchesBegan:touches withEvent:event];
+}
 
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-////    LogMethod;
-//    [super touchesBegan:touches withEvent:event];
-//}
-//
-//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-////    LogMethod;
-//    [super touchesMoved:touches withEvent:event];
-//}
-//
-//- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-////    LogMethod;
-//    [super touchesEnded:touches withEvent:event];
-//}
-//
-//- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-////    LogMethod;
-//    [super touchesCancelled:touches withEvent:event];
-//}
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    LogMethod;
+    [super touchesMoved:touches withEvent:event];
+    [self.nextResponder touchesMoved:touches withEvent:event];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    LogMethod;
+    for (UITouch *touch in touches) {
+        touchEndPoint = [touch locationInView:self];
+        // if touch end offset > 70, send to next Responder
+        if (abs(touchBeginPoint.x - touchEndPoint.x) < 50) {
+            [super touchesEnded:touches withEvent:event];
+        } else {
+            [super touchesCancelled:touches withEvent:event];
+        }
+    }
+    [self.nextResponder touchesEnded:touches withEvent:event];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    LogMethod;
+    [super touchesCancelled:touches withEvent:event];
+}
+
+#pragma mark - UIControl methods
+
+- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    CGFloat radius = self.bounds.size.height / 2;
+    CGPoint touchedPoint = [touch locationInView:self];
+    CGPoint center = CGPointMake(radius, radius);
+    CGFloat distanceToCenter = sqrtf(pow(touchedPoint.x - center.x, 2) + pow(touchedPoint.y - center.y, 2));
+    if (distanceToCenter < radius - _shrinkWidth + radius * 1/10) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+#pragma mark - Helper methods
 
 - (UIImage *)imageWithButtonColor:(UIColor *)btnColor circleColor:(UIColor *)cirColor {
     CGFloat cirRed = 0.0, cirGreen = 0.0, cirBlue = 0.0, cirAlpha =0.0;
@@ -120,18 +139,6 @@
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
-}
-
-- (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
-    CGFloat radius = self.bounds.size.height / 2;
-    CGPoint touchedPoint = [touch locationInView:self];
-    CGPoint center = CGPointMake(radius, radius);
-    CGFloat distanceToCenter = sqrtf(pow(touchedPoint.x - center.x, 2) + pow(touchedPoint.y - center.y, 2));
-    if (distanceToCenter < radius - _shrinkWidth + radius * 1/10) {
-        return YES;
-    } else {
-        return NO;
-    }
 }
 
 @end
