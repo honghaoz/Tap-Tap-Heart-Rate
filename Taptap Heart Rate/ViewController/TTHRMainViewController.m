@@ -285,24 +285,18 @@
             // From isTracking to not traking
             if (_isTracking) {
                 _isTracking = NO;
-//                _beatNumber++;
-//                [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
                 [self updateLabels];
                 [self stop];
             }
             // From not tracking to isTracking
             else {
                 _isTracking = YES;
-//                _beatNumber++;
-//                [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
                 [self updateLabels];
             }
             break;
         }
         case TapMode: {
             _isTracking = YES;
-//            _beatNumber++;
-//            [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
             [self updateLabels];
             break;
         }
@@ -377,13 +371,14 @@
                     _heartRate = lround(60.0 / (offset / _countNumber));
                     [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
                     [_offsetLabel setText:[NSString stringWithFormat:offset < 0 ? @"Offset: %06.2f": @"Offset: +%05.2f", offset]];
+                    [self updateTimer];
                 } else {
                     [_heartRateLabel setText:@"---"];
                     [_offsetLabel setText:@"Offset: +00.00"];
                 }
                 [_tapButton setTitle:@"Start" forState:UIControlStateNormal];
                 [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:46]];
-                [_tapButton setLabelBelowWithTitle:[NSString stringWithFormat:@"Count %d beats", _countNumber] andColor:_backgroundColor];
+                [_tapButton setLabelBelowWithTitle:[NSString stringWithFormat:@"Count %ld beats", (long)_countNumber] andColor:_backgroundColor];
                 [_tapButton dimButtonColor:NO];
             }
             [_tapButton.labelBelow setNumberOfLines:1];
@@ -451,6 +446,15 @@
 //        NSLog(@"%f, %f // min: %d, sec: %f, sec:", startTime, currentTime, min, secondsOffset, sec);
         [_timerLabel setText:[NSString stringWithFormat:@"Time: %02ld:%05.2f", (long)min, sec]];
     }
+}
+
+- (void)updateTimer {
+    NSNumber *firstTapTime = [_tappedTimes firstObject];
+    NSNumber *lastTapTime = [_tappedTimes lastObject];
+    double secondsOffset = [lastTapTime doubleValue] - [firstTapTime doubleValue];
+    NSInteger min = (NSInteger)((NSInteger)secondsOffset / 60);
+    double sec = secondsOffset - min * 60;
+    [_timerLabel setText:[NSString stringWithFormat:@"Time: %02ld:%05.2f", (long)min, sec]];
 }
 
 #pragma mark - TTHRMainScrollViewDelegate methods
