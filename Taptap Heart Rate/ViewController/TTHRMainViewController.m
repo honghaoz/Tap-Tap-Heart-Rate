@@ -9,6 +9,7 @@
 #import "TTHRMainViewController.h"
 #import "TTHRTapButton.h"
 #import "TTHRMainScrollView.h"
+#import "TTHRGoogleAnalytics.h"
 
 @interface TTHRMainViewController () <TTHRMainScrollViewDelegate>
 
@@ -254,6 +255,8 @@
     _tappedTimes = [[NSMutableArray alloc] init];
     [self setNeedsStatusBarAppearanceUpdate];
     [self segmentTapped:nil];
+    // Google Analytics
+    [TTHRGoogleAnalytics analyticScreen:@"Main Screen"];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{

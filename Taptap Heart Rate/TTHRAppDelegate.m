@@ -10,6 +10,7 @@
 #import "TTHRMainViewController.h"
 #import <Parse/Parse.h>
 #import "TTHRParseDevice.h"
+#import "GAI.h"
 
 @implementation TTHRAppDelegate
 
@@ -31,7 +32,19 @@
     if (testMode) {
         [TTHRParseDevice trackDevice];
     }
-//    [TTHRParseDevice queryDeviceWithDefaultName:@"iPhone"];
+    
+    // Google Analytics
+    // Optional: automatically send uncaught exceptions to Google Analytics.
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+    [GAI sharedInstance].dispatchInterval = 20;
+    
+    // Optional: set Logger to VERBOSE for debug information.
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    
+    // Initialize tracker. Replace with your tracking ID.
+    [[GAI sharedInstance] trackerWithTrackingId:@"UA-45146473-4"];
     return YES;
 }
 
