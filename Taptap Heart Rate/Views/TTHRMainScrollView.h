@@ -25,4 +25,6 @@ typedef enum {
 
 @property (nonatomic, weak) id <TTHRMainScrollViewDelegate> screenDelegate;
 
+- (void)moveToScreen:(Screen)sc;
+
 @end

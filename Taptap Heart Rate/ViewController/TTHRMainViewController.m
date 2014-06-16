@@ -15,6 +15,9 @@
 @property (nonatomic, strong) UIColor *backgroundColor;
 @property (nonatomic, strong) UIColor *buttonColor;
 
+@property (nonatomic, assign) Mode currentMode;
+
+@property (nonatomic, assign) NSInteger countNumber;
 @property (nonatomic, assign) BOOL isTracking;
 @property (nonatomic, strong) NSNumber *startTime;
 @property (nonatomic, assign) NSInteger beatNumber;
@@ -56,6 +59,16 @@
     if (self) {
         _backgroundColor = [UIColor colorWithRed:0.73 green:0.03 blue:0.10 alpha:1];//[UIColor colorWithRed:0.8 green:0.1 blue:0.16 alpha:1];//[UIColor colorWithRed:0.95 green:0.3 blue:0.22 alpha:1];
         _buttonColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.83];
+        
+        _currentMode = FiveMode;
+        if (_currentMode == FiveMode) {
+            _countNumber = 5;
+        } else if (_currentMode == TenMode) {
+            _countNumber = 10;
+        } else {
+            _countNumber = 0;
+        }
+        
         _isTracking = NO;
         _beatNumber = 0;
         _heartRate = 0;
@@ -114,7 +127,7 @@
     CGFloat heartRateTitleLabelY = heartRateLabelY - heartRateTitleLabelHeight;
     CGRect heartRateTitleLabelFrame = CGRectMake(heartRateTitleLabelX, heartRateTitleLabelY, heartRateTitleLabelWidth, heartRateTitleLabelHeight);
     _heartRateTilteLabel = [[UILabel alloc] initWithFrame:heartRateTitleLabelFrame];
-    [_heartRateTilteLabel setText:@"BMP:"];
+    [_heartRateTilteLabel setText:@"BPM:"];
     [_heartRateTilteLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [_heartRateTilteLabel setTextAlignment:NSTextAlignmentLeft];
     [_heartRateTilteLabel setTextColor:_buttonColor];
@@ -176,6 +189,7 @@
     _tapButton.backgroundColor = [UIColor clearColor];
     [_tapButton addTarget:self action:@selector(tapButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     _tapButton.adjustsImageWhenDisabled = NO;
+    [_tapButton.titleLabel setNumberOfLines:0];
     
     // Reset Button
     CGFloat resetButtonHeight = 70;
@@ -183,7 +197,7 @@
     CGFloat resetButtonX = tapButtonX + tapButtonWidth - 25;
     CGFloat resetButtonY = tapButtonY + tapButtonHeight - resetButtonHeight + 6;
     CGRect resetButtonFrame = CGRectMake(resetButtonX, resetButtonY, resetButtonWidth, resetButtonHeight);
-    _resetButton = [[TTHRTapButton alloc] initWithFrame:resetButtonFrame circleWidth:0 buttonColor:[self dimColor:_buttonColor with:0.1] circleColor:nil];
+    _resetButton = [[TTHRTapButton alloc] initWithFrame:resetButtonFrame circleWidth:0 buttonColor:[self dimColor:_buttonColor with:0.05] circleColor:nil];
     [_resetButton setTitle:@"Reset" forState:UIControlStateNormal];
     [_resetButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
     [_resetButton setTitleColor:_backgroundColor forState:UIControlStateNormal];
@@ -208,13 +222,14 @@
     CGFloat segmentWidth = 150;
     CGFloat segmentX = 10;
     CGFloat segmentY = segmentLabelY + segmentLabelHeight + 10;
-    _segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"6", @"10", @"Tap"]];
+    _segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"5", @"10", @"Tap"]];
     segmentHeight = _segmentControl.frame.size.height;
     segmentX = mainScreenSize.width + (_mainScrollView.contentSize.width - mainScreenSize.width - segmentWidth) / 2;
     CGRect segmentFrame = CGRectMake(segmentX, segmentY, segmentWidth, segmentHeight);
     _segmentControl.frame = segmentFrame;
     [_segmentControl setTintColor:_buttonColor];
-    [_segmentControl setSelectedSegmentIndex:2];
+    [_segmentControl setSelectedSegmentIndex:0];
+    [_segmentControl addTarget:self action:@selector(segmentTapped:) forControlEvents:UIControlEventValueChanged];
     
     
     [_mainScrollView addSubview:_heartRateTilteLabel];
@@ -236,10 +251,9 @@
     LogMethod;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _beatNumber = 0;
-    _heartRate = 0;
     _tappedTimes = [[NSMutableArray alloc] init];
     [self setNeedsStatusBarAppearanceUpdate];
+    [self segmentTapped:nil];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -253,16 +267,46 @@
 
 
 - (void)tapButtonTapped:(id)sender {
+    _beatNumber++;
+    [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
+    
     if (!_isTracking) {
         NSRunLoop *runloop = [NSRunLoop currentRunLoop];
         _timer = [NSTimer timerWithTimeInterval:0.01 target:self selector:@selector(timer:) userInfo:nil repeats:YES];
         [runloop addTimer:_timer forMode:NSRunLoopCommonModes];
         [runloop addTimer:_timer forMode:UITrackingRunLoopMode];
-        _isTracking = YES;
     }
-    _beatNumber++;
-    [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
-    [self updateLabels];
+    switch (_currentMode) {
+        case FiveMode:
+        case TenMode: {
+            // From isTracking to not traking
+            if (_isTracking) {
+                _isTracking = NO;
+//                _beatNumber++;
+//                [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
+                [self updateLabels];
+                [self stop];
+            }
+            // From not tracking to isTracking
+            else {
+                _isTracking = YES;
+//                _beatNumber++;
+//                [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
+                [self updateLabels];
+            }
+            break;
+        }
+        case TapMode: {
+            _isTracking = YES;
+//            _beatNumber++;
+//            [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
+            [self updateLabels];
+            break;
+        }
+        default:
+            break;
+    }
+    
 }
 
 - (void)resetButtonTapped:(id)sender {
@@ -275,35 +319,126 @@
     [self updateLabels];
 }
 
+- (void)segmentTapped:(id)sender {
+    LogMethod;
+    switch (_segmentControl.selectedSegmentIndex) {
+        case 0: {
+            _currentMode = FiveMode;
+            _countNumber = 5;
+            break;
+        }
+        case 1: {
+            _currentMode = TenMode;
+            _countNumber = 10;
+            break;
+        }
+        case 2:{
+            _currentMode = TapMode;
+            break;
+        }
+        default:
+            break;
+    }
+    [self resetButtonTapped:nil];
+//    [_mainScrollView moveToScreen:Screen0];
+}
+
+- (void)stop {
+    _isTracking = NO;
+    _startTime = nil;
+    [_timer invalidate];
+    _beatNumber = 0;
+    _heartRate = 0;
+    [_tappedTimes removeAllObjects];
+}
+
 - (void)updateLabels{
-    [_beatLabel setText:[NSString stringWithFormat:@"Beats: %ld", (long)_beatNumber]];
+    switch (_currentMode) {
+        case FiveMode:
+        case TenMode: {
+            if (_isTracking) {
+                [_tapButton setTitle:@"Counting..." forState:UIControlStateNormal];
+                [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:34]];
+                [_tapButton setLabelBelowWithTitle:@"Tap to end" andColor:_backgroundColor];
+                [_tapButton dimButtonColor:YES];
+                [_heartRateLabel setText:@"---"];
+                [_offsetLabel setText:@"Offset: +00.00"];
+            }
+            // Not tracking, update Heart Rate (Be careful for the first time)
+            else {
+                // Need to show Heart Rate
+                if (_beatNumber == 2) {
+                    NSNumber *firstTapTime = [_tappedTimes firstObject];
+                    NSNumber *lastTapTime = [_tappedTimes lastObject];
+                    double offset = [lastTapTime doubleValue] - [firstTapTime doubleValue];
+                    _heartRate = lround(60.0 / (offset / _countNumber));
+                    [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
+                    [_offsetLabel setText:[NSString stringWithFormat:offset < 0 ? @"Offset: %06.2f": @"Offset: +%05.2f", offset]];
+                } else {
+                    [_heartRateLabel setText:@"---"];
+                    [_offsetLabel setText:@"Offset: +00.00"];
+                }
+                [_tapButton setTitle:@"Start" forState:UIControlStateNormal];
+                [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:46]];
+                [_tapButton setLabelBelowWithTitle:[NSString stringWithFormat:@"Count %d beats", _countNumber] andColor:_backgroundColor];
+                [_tapButton dimButtonColor:NO];
+            }
+            [_tapButton.labelBelow setNumberOfLines:1];
+            [_tapButton setNeedsDisplay];
+            break;
+        }
+        case TapMode: {
+            if (_isTracking) {
+                [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
+                [_tapButton setLabelBelowWithTitle:@"" andColor:_backgroundColor];
+                
+            } else {
+                [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
+                [_tapButton setLabelBelowWithTitle:@"Tap after each beat" andColor:_backgroundColor];
+                [_tapButton.labelBelow setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]];
+                [_tapButton.labelBelow setNumberOfLines:2];
+                
+            }
+            [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:46]];
+            [_tapButton setNeedsDisplay];
+            
+            [_beatLabel setText:[NSString stringWithFormat:@"Beats: %ld", (long)_beatNumber]];
+            if (_startTime == nil) {
+                [_timerLabel setText:@"Time: 00:00.00"];
+            }
+            if (_beatNumber < 3) {
+                [_heartRateLabel setText:_heartRate == 0? @"---": [NSString stringWithFormat:@"%ld", (long)_heartRate]];
+                [_offsetLabel setText:@"Offset: +00.00"];
+                return;
+            }
+            NSNumber *lastTapTime = [_tappedTimes lastObject];
+            NSNumber *lastSecondTapTime = [_tappedTimes objectAtIndex:_beatNumber - 2];
+            NSNumber *lastThirdTapTime = [_tappedTimes objectAtIndex:_beatNumber - 3];
+            double offset1 = [lastSecondTapTime doubleValue] - [lastThirdTapTime doubleValue];
+            double offset2 = [lastTapTime doubleValue] - [lastSecondTapTime doubleValue];
+            double offset = offset2 - offset1;
+            [_offsetLabel setText:[NSString stringWithFormat:offset < 0 ? @"Offset: %06.2f": @"Offset: +%05.2f", offset]];
+            
+            //double averageOffset = (offset1 + offset2) / 2;
+            
+            double totalOffset = [[_tappedTimes lastObject] doubleValue] - [[_tappedTimes firstObject] doubleValue];
+            double averageOffset = totalOffset / (_beatNumber - 1);
+            _heartRate = 60 / averageOffset;
+            [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
+            
+            break;
+        }
+        default:
+            break;
+    }
     if (_startTime == nil) {
         [_timerLabel setText:@"Time: 00:00.00"];
     }
-    if (_beatNumber < 3) {
-        [_heartRateLabel setText:_heartRate == 0? @"---": [NSString stringWithFormat:@"%ld", (long)_heartRate]];
-        [_offsetLabel setText:@"Offset: +00.00"];
-        return;
-    }
-    NSNumber *lastTapTime = [_tappedTimes lastObject];
-    NSNumber *lastSecondTapTime = [_tappedTimes objectAtIndex:_beatNumber - 2];
-    NSNumber *lastThirdTapTime = [_tappedTimes objectAtIndex:_beatNumber - 3];
-    double offset1 = [lastSecondTapTime doubleValue] - [lastThirdTapTime doubleValue];
-    double offset2 = [lastTapTime doubleValue] - [lastSecondTapTime doubleValue];
-    double offset = offset2 - offset1;
-    [_offsetLabel setText:[NSString stringWithFormat:offset < 0 ? @"Offset: %06.2f": @"Offset: +%05.2f", offset]];
-    
-    //double averageOffset = (offset1 + offset2) / 2;
-    
-    double totalOffset = [[_tappedTimes lastObject] doubleValue] - [[_tappedTimes firstObject] doubleValue];
-    double averageOffset = totalOffset / (_beatNumber - 1);
-    _heartRate = 60 / averageOffset;
-    [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
 }
 
 - (void)timer:(id)sender {
     if (_startTime == nil) {
-        _startTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+        _startTime = [_tappedTimes firstObject];//[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
     } else {
         double currentTime = [[NSDate date] timeIntervalSince1970];
         double startTime = [_startTime doubleValue];

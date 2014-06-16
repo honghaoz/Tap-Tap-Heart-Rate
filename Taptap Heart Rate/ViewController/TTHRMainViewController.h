@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    FiveMode = 0,
+    TenMode,
+    TapMode
+} Mode;
+
 @interface TTHRMainViewController : UIViewController
 
 @end
