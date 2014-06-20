@@ -9,7 +9,7 @@
 #import "TTHRMainViewController.h"
 #import "TTHRTapButton.h"
 #import "TTHRMainScrollView.h"
-#import "TTHRGoogleAnalytics.h"
+#import "ZHHGoogleAnalytics.h"
 
 @interface TTHRMainViewController () <TTHRMainScrollViewDelegate>
 
@@ -254,9 +254,15 @@
     // Do any additional setup after loading the view.
     _tappedTimes = [[NSMutableArray alloc] init];
     [self setNeedsStatusBarAppearanceUpdate];
-    [self segmentTapped:nil];
+    
+    
     // Google Analytics
-    [TTHRGoogleAnalytics analyticScreen:@"Main Screen"];
+    [ZHHGoogleAnalytics trackScreen:@"Main Screen"];
+
+    // Delay execution (iOS 8 Bugs?)
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.0001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self segmentTapped:nil];
+//    });
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -455,6 +461,40 @@
     NSInteger min = (NSInteger)((NSInteger)secondsOffset / 60);
     double sec = secondsOffset - min * 60;
     [_timerLabel setText:[NSString stringWithFormat:@"Time: %02ld:%05.2f", (long)min, sec]];
+}
+
+#pragma mark - Rotation
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [self prepareViewsForOrientation:toInterfaceOrientation];
+}
+
+- (void)prepareViewsForOrientation:(UIInterfaceOrientation)orientation {
+    LogMethod;
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        return;
+    }
+    CGSize mainScreenSize = [UIScreen mainScreen].bounds.size;
+    NSLog(@"%@", NSStringFromCGSize(mainScreenSize));
+    
+//    CGFloat temp = mainScreenSize.height;
+//    mainScreenSize.height = mainScreenSize.width;
+//    mainScreenSize.width = temp;
+    
+    // Landscape
+    // Home button on left
+    if (orientation == UIInterfaceOrientationLandscapeLeft) {
+        NSLog(@"Left");
+    }
+    // Home button on right
+    else if (orientation == UIInterfaceOrientationLandscapeRight) {
+        NSLog(@"Right");
+    }
+    // Protrait
+    else {
+        NSLog(@"Portrait");
+    }
+
 }
 
 #pragma mark - TTHRMainScrollViewDelegate methods

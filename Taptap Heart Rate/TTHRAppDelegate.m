@@ -9,7 +9,7 @@
 #import "TTHRAppDelegate.h"
 #import "TTHRMainViewController.h"
 #import <Parse/Parse.h>
-#import "TTHRParseDevice.h"
+#import "ZHHParseDevice.h"
 #import "GAI.h"
 
 @implementation TTHRAppDelegate
@@ -30,7 +30,7 @@
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     BOOL testMode = YES;
     if (testMode) {
-        [TTHRParseDevice trackDevice];
+        [ZHHParseDevice trackDevice];
     }
     
     // Google Analytics

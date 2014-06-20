@@ -1,12 +1,12 @@
 //
-//  TTHRParseDevice.m
-//  Taptap Heart Rate
+//  ZHHParseDevice.m
+//  ZHH Track Parse Device
 //
 //  Created by Zhang Honghao on 6/10/14.
 //  Copyright (c) 2014 org-honghao. All rights reserved.
 //
 
-#import "TTHRParseDevice.h"
+#import "ZHHParseDevice.h"
 #import "UIApplication+AppVersion.h"
 #import "UIDevice-Hardware.h"
 #import <Parse/Parse.h>
@@ -15,7 +15,7 @@ static NSString *deviceName;
 static NSString *identifierForVendor;
 static NSString *deviceType;
 
-@implementation TTHRParseDevice
+@implementation ZHHParseDevice
 
 + (void)trackDevice {
     deviceName = [[UIDevice currentDevice] name];
@@ -119,7 +119,7 @@ static NSString *deviceType;
                 NSString *lastDefaultName = theLastObject[@"Device_Name"];
                 NSRange findRange = [lastDefaultName rangeOfString:@"+"];
                 NSInteger lastNumber = [[lastDefaultName substringFromIndex:findRange.location + 1] integerValue];
-                NSString *newDefaultName = [@"[***]-" stringByAppendingString:[defaultName stringByAppendingString:[NSString stringWithFormat:@"+%d", lastNumber + 1]]];
+                NSString *newDefaultName = [@"[***]-" stringByAppendingString:[defaultName stringByAppendingString:[NSString stringWithFormat:@"+%ld", (long)lastNumber + 1]]];
                 NSLog(@"%@", theLastObject[@"Device_Name"]);
                 NSLog(@"new: %@", newDefaultName);
                 

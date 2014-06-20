@@ -86,6 +86,7 @@
 }
 
 - (void)setLabelBelowWithTitle:(NSString *)string andColor:(UIColor *)titleColor {
+//    LogMethod;
     if (string == nil || [string isEqualToString:@""]) {
         [_labelBelow removeFromSuperview];
         return;
@@ -104,6 +105,10 @@
         CGFloat width = _labelBelow.bounds.size.width;
         CGFloat height = _labelBelow.bounds.size.height;
         CGFloat x = (self.bounds.size.width - width) / 2;
+//        NSLog(@"%@", NSStringFromCGRect(self.frame));
+//        NSLog(@"%@", self.titleLabel.text);
+//        NSLog(@"%@", NSStringFromCGRect(self.titleLabel.frame));
+//        NSLog(@"%f, %f", self.titleLabel.frame.origin.y, self.titleLabel.frame.size.height);
         CGFloat y = self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + 3;
         CGRect rect = CGRectMake(x, y, width, height);
         [_labelBelow setFrame:rect];

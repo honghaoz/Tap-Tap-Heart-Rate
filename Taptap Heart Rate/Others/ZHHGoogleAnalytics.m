@@ -1,21 +1,21 @@
 //
-//  TTHRGoogleAnalytics.m
-//  UW Info
+//  ZHHGoogleAnalytics.m
+//  ZHH GoogleAnalytics
 //
 //  Created by Zhang Honghao on 4/2/14.
 //  Copyright (c) 2014 org-honghao. All rights reserved.
 //
 
-#import "TTHRGoogleAnalytics.h"
+#import "ZHHGoogleAnalytics.h"
 
 #import "GAI.h"
 #import "GAITracker.h"
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 
-@implementation TTHRGoogleAnalytics
+@implementation ZHHGoogleAnalytics
 
-+ (void)analyticScreen:(NSString *)screenName {
++ (void)trackScreen:(NSString *)screenName {
     // Google Analytics
     id tracker = [[GAI sharedInstance] defaultTracker];
     // This screen name value will remain set on the tracker and sent with

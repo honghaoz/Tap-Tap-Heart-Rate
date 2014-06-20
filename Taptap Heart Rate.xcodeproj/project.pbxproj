@@ -13,10 +13,10 @@
 		1B0583B9194E9737000D43C2 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583B8194E9737000D43C2 /* AdSupport.framework */; };
 		1B0583BB194E973F000D43C2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583BA194E973F000D43C2 /* CoreData.framework */; };
 		1B0583C4194E975C000D43C2 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583C3194E975C000D43C2 /* libGoogleAnalyticsServices.a */; };
-		1B0583C7194E9831000D43C2 /* TTHRGoogleAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0583C6194E9831000D43C2 /* TTHRGoogleAnalytics.m */; };
+		1B0F96CC1953F113004FD9BD /* ZHHGoogleAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0F96CB1953F113004FD9BD /* ZHHGoogleAnalytics.m */; };
+		1B0F96CF1953F141004FD9BD /* ZHHParseDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0F96CE1953F141004FD9BD /* ZHHParseDevice.m */; };
 		1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */; };
 		1B1B75D91947F18600C7FAC3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAB19479FFC006718B5 /* Foundation.framework */; };
-		1BC002561947DD4A0040E828 /* TTHRParseDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC002551947DD4A0040E828 /* TTHRParseDevice.m */; };
 		1BC002611947DFCA0040E828 /* UIApplication+AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC0025E1947DFCA0040E828 /* UIApplication+AppVersion.m */; };
 		1BC002621947DFCA0040E828 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC002601947DFCA0040E828 /* UIDevice-Hardware.m */; };
 		1BDA8EAE19479FFC006718B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAD19479FFC006718B5 /* CoreGraphics.framework */; };
@@ -67,12 +67,12 @@
 		1B0583C1194E975C000D43C2 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
 		1B0583C2194E975C000D43C2 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
 		1B0583C3194E975C000D43C2 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
-		1B0583C5194E9831000D43C2 /* TTHRGoogleAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRGoogleAnalytics.h; path = "Taptap Heart Rate/Others/TTHRGoogleAnalytics.h"; sourceTree = "<group>"; };
-		1B0583C6194E9831000D43C2 /* TTHRGoogleAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRGoogleAnalytics.m; path = "Taptap Heart Rate/Others/TTHRGoogleAnalytics.m"; sourceTree = "<group>"; };
+		1B0F96CA1953F113004FD9BD /* ZHHGoogleAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZHHGoogleAnalytics.h; path = "Taptap Heart Rate/Others/ZHHGoogleAnalytics.h"; sourceTree = "<group>"; };
+		1B0F96CB1953F113004FD9BD /* ZHHGoogleAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZHHGoogleAnalytics.m; path = "Taptap Heart Rate/Others/ZHHGoogleAnalytics.m"; sourceTree = "<group>"; };
+		1B0F96CD1953F141004FD9BD /* ZHHParseDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZHHParseDevice.h; path = "Taptap Heart Rate/Others/ZHHParseDevice.h"; sourceTree = "<group>"; };
+		1B0F96CE1953F141004FD9BD /* ZHHParseDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZHHParseDevice.m; path = "Taptap Heart Rate/Others/ZHHParseDevice.m"; sourceTree = "<group>"; };
 		1B1A376B194BFD6E00C9F9EC /* TTHRTapButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRTapButton.h; path = Views/TTHRTapButton.h; sourceTree = "<group>"; };
 		1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRTapButton.m; path = Views/TTHRTapButton.m; sourceTree = "<group>"; };
-		1BC002541947DD4A0040E828 /* TTHRParseDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRParseDevice.h; path = "Taptap Heart Rate/Others/TTHRParseDevice.h"; sourceTree = "<group>"; };
-		1BC002551947DD4A0040E828 /* TTHRParseDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRParseDevice.m; path = "Taptap Heart Rate/Others/TTHRParseDevice.m"; sourceTree = "<group>"; };
 		1BC0025D1947DFCA0040E828 /* UIApplication+AppVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+AppVersion.h"; sourceTree = "<group>"; };
 		1BC0025E1947DFCA0040E828 /* UIApplication+AppVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+AppVersion.m"; sourceTree = "<group>"; };
 		1BC0025F1947DFCA0040E828 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
@@ -180,10 +180,10 @@
 		1BC002571947DD510040E828 /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				1B0583C5194E9831000D43C2 /* TTHRGoogleAnalytics.h */,
-				1B0583C6194E9831000D43C2 /* TTHRGoogleAnalytics.m */,
-				1BC002541947DD4A0040E828 /* TTHRParseDevice.h */,
-				1BC002551947DD4A0040E828 /* TTHRParseDevice.m */,
+				1B0F96CD1953F141004FD9BD /* ZHHParseDevice.h */,
+				1B0F96CE1953F141004FD9BD /* ZHHParseDevice.m */,
+				1B0F96CA1953F113004FD9BD /* ZHHGoogleAnalytics.h */,
+				1B0F96CB1953F113004FD9BD /* ZHHGoogleAnalytics.m */,
 			);
 			name = Others;
 			sourceTree = "<group>";
@@ -396,12 +396,12 @@
 			files = (
 				1B0583B7194E3BE5000D43C2 /* TTHRMainScrollView.m in Sources */,
 				1BDA8EBC19479FFC006718B5 /* TTHRAppDelegate.m in Sources */,
+				1B0F96CF1953F141004FD9BD /* ZHHParseDevice.m in Sources */,
 				1BC002611947DFCA0040E828 /* UIApplication+AppVersion.m in Sources */,
-				1BC002561947DD4A0040E828 /* TTHRParseDevice.m in Sources */,
+				1B0F96CC1953F113004FD9BD /* ZHHGoogleAnalytics.m in Sources */,
 				1BDA8EDC1947A063006718B5 /* TTHRMainViewController.m in Sources */,
 				1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */,
 				1BDA8EB819479FFC006718B5 /* main.m in Sources */,
-				1B0583C7194E9831000D43C2 /* TTHRGoogleAnalytics.m in Sources */,
 				1B058354194E2938000D43C2 /* ZHHHandyMacros.m in Sources */,
 				1BC002621947DFCA0040E828 /* UIDevice-Hardware.m in Sources */,
 			);
