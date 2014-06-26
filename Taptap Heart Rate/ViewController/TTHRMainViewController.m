@@ -10,6 +10,10 @@
 #import "TTHRTapButton.h"
 #import "TTHRMainScrollView.h"
 #import "ZHHGoogleAnalytics.h"
+#import "TTHRAnimatedView.h"
+
+#define MAX_HEART_RATE 229
+#define MIN_HEART_RATE 30
 
 @interface TTHRMainViewController () <TTHRMainScrollViewDelegate>
 
@@ -27,6 +31,7 @@
 @property (nonatomic, strong) NSTimer *timer;
 
 @property (nonatomic, strong) TTHRMainScrollView *mainScrollView;
+@property (nonatomic, strong) TTHRAnimatedView *indicator;
 @property (nonatomic, strong) UILabel *heartRateTilteLabel;
 @property (nonatomic, strong) UILabel *heartRateLabel;
 
@@ -105,7 +110,7 @@
     
     // Heart Rate Label
     CGFloat heartRateLabelHeight = 100;
-    CGFloat heartRateLabelWidth = 220;
+    CGFloat heartRateLabelWidth = 300;
     CGFloat heartRateLabelX = (mainScreenSize.width - heartRateLabelWidth) / 2;
     CGFloat heartRateLabelY = 0;
     // On 4inch Screen, move label down
@@ -124,7 +129,7 @@
     // Heart Rate Title Label
     CGFloat heartRateTitleLabelHeight = 30;
     CGFloat heartRateTitleLabelWidth = 43;
-    CGFloat heartRateTitleLabelX = heartRateLabelX - heartRateTitleLabelWidth + 15;
+    CGFloat heartRateTitleLabelX = heartRateLabelX - heartRateTitleLabelWidth + 55;
     CGFloat heartRateTitleLabelY = heartRateLabelY - heartRateTitleLabelHeight;
     CGRect heartRateTitleLabelFrame = CGRectMake(heartRateTitleLabelX, heartRateTitleLabelY, heartRateTitleLabelWidth, heartRateTitleLabelHeight);
     _heartRateTilteLabel = [[UILabel alloc] initWithFrame:heartRateTitleLabelFrame];
@@ -232,6 +237,15 @@
     [_segmentControl setSelectedSegmentIndex:0];
     [_segmentControl addTarget:self action:@selector(segmentTapped:) forControlEvents:UIControlEventValueChanged];
     
+    // Animated View
+    CGFloat indicatorWidth = 60;
+    CGFloat indicatorHeight = 20;
+    CGFloat indicatorX = (mainScreenSize.width - indicatorWidth) / 2;
+    CGFloat indicatorY = (heartRateTitleLabelY + heartRateTitleLabelHeight / 2) - indicatorHeight / 2 + 1;
+    CGRect indicatorFrame = CGRectMake(indicatorX, indicatorY, indicatorWidth, indicatorHeight);
+    _indicator = [[TTHRAnimatedView alloc] initWithFrame:indicatorFrame];
+    [_indicator setText:@""];
+    [_mainScrollView addSubview:_indicator];
     
     [_mainScrollView addSubview:_heartRateTilteLabel];
     [_mainScrollView addSubview:_heartRateLabel];
@@ -245,6 +259,7 @@
     
     [_mainScrollView addSubview:_segmentLabel];
     [_mainScrollView addSubview:_segmentControl];
+    
 }
 
 - (void)viewDidLoad
@@ -319,6 +334,7 @@
     _beatNumber = 0;
     _heartRate = 0;
     [_tappedTimes removeAllObjects];
+    [_tapButton setDimmed:NO];
     [self updateLabels];
 }
 
@@ -360,6 +376,7 @@
         case FiveMode:
         case TenMode: {
             if (_isTracking) {
+                [_indicator dismiss];
                 [_tapButton setTitle:@"Counting..." forState:UIControlStateNormal];
                 [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:34]];
                 [_tapButton setLabelBelowWithTitle:@"Tap to end" andColor:_backgroundColor];
@@ -376,9 +393,17 @@
                     double offset = [lastTapTime doubleValue] - [firstTapTime doubleValue];
                     _heartRate = lround(60.0 / (offset / _countNumber));
                     [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
+                    if (_heartRate > MAX_HEART_RATE) {
+                        [_indicator setText:@"Too High"];
+                    } else if (_heartRate < MIN_HEART_RATE) {
+                        [_indicator setText:@"Too Low"];
+                    } else {
+                        [_indicator dismiss];
+                    }
                     [_offsetLabel setText:[NSString stringWithFormat:offset < 0 ? @"Offset: %06.2f": @"Offset: +%05.2f", offset]];
                     [self updateTimer];
                 } else {
+                    [_indicator dismiss];
                     [_heartRateLabel setText:@"---"];
                     [_offsetLabel setText:@"Offset: +00.00"];
                 }
@@ -413,6 +438,7 @@
             if (_beatNumber < 3) {
                 [_heartRateLabel setText:_heartRate == 0? @"---": [NSString stringWithFormat:@"%ld", (long)_heartRate]];
                 [_offsetLabel setText:@"Offset: +00.00"];
+                [_indicator dismiss];
                 return;
             }
             NSNumber *lastTapTime = [_tappedTimes lastObject];
@@ -429,7 +455,13 @@
             double averageOffset = totalOffset / (_beatNumber - 1);
             _heartRate = 60 / averageOffset;
             [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
-            
+            if (_heartRate > MAX_HEART_RATE) {
+                [_indicator setText:@"Too High"];
+            } else if (_heartRate < MIN_HEART_RATE) {
+                [_indicator setText:@"Too Low"];
+            } else {
+                [_indicator dismiss];
+            }
             break;
         }
         default:
