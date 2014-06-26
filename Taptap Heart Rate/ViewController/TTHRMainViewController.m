@@ -97,7 +97,7 @@
     [_mainScrollView setBounces:NO];
     [_mainScrollView setShowsHorizontalScrollIndicator:NO];
     [_mainScrollView setShowsVerticalScrollIndicator:NO];
-    _mainScrollView.canCancelContentTouches = NO;
+    _mainScrollView.canCancelContentTouches = YES;
     _mainScrollView.delaysContentTouches = NO;
     [_mainScrollView setScrollEnabled:NO];
     _mainScrollView.screenDelegate = self;
@@ -255,7 +255,6 @@
     _tappedTimes = [[NSMutableArray alloc] init];
     [self setNeedsStatusBarAppearanceUpdate];
     
-    
     // Google Analytics
     [ZHHGoogleAnalytics trackScreen:@"Main Screen"];
 
@@ -276,6 +275,7 @@
 
 
 - (void)tapButtonTapped:(id)sender {
+    LogMethod;
     _beatNumber++;
     [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
     
@@ -363,7 +363,7 @@
                 [_tapButton setTitle:@"Counting..." forState:UIControlStateNormal];
                 [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:34]];
                 [_tapButton setLabelBelowWithTitle:@"Tap to end" andColor:_backgroundColor];
-                [_tapButton dimButtonColor:YES];
+                [_tapButton setDimmed:YES];
                 [_heartRateLabel setText:@"---"];
                 [_offsetLabel setText:@"Offset: +00.00"];
             }
@@ -385,7 +385,7 @@
                 [_tapButton setTitle:@"Start" forState:UIControlStateNormal];
                 [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:46]];
                 [_tapButton setLabelBelowWithTitle:[NSString stringWithFormat:@"Count %ld beats", (long)_countNumber] andColor:_backgroundColor];
-                [_tapButton dimButtonColor:NO];
+                [_tapButton setDimmed:NO];
             }
             [_tapButton.labelBelow setNumberOfLines:1];
             [_tapButton setNeedsDisplay];

@@ -37,6 +37,6 @@
  *
  *  @param isDim Whether need to dim
  */
-- (void)dimButtonColor:(BOOL)isDim;
+- (void)setDimmed:(BOOL)isDim;
 
 @end

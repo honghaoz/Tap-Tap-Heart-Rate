@@ -8,15 +8,23 @@
 
 #import "TTHRTapButton.h"
 
+#define NORMAL_BUTTON_ALPHA 1.0
+#define DIMMED_STATE_ALPHA 0.85
+#define HIGHLIGHT_BUTTON_ALPHA 0.55
+
 @implementation TTHRTapButton {
-    CGFloat _circleWidth;
-    CGFloat _shrinkWidth;
-    CGPoint touchBeginPoint;
-    CGPoint touchEndPoint;
+    CGFloat _circleWidth; // _circleWidth is out circle width
+    CGFloat _shrinkWidth; // _shrinkWidth is widht between outer circle and inner button
+    CGPoint touchBeginPoint; // begin point in button view
+    CGPoint touchEndPoint; // end point in button view
+    
+    UIImageView *_pressableImageView; // _pressableImageView is inner button image
+    BOOL _isDimmed; // _isDimmed is a state for highlighted button
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
+    // Default color is white
     UIColor *whiteColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.85];
     return [self initWithFrame:frame circleWidth:10 buttonColor:whiteColor circleColor:whiteColor];
 }
@@ -32,8 +40,10 @@
  *  @return a TTHRTapButton instance
  */
 - (instancetype)initWithFrame:(CGRect)frame circleWidth:(CGFloat)cirWidth buttonColor:(UIColor *)btnColor circleColor:(UIColor *)cirColor {
+    LogMethod;
     self = [super initWithFrame:frame];
     if (self) {
+        // Init values
         _circleWidth = cirWidth;
         _shrinkWidth = 9 + _circleWidth;
         self.buttonColor = btnColor;
@@ -41,10 +51,43 @@
         CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
         [btnColor getRed:&red green:&green blue:&blue alpha:&alpha];
         self.buttonColorHighLighted = [UIColor colorWithRed:red green:green blue:blue alpha:alpha - 0.3];
-        [self setBackgroundImage:[self imageWithButtonColor:btnColor circleColor:cirColor] forState:UIControlStateNormal];
-        [self setBackgroundImage:[self imageWithButtonColor:self.buttonColorHighLighted circleColor:cirColor] forState:UIControlStateHighlighted];
+        _isDimmed = NO;
+        
+        // Set background image for two states
+//        [self setBackgroundImage:[self imageWithButtonColor:btnColor circleColor:cirColor] forState:UIControlStateNormal];
+//        [self setBackgroundImage:[self imageWithButtonColor:self.buttonColorHighLighted circleColor:cirColor] forState:UIControlStateHighlighted];
+        
+        // Set outer circle image
+        [self setBackgroundImage:[self imageWithButtonColor:[UIColor clearColor] circleColor:cirColor] forState:UIControlStateNormal];
+        // Set inner circle image
+        _pressableImageView = [[UIImageView alloc] initWithImage:[self imageWithButtonColor:self.buttonColor circleColor:[UIColor clearColor]]];
+        _pressableImageView.alpha = NORMAL_BUTTON_ALPHA;
+        [self addSubview:_pressableImageView];
+        self.adjustsImageWhenHighlighted = NO;
     }
     return self;
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    // Normal to highlighted
+    if (!_isDimmed) {
+        if (highlighted) {
+            // NSLog(@"normal -> high");
+            _pressableImageView.alpha = HIGHLIGHT_BUTTON_ALPHA;
+        }
+        // Highlighted to normal
+        else {
+            // NSLog(@"high -> normal")
+            [UIView animateWithDuration:0.5
+                                  delay:0.0
+                                options:UIViewAnimationOptionAllowUserInteraction
+                             animations:^{
+                                 _pressableImageView.alpha = NORMAL_BUTTON_ALPHA;
+                             }
+                             completion:nil];
+        }
+    }
 }
 
 - (void)setbuttonColor:(UIColor *)color {
@@ -86,7 +129,6 @@
 }
 
 - (void)setLabelBelowWithTitle:(NSString *)string andColor:(UIColor *)titleColor {
-//    LogMethod;
     if (string == nil || [string isEqualToString:@""]) {
         [_labelBelow removeFromSuperview];
         return;
@@ -105,10 +147,6 @@
         CGFloat width = _labelBelow.bounds.size.width;
         CGFloat height = _labelBelow.bounds.size.height;
         CGFloat x = (self.bounds.size.width - width) / 2;
-//        NSLog(@"%@", NSStringFromCGRect(self.frame));
-//        NSLog(@"%@", self.titleLabel.text);
-//        NSLog(@"%@", NSStringFromCGRect(self.titleLabel.frame));
-//        NSLog(@"%f, %f", self.titleLabel.frame.origin.y, self.titleLabel.frame.size.height);
         CGFloat y = self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + 3;
         CGRect rect = CGRectMake(x, y, width, height);
         [_labelBelow setFrame:rect];
@@ -129,7 +167,7 @@
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 //    LogMethod;
-    [super touchesMoved:touches withEvent:event];
+//    [super touchesMoved:touches withEvent:event];
     [self.nextResponder touchesMoved:touches withEvent:event];
 }
 
@@ -138,7 +176,7 @@
     for (UITouch *touch in touches) {
         touchEndPoint = [touch locationInView:self];
         // if touch end offset > 70, send to next Responder
-        if (abs(touchBeginPoint.x - touchEndPoint.x) < 50) {
+        if (abs(touchBeginPoint.x - touchEndPoint.x) < 30) {
             [super touchesEnded:touches withEvent:event];
         } else {
             [super touchesCancelled:touches withEvent:event];
@@ -184,7 +222,7 @@
     CGFloat btnRed = 0.0, btnGreen = 0.0, btnBlue = 0.0, btnAlpha =0.0;
     [btnColor getRed:&btnRed green:&btnGreen blue:&btnBlue alpha:&btnAlpha];
     
-    UIGraphicsBeginImageContext(self.bounds.size);
+//    UIGraphicsBeginImageContext(self.bounds.size);
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0.0);
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -218,18 +256,30 @@
 }
 
 /**
- *  Make the button Color dim -0.15
+ *  Set the button to be dimmed state
  *
  *  @param isDim Whether need to dim
  */
-- (void)dimButtonColor:(BOOL)isDim {
+- (void)setDimmed:(BOOL)isDim {
     if (isDim) {
-        CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
-        [self.buttonColor getRed:&red green:&green blue:&blue alpha:&alpha];
-        UIColor *dimColor = [UIColor colorWithRed:red green:green blue:blue alpha:alpha - 0.15];
-        [self setBackgroundImage:[self imageWithButtonColor:dimColor circleColor:self.buttonCircleColor] forState:UIControlStateNormal];
+//        CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
+//        [self.buttonColor getRed:&red green:&green blue:&blue alpha:&alpha];
+//        UIColor *dimColor = [UIColor colorWithRed:red green:green blue:blue alpha:alpha - 0.15];
+//        [self setBackgroundImage:[self imageWithButtonColor:dimColor circleColor:self.buttonCircleColor] forState:UIControlStateNormal];
+        
+        _pressableImageView.alpha = DIMMED_STATE_ALPHA;
+        _isDimmed = YES;
     } else {
-        [self setBackgroundImage:[self imageWithButtonColor:self.buttonColor circleColor:self.buttonCircleColor] forState:UIControlStateNormal];
+//        [self setBackgroundImage:[self imageWithButtonColor:self.buttonColor circleColor:self.buttonCircleColor] forState:UIControlStateNormal];
+        
+        [UIView animateWithDuration:0.5
+                              delay:0.0
+                            options:UIViewAnimationOptionAllowUserInteraction
+                         animations:^{
+                             _pressableImageView.alpha = NORMAL_BUTTON_ALPHA;
+                         }
+                         completion:nil];
+        _isDimmed = NO;
     }
     [self setNeedsDisplay];
     
