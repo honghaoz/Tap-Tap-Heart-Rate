@@ -157,7 +157,7 @@
 #pragma mark - UIResponder methods
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//    LogMethod;
+    LogMethod;
     for (UITouch *touch in touches) {
         touchBeginPoint = [touch locationInView:self];
     }
@@ -166,17 +166,17 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-//    LogMethod;
+    LogMethod;
 //    [super touchesMoved:touches withEvent:event];
     [self.nextResponder touchesMoved:touches withEvent:event];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-//    LogMethod;
+    LogMethod;
     for (UITouch *touch in touches) {
         touchEndPoint = [touch locationInView:self];
-        // if touch end offset > 70, send to next Responder
-        if (abs(touchBeginPoint.x - touchEndPoint.x) < 30) {
+        // if touch end offset smaller than 15, touched
+        if (abs(touchBeginPoint.x - touchEndPoint.x) < 15) {
             [super touchesEnded:touches withEvent:event];
         } else {
             [super touchesCancelled:touches withEvent:event];

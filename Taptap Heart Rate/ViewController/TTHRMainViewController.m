@@ -15,7 +15,7 @@
 #define MAX_HEART_RATE 229
 #define MIN_HEART_RATE 30
 
-@interface TTHRMainViewController () <TTHRMainScrollViewDelegate>
+@interface TTHRMainViewController () <TTHRMainScrollViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) UIColor *backgroundColor;
 @property (nonatomic, strong) UIColor *buttonColor;
@@ -45,6 +45,12 @@
 @property (nonatomic, strong) UILabel *segmentLabel;
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
 
+@property (nonatomic, strong) UILabel *personalLabel;
+@property (nonatomic, strong) UILabel *ageLabel;
+@property (nonatomic, strong) UITextField *ageField;
+
+@property (nonatomic, strong) UILabel *genderLabel;
+@property (nonatomic, strong) UISegmentedControl *genderSegmentedControl;
 
 @end
 
@@ -138,6 +144,15 @@
     [_heartRateTilteLabel setTextAlignment:NSTextAlignmentLeft];
     [_heartRateTilteLabel setTextColor:_buttonColor];
     
+    // Animated View
+    CGFloat indicatorWidth = 60;
+    CGFloat indicatorHeight = 20;
+    CGFloat indicatorX = (mainScreenSize.width - indicatorWidth) / 2;
+    CGFloat indicatorY = (heartRateTitleLabelY + heartRateTitleLabelHeight / 2) - indicatorHeight / 2 + 1;
+    CGRect indicatorFrame = CGRectMake(indicatorX, indicatorY, indicatorWidth, indicatorHeight);
+    _indicator = [[TTHRAnimatedView alloc] initWithFrame:indicatorFrame];
+    [_indicator dismiss];
+    
     // Beat Label
     CGFloat beatLabelHeight = 30;
     CGFloat beatLabelWidth = 79;
@@ -225,7 +240,7 @@
     CGFloat segmentHeight = 70;
     CGFloat segmentWidth = 150;
     CGFloat segmentX = 10;
-    CGFloat segmentY = segmentLabelY + segmentLabelHeight + 10;
+    CGFloat segmentY = segmentLabelY + segmentLabelHeight + 7;
     _segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"5", @"10", @"Tap"]];
     segmentHeight = _segmentControl.frame.size.height;
     segmentX = mainScreenSize.width + (_mainScrollView.contentSize.width - mainScreenSize.width - segmentWidth) / 2;
@@ -233,20 +248,84 @@
     _segmentControl.frame = segmentFrame;
     [_segmentControl setTintColor:_buttonColor];
     [_segmentControl setSelectedSegmentIndex:0];
+    [_segmentControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Thin" size:15]} forState:UIControlStateNormal];
     [_segmentControl addTarget:self action:@selector(segmentTapped:) forControlEvents:UIControlEventValueChanged];
     
-    // Animated View
-    CGFloat indicatorWidth = 60;
-    CGFloat indicatorHeight = 20;
-    CGFloat indicatorX = (mainScreenSize.width - indicatorWidth) / 2;
-    CGFloat indicatorY = (heartRateTitleLabelY + heartRateTitleLabelHeight / 2) - indicatorHeight / 2 + 1;
-    CGRect indicatorFrame = CGRectMake(indicatorX, indicatorY, indicatorWidth, indicatorHeight);
-    _indicator = [[TTHRAnimatedView alloc] initWithFrame:indicatorFrame];
-    [_indicator dismiss];
-    [_mainScrollView addSubview:_indicator];
+    // Personal label
+    CGFloat personalLabelHeight = 30;
+    CGFloat personalLabelWidth = 200;
+    CGFloat personalLabelX = mainScreenSize.width + (_mainScrollView.contentSize.width - mainScreenSize.width - personalLabelWidth) / 2;
+    CGFloat personalLabelY = segmentY + segmentHeight + 200;
+    CGRect personalLabelFrame = CGRectMake(personalLabelX, personalLabelY, personalLabelWidth, personalLabelHeight);
+    _personalLabel = [[UILabel alloc] initWithFrame:personalLabelFrame];
+    [_personalLabel setText:@"Personal Information"];
+    [_personalLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
+    [_personalLabel setTextAlignment:NSTextAlignmentCenter];
+    [_personalLabel setTextColor:_buttonColor];
+    
+    // AgeLabel
+    CGFloat ageLabelX = segmentX;
+    CGFloat ageLabelY = personalLabelY + personalLabelHeight + 5;
+    CGFloat ageLabelWidth = 43;
+    CGFloat ageLabelHeight = segmentHeight;
+    CGRect ageLabelFrame = CGRectMake(ageLabelX, ageLabelY, ageLabelWidth, ageLabelHeight);
+    _ageLabel = [[UILabel alloc] initWithFrame:ageLabelFrame];
+    [_ageLabel setText:@"Age"];
+    [_ageLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:17]];
+//    [_ageLabel sizeToFit];
+    [_ageLabel setTextAlignment:NSTextAlignmentLeft];
+    [_ageLabel setTextColor:_buttonColor];
+    
+    // Gender Label
+    CGFloat genderLabelX = ageLabelX;
+    CGFloat genderLabelY = ageLabelY + ageLabelHeight + 5;
+    CGFloat genderLabelWidth = 60;
+    CGFloat genderLabelHeight = segmentHeight;
+    CGRect genderLabelFrame = CGRectMake(genderLabelX, genderLabelY, genderLabelWidth, genderLabelHeight);
+    _genderLabel = [[UILabel alloc] initWithFrame:genderLabelFrame];
+    [_genderLabel setText:@"Gender"];
+    [_genderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:17]];
+//    [_genderLabel sizeToFit];
+    [_genderLabel setTextAlignment:NSTextAlignmentLeft];
+    [_genderLabel setTextColor:_buttonColor];
+    
+    // Age Field
+    CGFloat ageFieldX = genderLabelX + genderLabelWidth + 10;
+    CGFloat ageFieldY = ageLabelY;
+    CGFloat ageFieldWidth = 50;
+    CGFloat ageFieldHeight = segmentHeight;
+    CGRect ageFieldFrame = CGRectMake(ageFieldX, ageFieldY, ageFieldWidth, ageFieldHeight);
+    _ageField = [[UITextField alloc] initWithFrame:ageFieldFrame];
+    [_ageField setTextAlignment:NSTextAlignmentCenter];
+    [_ageField setTextColor:_buttonColor];
+    [_ageField setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:17]];
+    //    [_ageField setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:@"0-100" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithWhite:1.0 alpha:0.3], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:17]}]];
+    [_ageField setDelegate:self];
+    [_ageField setKeyboardType:UIKeyboardTypeDecimalPad];
+    [_ageField setKeyboardAppearance:UIKeyboardAppearanceLight];
+    _ageField.layer.borderColor = [_buttonColor CGColor];
+    _ageField.layer.borderWidth = 1.0;
+    _ageField.layer.cornerRadius = 4.0;
+    
+    // Gender SegmentControl
+    CGFloat genderSegmentedControlWidth = 100;
+    CGFloat genderSegmentedControlHeight = 70;
+    CGFloat genderSegmentedControlX = ageFieldX;
+    CGFloat genderSegmentedControlY = genderLabelY;
+    _genderSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Male", @"Female"]];
+    genderSegmentedControlHeight = _genderSegmentedControl.frame.size.height;
+    CGRect genderSegmentedControlFrame = CGRectMake(genderSegmentedControlX, genderSegmentedControlY, genderSegmentedControlWidth, genderSegmentedControlHeight);
+    _genderSegmentedControl.frame = genderSegmentedControlFrame;
+    [_genderSegmentedControl setTintColor:_buttonColor];
+//    [_genderSegmentedControl setSelectedSegmentIndex:0];
+    [_genderSegmentedControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Thin" size:15]} forState:UIControlStateNormal];
+//    [_genderSegmentedControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:15]} forState:UIControlStateHighlighted];
+    [_genderSegmentedControl addTarget:self action:@selector(genderSegmentedControlTapped:) forControlEvents:UIControlEventValueChanged];
+    
     
     [_mainScrollView addSubview:_heartRateTilteLabel];
     [_mainScrollView addSubview:_heartRateLabel];
+    [_mainScrollView addSubview:_indicator];
     
     [_mainScrollView addSubview:_beatLabel];
     [_mainScrollView addSubview:_timerLabel];
@@ -257,7 +336,11 @@
     
     [_mainScrollView addSubview:_segmentLabel];
     [_mainScrollView addSubview:_segmentControl];
-    
+    [_mainScrollView addSubview:_personalLabel];
+    [_mainScrollView addSubview:_ageLabel];
+    [_mainScrollView addSubview:_ageField];
+    [_mainScrollView addSubview:_genderLabel];
+    [_mainScrollView addSubview:_genderSegmentedControl];
 }
 
 - (void)viewDidLoad
@@ -360,6 +443,10 @@
 //    [_mainScrollView moveToScreen:Screen0];
 }
 
+- (void)genderSegmentedControlTapped:(id)sender {
+    
+}
+
 - (void)stop {
     _isTracking = NO;
     _startTime = nil;
@@ -380,6 +467,7 @@
                 [_tapButton setLabelBelowWithTitle:@"Tap to end" andColor:_backgroundColor];
                 [_tapButton setDimmed:YES];
                 [_heartRateLabel setText:@"---"];
+                [_beatLabel setText:@"Beats: -"];
                 [_offsetLabel setText:@"Offset: +00.00"];
             }
             // Not tracking, update Heart Rate (Be careful for the first time)
@@ -398,11 +486,13 @@
                     } else {
                         [_indicator dismiss];
                     }
+                    [_beatLabel setText:[NSString stringWithFormat:@"Beats: %ld", (long)_countNumber]];
                     [_offsetLabel setText:[NSString stringWithFormat:offset < 0 ? @"Offset: %06.2f": @"Offset: +%05.2f", offset]];
                     [self updateTimer];
                 } else {
                     [_indicator dismiss];
                     [_heartRateLabel setText:@"---"];
+                    [_beatLabel setText:@"Beats: -"];
                     [_offsetLabel setText:@"Offset: +00.00"];
                 }
                 [_tapButton setTitle:@"Start" forState:UIControlStateNormal];
@@ -530,6 +620,9 @@
 #pragma mark - TTHRMainScrollViewDelegate methods
 
 - (void)scrollView:(UIScrollView *)scrollView moveToScreen:(Screen)screen {
+    LogMethod;
+//    [_tapButton setHighlighted:NO];
+//    [_resetButton setHighlighted:NO];
     if (screen == Screen0) {
         _tapButton.enabled = YES;
         _resetButton.enabled = YES;

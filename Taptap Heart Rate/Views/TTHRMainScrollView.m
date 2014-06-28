@@ -58,7 +58,9 @@
             }
         }
     }
-    [super touchesMoved:touches withEvent:event];
+//    if (!isMoved) {
+        [super touchesMoved:touches withEvent:event];
+//    }
     //    [self.nextResponder touchesMoved:touches withEvent:event];
 }
 
@@ -76,7 +78,9 @@
         }
     }
     lastMoveEnd = YES;
-    [super touchesEnded:touches withEvent:event];
+//    if (isMoved == NO) {
+        [super touchesEnded:touches withEvent:event];
+//    }
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -106,16 +110,17 @@
 }
 
 - (void)moveToScreen:(Screen)sc {
+    LogMethod;
     if (sc == Screen0) {
         if (isMoving == NO) {
-            NSLog(@"%@", @"Screen0");
+//            NSLog(@"%@", @"Screen0");
             isMoving = YES;
             [UIView animateWithDuration:0.3
                              animations:^{
                                  [self setContentOffset:CGPointMake(0, 0) animated:NO];
                              } completion:^(BOOL finished) {
                                  isMoving = NO;
-                                 NSLog(@"Screen0 complete");
+//                                 NSLog(@"Screen0 complete");
                              }];
             if ([self.screenDelegate respondsToSelector:@selector(scrollView:moveToScreen:)]) {
                 [self.screenDelegate scrollView:self moveToScreen:Screen0];
@@ -124,14 +129,14 @@
     } else if (sc == Screen1) {
         CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
         if (isMoving == NO) {
-            NSLog(@"%@", @"Screen1");
+//            NSLog(@"%@", @"Screen1");
             isMoving = YES;
             [UIView animateWithDuration:0.3
                              animations:^{
                                  [self setContentOffset:CGPointMake(self.contentSize.width - screenWidth, 0) animated:NO];
                              } completion:^(BOOL finished) {
                                  isMoving = NO;
-                                 NSLog(@"Screen1 complete");
+//                                 NSLog(@"Screen1 complete");
                              }];
             if ([self.screenDelegate respondsToSelector:@selector(scrollView:moveToScreen:)]) {
                 [self.screenDelegate scrollView:self moveToScreen:Screen1];
