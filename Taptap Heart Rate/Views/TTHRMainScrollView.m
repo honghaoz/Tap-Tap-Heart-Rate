@@ -11,6 +11,8 @@
 @implementation TTHRMainScrollView {
     CGPoint touchBeginPoint;
     BOOL isMoved;
+    BOOL isMoving;
+    BOOL lastMoveEnd;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -18,6 +20,9 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        isMoved = NO;
+        isMoving = NO;
+        lastMoveEnd = NO;
     }
     return self;
 }
@@ -25,8 +30,9 @@
 #pragma mark - UIResponder methods
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//    LogMethod;
+    LogMethod;
     isMoved = NO;
+    lastMoveEnd = YES;
     [super touchesBegan:touches withEvent:event];
     for (UITouch *touch in touches) {
         touchBeginPoint = [touch locationInView:self];
@@ -34,16 +40,22 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-//    LogMethod;
+    LogMethod;
     for (UITouch *touch in touches) {
         CGPoint currentPoint = [touch locationInView:self];
         if (touchBeginPoint.x - currentPoint.x > 70) {
             isMoved = YES;
-            [self moveToScreen:Screen1];
+            if (!isMoving && lastMoveEnd) {
+                lastMoveEnd = NO;
+                [self moveToScreen:Screen1];
+            }
         }
         if (currentPoint.x - touchBeginPoint.x > 70) {
             isMoved = YES;
-            [self moveToScreen:Screen0];
+            if (!isMoving && lastMoveEnd) {
+                lastMoveEnd = NO;
+                [self moveToScreen:Screen0];
+            }
         }
     }
     [super touchesMoved:touches withEvent:event];
@@ -51,7 +63,7 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-//    LogMethod;
+    LogMethod;
     if (!isMoved) {
         for (UITouch *touch in touches) {
             CGPoint currentPoint = [touch locationInView:self];
@@ -63,6 +75,7 @@
             }
         }
     }
+    lastMoveEnd = YES;
     [super touchesEnded:touches withEvent:event];
 }
 
@@ -94,15 +107,35 @@
 
 - (void)moveToScreen:(Screen)sc {
     if (sc == Screen0) {
-        [self setContentOffset:CGPointMake(0, 0) animated:YES];
-        if ([self.screenDelegate respondsToSelector:@selector(scrollView:moveToScreen:)]) {
-            [self.screenDelegate scrollView:self moveToScreen:Screen0];
+        if (isMoving == NO) {
+            NSLog(@"%@", @"Screen0");
+            isMoving = YES;
+            [UIView animateWithDuration:0.3
+                             animations:^{
+                                 [self setContentOffset:CGPointMake(0, 0) animated:NO];
+                             } completion:^(BOOL finished) {
+                                 isMoving = NO;
+                                 NSLog(@"Screen0 complete");
+                             }];
+            if ([self.screenDelegate respondsToSelector:@selector(scrollView:moveToScreen:)]) {
+                [self.screenDelegate scrollView:self moveToScreen:Screen0];
+            }
         }
     } else if (sc == Screen1) {
         CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-        [self setContentOffset:CGPointMake(self.contentSize.width - screenWidth, 0) animated:YES];
-        if ([self.screenDelegate respondsToSelector:@selector(scrollView:moveToScreen:)]) {
-            [self.screenDelegate scrollView:self moveToScreen:Screen1];
+        if (isMoving == NO) {
+            NSLog(@"%@", @"Screen1");
+            isMoving = YES;
+            [UIView animateWithDuration:0.3
+                             animations:^{
+                                 [self setContentOffset:CGPointMake(self.contentSize.width - screenWidth, 0) animated:NO];
+                             } completion:^(BOOL finished) {
+                                 isMoving = NO;
+                                 NSLog(@"Screen1 complete");
+                             }];
+            if ([self.screenDelegate respondsToSelector:@selector(scrollView:moveToScreen:)]) {
+                [self.screenDelegate scrollView:self moveToScreen:Screen1];
+            }
         }
     }
 }

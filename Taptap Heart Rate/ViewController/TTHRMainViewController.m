@@ -174,7 +174,6 @@
     [_offsetLabel setTextAlignment:NSTextAlignmentLeft];
     [_offsetLabel setTextColor:_buttonColor];
     
-    
     // Tap Button
     CGFloat tapButtonHeight = 230;
     CGFloat tapButtonWidth = 230;
@@ -210,7 +209,6 @@
     [_resetButton addTarget:self action:@selector(resetButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     _resetButton.adjustsImageWhenDisabled = NO;
     
-    
     // SegmentLabel
     CGFloat segmentLabelHeight = 30;
     CGFloat segmentLabelWidth = 140;
@@ -218,7 +216,7 @@
     CGFloat segmentLabelY = heartRateTitleLabelY;
     CGRect segmentLabelFrame = CGRectMake(segmentLabelX, segmentLabelY, segmentLabelWidth, segmentLabelHeight);
     _segmentLabel = [[UILabel alloc] initWithFrame:segmentLabelFrame];
-    [_segmentLabel setText:@"Choose Tap Mode"];
+    [_segmentLabel setText:@"Choose Test Mode"];
     [_segmentLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [_segmentLabel setTextAlignment:NSTextAlignmentCenter];
     [_segmentLabel setTextColor:_buttonColor];
@@ -244,7 +242,7 @@
     CGFloat indicatorY = (heartRateTitleLabelY + heartRateTitleLabelHeight / 2) - indicatorHeight / 2 + 1;
     CGRect indicatorFrame = CGRectMake(indicatorX, indicatorY, indicatorWidth, indicatorHeight);
     _indicator = [[TTHRAnimatedView alloc] initWithFrame:indicatorFrame];
-    [_indicator setText:@""];
+    [_indicator dismiss];
     [_mainScrollView addSubview:_indicator];
     
     [_mainScrollView addSubview:_heartRateTilteLabel];

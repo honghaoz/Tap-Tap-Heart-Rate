@@ -9,7 +9,7 @@
 #import "TTHRTapButton.h"
 
 #define NORMAL_BUTTON_ALPHA 1.0
-#define DIMMED_STATE_ALPHA 0.85
+#define DIMMED_STATE_ALPHA 0.7
 #define HIGHLIGHT_BUTTON_ALPHA 0.55
 
 @implementation TTHRTapButton {
