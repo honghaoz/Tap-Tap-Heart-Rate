@@ -18,6 +18,9 @@
     CGPoint touchBeginPoint; // begin point in button view
     CGPoint touchEndPoint; // end point in button view
     
+    CGFloat _shouldTapRadius;
+    BOOL _shouldPassTouch;
+    
     UIImageView *_pressableImageView; // _pressableImageView is inner button image
     BOOL _isDimmed; // _isDimmed is a state for highlighted button
 }
@@ -46,6 +49,8 @@
         // Init values
         _circleWidth = cirWidth;
         _shrinkWidth = 9 + _circleWidth;
+        _shouldTapRadius = MAX(frame.size.height, frame.size.width) / 2;
+        _shouldPassTouch = YES;
         self.buttonColor = btnColor;
         self.buttonCircleColor = cirColor;
         CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha =0.0;
@@ -156,23 +161,31 @@
 
 #pragma mark - UIResponder methods
 
+- (void)setShouldPassTouch:(BOOL)shouldPass {
+    _shouldPassTouch = shouldPass;
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    LogMethod;
+//    LogMethod;
     for (UITouch *touch in touches) {
         touchBeginPoint = [touch locationInView:self];
     }
     [super touchesBegan:touches withEvent:event];
-    [self.nextResponder touchesBegan:touches withEvent:event];
+    if (_shouldPassTouch) {
+        [self.nextResponder touchesBegan:touches withEvent:event];
+    }
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    LogMethod;
+//    LogMethod;
 //    [super touchesMoved:touches withEvent:event];
-    [self.nextResponder touchesMoved:touches withEvent:event];
+    if (_shouldPassTouch) {
+        [self.nextResponder touchesMoved:touches withEvent:event];
+    }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    LogMethod;
+//    LogMethod;
     for (UITouch *touch in touches) {
         touchEndPoint = [touch locationInView:self];
         // if touch end offset smaller than 15, touched
@@ -182,23 +195,32 @@
             [super touchesCancelled:touches withEvent:event];
         }
     }
-    [self.nextResponder touchesEnded:touches withEvent:event];
+    if (_shouldPassTouch) {
+        [self.nextResponder touchesEnded:touches withEvent:event];
+    }
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
 //    LogMethod;
     [super touchesCancelled:touches withEvent:event];
+    if (_shouldPassTouch) {
+        [self.nextResponder touchesCancelled:touches withEvent:event];
+    }
 }
 
 #pragma mark - UIControl methods
 
+- (void)enlargeShouldTapRaidus:(float)enlarge {
+    _shouldTapRadius += enlarge;
+}
+
 // Restrict the touch is responsible when it is inside the rounded button
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
-    CGFloat radius = self.bounds.size.height / 2;
+//    CGFloat radius = self.bounds.size.height / 2;
     CGPoint touchedPoint = [touch locationInView:self];
-    CGPoint center = CGPointMake(radius, radius);
+    CGPoint center = CGPointMake(_shouldTapRadius, _shouldTapRadius);
     CGFloat distanceToCenter = sqrtf(pow(touchedPoint.x - center.x, 2) + pow(touchedPoint.y - center.y, 2));
-    if (distanceToCenter < radius - _shrinkWidth + radius * 1/10) {
+    if (distanceToCenter < _shouldTapRadius - _shrinkWidth + _shouldTapRadius * 1/10) {
         return YES;
     } else {
         return NO;

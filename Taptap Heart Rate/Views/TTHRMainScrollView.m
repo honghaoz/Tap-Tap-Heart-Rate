@@ -30,7 +30,8 @@
 #pragma mark - UIResponder methods
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    LogMethod;
+//    LogMethod;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DismissKeyboard" object:self];
     isMoved = NO;
     lastMoveEnd = YES;
     [super touchesBegan:touches withEvent:event];
@@ -40,7 +41,7 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    LogMethod;
+//    LogMethod;
     for (UITouch *touch in touches) {
         CGPoint currentPoint = [touch locationInView:self];
         if (touchBeginPoint.x - currentPoint.x > 70) {
@@ -65,7 +66,7 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    LogMethod;
+//    LogMethod;
     if (!isMoved) {
         for (UITouch *touch in touches) {
             CGPoint currentPoint = [touch locationInView:self];
@@ -110,7 +111,7 @@
 }
 
 - (void)moveToScreen:(Screen)sc {
-    LogMethod;
+//    LogMethod;
     if (sc == Screen0) {
         if (isMoving == NO) {
 //            NSLog(@"%@", @"Screen0");

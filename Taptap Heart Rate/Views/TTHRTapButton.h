@@ -39,4 +39,8 @@
  */
 - (void)setDimmed:(BOOL)isDim;
 
+- (void)enlargeShouldTapRaidus:(float)enlarge;
+
+- (void)setShouldPassTouch:(BOOL)shouldPass;
+
 @end

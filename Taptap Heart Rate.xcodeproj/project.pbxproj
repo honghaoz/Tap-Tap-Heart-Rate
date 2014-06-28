@@ -18,6 +18,7 @@
 		1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */; };
 		1B1B75D91947F18600C7FAC3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAB19479FFC006718B5 /* Foundation.framework */; };
 		1B3E9BBA195BC38E000D144E /* TTHRAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E9BB9195BC38E000D144E /* TTHRAnimatedView.m */; };
+		1B75F202195F17C700AFAFC4 /* TTHRHintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B75F201195F17C700AFAFC4 /* TTHRHintView.m */; };
 		1BC002611947DFCA0040E828 /* UIApplication+AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC0025E1947DFCA0040E828 /* UIApplication+AppVersion.m */; };
 		1BC002621947DFCA0040E828 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC002601947DFCA0040E828 /* UIDevice-Hardware.m */; };
 		1BDA8EAE19479FFC006718B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAD19479FFC006718B5 /* CoreGraphics.framework */; };
@@ -76,6 +77,8 @@
 		1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRTapButton.m; path = Views/TTHRTapButton.m; sourceTree = "<group>"; };
 		1B3E9BB8195BC38E000D144E /* TTHRAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRAnimatedView.h; path = Views/TTHRAnimatedView.h; sourceTree = "<group>"; };
 		1B3E9BB9195BC38E000D144E /* TTHRAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRAnimatedView.m; path = Views/TTHRAnimatedView.m; sourceTree = "<group>"; };
+		1B75F200195F17C700AFAFC4 /* TTHRHintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRHintView.h; path = Views/TTHRHintView.h; sourceTree = "<group>"; };
+		1B75F201195F17C700AFAFC4 /* TTHRHintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRHintView.m; path = Views/TTHRHintView.m; sourceTree = "<group>"; };
 		1BC0025D1947DFCA0040E828 /* UIApplication+AppVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+AppVersion.h"; sourceTree = "<group>"; };
 		1BC0025E1947DFCA0040E828 /* UIApplication+AppVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+AppVersion.m"; sourceTree = "<group>"; };
 		1BC0025F1947DFCA0040E828 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
@@ -178,6 +181,8 @@
 				1B0583B6194E3BE5000D43C2 /* TTHRMainScrollView.m */,
 				1B3E9BB8195BC38E000D144E /* TTHRAnimatedView.h */,
 				1B3E9BB9195BC38E000D144E /* TTHRAnimatedView.m */,
+				1B75F200195F17C700AFAFC4 /* TTHRHintView.h */,
+				1B75F201195F17C700AFAFC4 /* TTHRHintView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -400,6 +405,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B0583B7194E3BE5000D43C2 /* TTHRMainScrollView.m in Sources */,
+				1B75F202195F17C700AFAFC4 /* TTHRHintView.m in Sources */,
 				1BDA8EBC19479FFC006718B5 /* TTHRAppDelegate.m in Sources */,
 				1B0F96CF1953F141004FD9BD /* ZHHParseDevice.m in Sources */,
 				1B3E9BBA195BC38E000D144E /* TTHRAnimatedView.m in Sources */,

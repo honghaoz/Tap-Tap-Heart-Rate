@@ -11,9 +11,14 @@
 #import "TTHRMainScrollView.h"
 #import "ZHHGoogleAnalytics.h"
 #import "TTHRAnimatedView.h"
+#import "TTHRHintView.h"
 
 #define MAX_HEART_RATE 229
 #define MIN_HEART_RATE 30
+
+#define HINT_0 0.13
+#define HINT_1 0.496
+#define HINT_2 0.85
 
 @interface TTHRMainViewController () <TTHRMainScrollViewDelegate, UITextFieldDelegate>
 
@@ -43,11 +48,14 @@
 @property (nonatomic, strong) TTHRTapButton *resetButton;
 
 @property (nonatomic, strong) UILabel *segmentLabel;
+@property (nonatomic, strong) TTHRTapButton *segmentHelpButton;
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
+@property (nonatomic, strong) TTHRHintView *hintView;
 
 @property (nonatomic, strong) UILabel *personalLabel;
 @property (nonatomic, strong) UILabel *ageLabel;
 @property (nonatomic, strong) UITextField *ageField;
+@property (nonatomic, assign) CGSize keyboardSize;
 
 @property (nonatomic, strong) UILabel *genderLabel;
 @property (nonatomic, strong) UISegmentedControl *genderSegmentedControl;
@@ -92,7 +100,7 @@
 - (void)loadView {
     LogMethod;
     self.view = [[UIView alloc] init];
-    //[self.view setBackgroundColor:_backgroundColor];
+    [self.view setBackgroundColor:_backgroundColor];
     
     CGSize mainScreenSize = [UIScreen mainScreen].bounds.size;
     
@@ -236,9 +244,24 @@
     [_segmentLabel setTextAlignment:NSTextAlignmentCenter];
     [_segmentLabel setTextColor:_buttonColor];
     
+    // Segment help button
+    CGFloat segmentHelpX = segmentLabelX + segmentLabelWidth;
+    CGFloat segmentHelpWidth = segmentLabelHeight + 5;
+    CGFloat segmentHelpHeight = segmentLabelHeight + 5;
+    CGFloat segmentHelpY = segmentLabelY + 1 / 2 * segmentLabelHeight - 1 / 2 * segmentHelpHeight - 2;
+    CGRect segmentHelpFrame = CGRectMake(segmentHelpX, segmentHelpY, segmentHelpWidth, segmentHelpHeight);
+    _segmentHelpButton = [[TTHRTapButton alloc] initWithFrame:segmentHelpFrame circleWidth:0.0 buttonColor:_buttonColor circleColor:nil];
+    [_segmentHelpButton setTitle:@"?" forState:UIControlStateNormal];
+    [_segmentHelpButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
+    [_segmentHelpButton setTitleColor:_backgroundColor forState:UIControlStateNormal];
+    [_segmentHelpButton addTarget:self action:@selector(segmentHelpButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    _segmentHelpButton.adjustsImageWhenDisabled = NO;
+    [_segmentHelpButton enlargeShouldTapRaidus:5];
+    [_segmentHelpButton setShouldPassTouch:NO];
+    
     // SegmentControl
     CGFloat segmentHeight = 70;
-    CGFloat segmentWidth = 150;
+    CGFloat segmentWidth = 170;
     CGFloat segmentX = 10;
     CGFloat segmentY = segmentLabelY + segmentLabelHeight + 7;
     _segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"5", @"10", @"Tap"]];
@@ -248,14 +271,23 @@
     _segmentControl.frame = segmentFrame;
     [_segmentControl setTintColor:_buttonColor];
     [_segmentControl setSelectedSegmentIndex:0];
-    [_segmentControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Thin" size:15]} forState:UIControlStateNormal];
+    [_segmentControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:15]} forState:UIControlStateNormal];
     [_segmentControl addTarget:self action:@selector(segmentTapped:) forControlEvents:UIControlEventValueChanged];
+    
+    // Hint view
+    CGFloat hintViewX = segmentX;
+    CGFloat hintViewY = segmentY + segmentHeight + 13;
+    CGFloat hintViewWidth = segmentWidth;
+    CGFloat hintViewHeight = 150;
+    CGRect hintViewFrame = CGRectMake(hintViewX, hintViewY, hintViewWidth, hintViewHeight);
+    _hintView = [[TTHRHintView alloc] initWithFrame:hintViewFrame borderColor:_buttonColor borderWidth:1.0 backgroundColor:_backgroundColor pinDirection:PinAbove pinPosition:HINT_2 triangleSize:CGSizeMake(15, 14)];
+    [_hintView setShow:NO withDuration:0 affectCounter:NO];
     
     // Personal label
     CGFloat personalLabelHeight = 30;
     CGFloat personalLabelWidth = 200;
     CGFloat personalLabelX = mainScreenSize.width + (_mainScrollView.contentSize.width - mainScreenSize.width - personalLabelWidth) / 2;
-    CGFloat personalLabelY = segmentY + segmentHeight + 200;
+    CGFloat personalLabelY = segmentY + segmentHeight + 20;
     CGRect personalLabelFrame = CGRectMake(personalLabelX, personalLabelY, personalLabelWidth, personalLabelHeight);
     _personalLabel = [[UILabel alloc] initWithFrame:personalLabelFrame];
     [_personalLabel setText:@"Personal Information"];
@@ -266,43 +298,44 @@
     // AgeLabel
     CGFloat ageLabelX = segmentX;
     CGFloat ageLabelY = personalLabelY + personalLabelHeight + 5;
-    CGFloat ageLabelWidth = 43;
+    CGFloat ageLabelWidth = 60;
     CGFloat ageLabelHeight = segmentHeight;
     CGRect ageLabelFrame = CGRectMake(ageLabelX, ageLabelY, ageLabelWidth, ageLabelHeight);
     _ageLabel = [[UILabel alloc] initWithFrame:ageLabelFrame];
     [_ageLabel setText:@"Age"];
     [_ageLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:17]];
 //    [_ageLabel sizeToFit];
-    [_ageLabel setTextAlignment:NSTextAlignmentLeft];
+    [_ageLabel setTextAlignment:NSTextAlignmentRight];
     [_ageLabel setTextColor:_buttonColor];
     
     // Gender Label
     CGFloat genderLabelX = ageLabelX;
     CGFloat genderLabelY = ageLabelY + ageLabelHeight + 5;
-    CGFloat genderLabelWidth = 60;
+    CGFloat genderLabelWidth = ageLabelWidth;
     CGFloat genderLabelHeight = segmentHeight;
     CGRect genderLabelFrame = CGRectMake(genderLabelX, genderLabelY, genderLabelWidth, genderLabelHeight);
     _genderLabel = [[UILabel alloc] initWithFrame:genderLabelFrame];
     [_genderLabel setText:@"Gender"];
     [_genderLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:17]];
 //    [_genderLabel sizeToFit];
-    [_genderLabel setTextAlignment:NSTextAlignmentLeft];
+    [_genderLabel setTextAlignment:NSTextAlignmentRight];
     [_genderLabel setTextColor:_buttonColor];
     
     // Age Field
     CGFloat ageFieldX = genderLabelX + genderLabelWidth + 10;
     CGFloat ageFieldY = ageLabelY;
-    CGFloat ageFieldWidth = 50;
+    CGFloat ageFieldWidth = 43.0;
     CGFloat ageFieldHeight = segmentHeight;
     CGRect ageFieldFrame = CGRectMake(ageFieldX, ageFieldY, ageFieldWidth, ageFieldHeight);
     _ageField = [[UITextField alloc] initWithFrame:ageFieldFrame];
     [_ageField setTextAlignment:NSTextAlignmentCenter];
     [_ageField setTextColor:_buttonColor];
-    [_ageField setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:17]];
+    [_ageField setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     //    [_ageField setAttributedPlaceholder:[[NSAttributedString alloc] initWithString:@"0-100" attributes:@{NSForegroundColorAttributeName:[UIColor colorWithWhite:1.0 alpha:0.3], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:17]}]];
     [_ageField setDelegate:self];
-    [_ageField setKeyboardType:UIKeyboardTypeDecimalPad];
+    [_ageField setKeyboardType:UIKeyboardTypeNumberPad];
     [_ageField setKeyboardAppearance:UIKeyboardAppearanceLight];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldResignFirstResponder:) name:@"DismissKeyboard" object:nil];
     _ageField.layer.borderColor = [_buttonColor CGColor];
     _ageField.layer.borderWidth = 1.0;
     _ageField.layer.cornerRadius = 4.0;
@@ -317,8 +350,9 @@
     CGRect genderSegmentedControlFrame = CGRectMake(genderSegmentedControlX, genderSegmentedControlY, genderSegmentedControlWidth, genderSegmentedControlHeight);
     _genderSegmentedControl.frame = genderSegmentedControlFrame;
     [_genderSegmentedControl setTintColor:_buttonColor];
+    [_genderSegmentedControl setWidth:43.0 forSegmentAtIndex:0];
 //    [_genderSegmentedControl setSelectedSegmentIndex:0];
-    [_genderSegmentedControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Thin" size:15]} forState:UIControlStateNormal];
+    [_genderSegmentedControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:15]} forState:UIControlStateNormal];
 //    [_genderSegmentedControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:15]} forState:UIControlStateHighlighted];
     [_genderSegmentedControl addTarget:self action:@selector(genderSegmentedControlTapped:) forControlEvents:UIControlEventValueChanged];
     
@@ -335,12 +369,16 @@
     [_mainScrollView addSubview:_resetButton];
     
     [_mainScrollView addSubview:_segmentLabel];
+    [_mainScrollView addSubview:_segmentHelpButton];
     [_mainScrollView addSubview:_segmentControl];
+    
     [_mainScrollView addSubview:_personalLabel];
     [_mainScrollView addSubview:_ageLabel];
     [_mainScrollView addSubview:_ageField];
     [_mainScrollView addSubview:_genderLabel];
     [_mainScrollView addSubview:_genderSegmentedControl];
+    
+    [_mainScrollView addSubview:_hintView];
 }
 
 - (void)viewDidLoad
@@ -358,6 +396,15 @@
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.0001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self segmentTapped:nil];
 //    });
+    
+//    // Register notification from keyboard
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(keyboardDidShow:)
+//                                                 name:UIKeyboardDidShowNotification
+//                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(keyboardDidHide:)
+//                                                 name:UIKeyboardDidHideNotification object:nil];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
@@ -371,7 +418,7 @@
 
 
 - (void)tapButtonTapped:(id)sender {
-    LogMethod;
+//    LogMethod;
     _beatNumber++;
     [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
     
@@ -420,20 +467,29 @@
 }
 
 - (void)segmentTapped:(id)sender {
-    LogMethod;
+//    LogMethod;
     switch (_segmentControl.selectedSegmentIndex) {
         case 0: {
             _currentMode = FiveMode;
             _countNumber = 5;
+            [_hintView setText:@"Count 5 beats"];
+            [_hintView moveTriangleToPosition:HINT_0];
+//            [_hintView setShow:YES withDuration:3 affectCounter:YES];
             break;
         }
         case 1: {
             _currentMode = TenMode;
             _countNumber = 10;
+            [_hintView setText:@"Count 5 beats asdlk;asjdkl aklsjd klajsd j aslkdj aklsjd l"];
+            [_hintView moveTriangleToPosition:HINT_1];
+//            [_hintView setShow:YES withDuration:3 affectCounter:YES];
             break;
         }
         case 2:{
             _currentMode = TapMode;
+            [_hintView setText:@"Count 5 beats asdkjlkja klsjdlkajs  lk jasj dlkajs dklajd lkjasdk jaslkdj laks lja jalks jdlkajsd lkajsd lkasjd lkajsd r"];
+            [_hintView moveTriangleToPosition:HINT_2];
+//            [_hintView moveTriangleToPosition:HINT_2];
             break;
         }
         default:
@@ -443,7 +499,14 @@
 //    [_mainScrollView moveToScreen:Screen0];
 }
 
+- (void)segmentHelpButtonTapped:(id)sender {
+    LogMethod;
+    [_hintView setShow:YES withDuration:3 affectCounter:YES];
+}
+
 - (void)genderSegmentedControlTapped:(id)sender {
+//    LogMethod;
+    [self textFieldResignFirstResponder:nil];
     
 }
 
@@ -583,6 +646,28 @@
     [_timerLabel setText:[NSString stringWithFormat:@"Time: %02ld:%05.2f", (long)min, sec]];
 }
 
+#pragma mark - 
+
+- (void)keyboardDidShow:(NSNotification *)notification {
+    CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    _keyboardSize = keyboardFrame.size;
+    CGFloat moveUpHeight = _keyboardSize.height;
+    __block CGRect mainFrame = _mainScrollView.frame;
+    [UIView animateWithDuration:0.3 animations:^{
+        mainFrame.origin.y -= moveUpHeight;
+        _mainScrollView.frame = mainFrame;
+    }];
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification {
+    CGFloat moveDownHeight = _keyboardSize.height;
+    __block CGRect mainFrame = _mainScrollView.frame;
+    [UIView animateWithDuration:0.3 animations:^{
+        mainFrame.origin.y += moveDownHeight;
+        _mainScrollView.frame = mainFrame;
+    }];
+}
+
 #pragma mark - Rotation
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -630,6 +715,32 @@
         _tapButton.enabled = NO;
         _resetButton.enabled = NO;
     }
+}
+
+#pragma mark - Age text field delegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    LogMethod;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    LogMethod;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    LogMethod;
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    LogMethod;
+    [self textFieldResignFirstResponder:nil];
+    return YES;
+}
+
+- (void)textFieldResignFirstResponder:(id)sender {
+    [_ageField resignFirstResponder];
+    [_hintView setShow:NO withDuration:0 affectCounter:NO];
 }
 
 #pragma mark - Helper methods
