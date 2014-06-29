@@ -30,6 +30,10 @@
 - (void)setText:(NSString *)title {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] initWithFrame:self.bounds];
+        [_titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11]];
+        [_titleLabel setTextAlignment:NSTextAlignmentCenter];
+        [_titleLabel setTextColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.83]];
+//        [_titleLabel setBackgroundColor:[UIColor brownColor]];
     }
     if ([title length] == 0) {
         [_titleLabel removeFromSuperview];
@@ -37,10 +41,29 @@
         return;
     }
     [_titleLabel setText:title];
-    [_titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:11]];
-    [_titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [_titleLabel setTextColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.83]];
+    
+    NSLog(@"%@", NSStringFromCGRect(self.frame));
+    NSLog(@"%@", NSStringFromCGRect(_titleLabel.frame));
+    
+    // Text field changes
+    CGFloat fixedHeight = _titleLabel.frame.size.height;
+    CGSize newSize = [_titleLabel sizeThatFits:CGSizeMake(MAXFLOAT, fixedHeight)];
+    CGRect newFrame = _titleLabel.frame;
+    newFrame.size = CGSizeMake(newSize.width, fmaxf(newSize.height, fixedHeight));
+    
+    // Change super view
+    CGRect superViewFrame = self.frame;
+    superViewFrame.size.width = newFrame.size.width + 12;
+    superViewFrame.origin.x += (self.frame.size.width - superViewFrame.size.width) / 2;
+    
+    // Center text field
+    newFrame.origin.x = (superViewFrame.size.width - newFrame.size.width) / 2;
+    
+    [_titleLabel setFrame:newFrame];
+    [self setFrame:superViewFrame];
+    
     [self addSubview:_titleLabel];
+    
     [self show];
 }
 

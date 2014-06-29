@@ -12,6 +12,8 @@
 #import "ZHHGoogleAnalytics.h"
 #import "TTHRAnimatedView.h"
 #import "TTHRHintView.h"
+#import "TTHRHeartIndicatorView.h"
+#import "TTHRUser.h"
 
 #define MAX_HEART_RATE 229
 #define MIN_HEART_RATE 30
@@ -43,6 +45,7 @@
 @property (nonatomic, strong) UILabel *beatLabel;
 @property (nonatomic, strong) UILabel *timerLabel;
 @property (nonatomic, strong) UILabel *offsetLabel;
+@property (nonatomic, strong) TTHRHeartIndicatorView *heartIndicator;
 
 @property (nonatomic, strong) TTHRTapButton *tapButton;
 @property (nonatomic, strong) TTHRTapButton *resetButton;
@@ -74,7 +77,7 @@
 }
 
 - (id)init {
-    LogMethod;
+//    LogMethod;
     self = [super init];
     if (self) {
         _backgroundColor = [UIColor colorWithRed:0.73 green:0.03 blue:0.10 alpha:1];//[UIColor colorWithRed:0.8 green:0.1 blue:0.16 alpha:1];//[UIColor colorWithRed:0.95 green:0.3 blue:0.22 alpha:1];
@@ -98,7 +101,7 @@
 }
 
 - (void)loadView {
-    LogMethod;
+//    LogMethod;
     self.view = [[UIView alloc] init];
     [self.view setBackgroundColor:_backgroundColor];
     
@@ -143,7 +146,7 @@
     // Heart Rate Title Label
     CGFloat heartRateTitleLabelHeight = 30;
     CGFloat heartRateTitleLabelWidth = 43;
-    CGFloat heartRateTitleLabelX = heartRateLabelX - heartRateTitleLabelWidth + 55;
+    CGFloat heartRateTitleLabelX = heartRateLabelX - heartRateTitleLabelWidth + 53;
     CGFloat heartRateTitleLabelY = heartRateLabelY - heartRateTitleLabelHeight;
     CGRect heartRateTitleLabelFrame = CGRectMake(heartRateTitleLabelX, heartRateTitleLabelY, heartRateTitleLabelWidth, heartRateTitleLabelHeight);
     _heartRateTilteLabel = [[UILabel alloc] initWithFrame:heartRateTitleLabelFrame];
@@ -153,13 +156,26 @@
     [_heartRateTilteLabel setTextColor:_buttonColor];
     
     // Animated View
-    CGFloat indicatorWidth = 60;
+    CGFloat indicatorWidth = 80;
     CGFloat indicatorHeight = 20;
     CGFloat indicatorX = (mainScreenSize.width - indicatorWidth) / 2;
     CGFloat indicatorY = (heartRateTitleLabelY + heartRateTitleLabelHeight / 2) - indicatorHeight / 2 + 1;
     CGRect indicatorFrame = CGRectMake(indicatorX, indicatorY, indicatorWidth, indicatorHeight);
     _indicator = [[TTHRAnimatedView alloc] initWithFrame:indicatorFrame];
     [_indicator dismiss];
+    
+    CGFloat heartIndicatorY = heartRateTitleLabelY;
+    CGFloat heartIndicatorWidth = 0; // will update later
+    CGFloat heartIndicatorHeight = 0; // will update later
+    CGFloat heartIndicatorX = mainScreenSize.width - heartRateTitleLabelX - heartIndicatorWidth;
+    CGRect heartIndicatorFrame = CGRectMake(heartIndicatorX, heartIndicatorY, heartIndicatorWidth, heartIndicatorHeight);
+    _heartIndicator = [[TTHRHeartIndicatorView alloc] initWithFrame:heartIndicatorFrame color:_buttonColor imageNamed:@"Heart.png"];
+    heartIndicatorWidth = _heartIndicator.frame.size.width;
+    heartIndicatorHeight = _heartIndicator.frame.size.height;
+    heartIndicatorY = heartRateTitleLabelY + 1 / 2 * heartRateTitleLabelHeight - 1 / 2 * heartIndicatorHeight + 5;
+    heartIndicatorX = mainScreenSize.width - heartRateTitleLabelX - heartIndicatorWidth + 3;
+    heartIndicatorFrame = CGRectMake(heartIndicatorX, heartIndicatorY, heartIndicatorWidth, heartIndicatorHeight);
+    [_heartIndicator setFrame:heartIndicatorFrame];
     
     // Beat Label
     CGFloat beatLabelHeight = 30;
@@ -287,7 +303,7 @@
     CGFloat personalLabelHeight = 30;
     CGFloat personalLabelWidth = 200;
     CGFloat personalLabelX = mainScreenSize.width + (_mainScrollView.contentSize.width - mainScreenSize.width - personalLabelWidth) / 2;
-    CGFloat personalLabelY = segmentY + segmentHeight + 20;
+    CGFloat personalLabelY = segmentY + segmentHeight + 40;
     CGRect personalLabelFrame = CGRectMake(personalLabelX, personalLabelY, personalLabelWidth, personalLabelHeight);
     _personalLabel = [[UILabel alloc] initWithFrame:personalLabelFrame];
     [_personalLabel setText:@"Personal Information"];
@@ -361,6 +377,7 @@
     [_mainScrollView addSubview:_heartRateLabel];
     [_mainScrollView addSubview:_indicator];
     
+    [_mainScrollView addSubview:_heartIndicator];
     [_mainScrollView addSubview:_beatLabel];
     [_mainScrollView addSubview:_timerLabel];
     [_mainScrollView addSubview:_offsetLabel];
@@ -383,7 +400,7 @@
 
 - (void)viewDidLoad
 {
-    LogMethod;
+//    LogMethod;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _tappedTimes = [[NSMutableArray alloc] init];
@@ -472,7 +489,7 @@
         case 0: {
             _currentMode = FiveMode;
             _countNumber = 5;
-            [_hintView setText:@"Count 5 beats"];
+            [_hintView setText:[NSString stringWithFormat:@"After tapping the start button, count %ld beats, then tap again to end", (long)_countNumber]];
             [_hintView moveTriangleToPosition:HINT_0];
 //            [_hintView setShow:YES withDuration:3 affectCounter:YES];
             break;
@@ -480,14 +497,14 @@
         case 1: {
             _currentMode = TenMode;
             _countNumber = 10;
-            [_hintView setText:@"Count 5 beats asdlk;asjdkl aklsjd klajsd j aslkdj aklsjd l"];
+            [_hintView setText:[NSString stringWithFormat:@"After tapping the start button, count %ld beats, then tap again to end", (long)_countNumber]];
             [_hintView moveTriangleToPosition:HINT_1];
 //            [_hintView setShow:YES withDuration:3 affectCounter:YES];
             break;
         }
         case 2:{
             _currentMode = TapMode;
-            [_hintView setText:@"Count 5 beats asdkjlkja klsjdlkajs  lk jasj dlkajs dklajd lkjasdk jaslkdj laks lja jalks jdlkajsd lkajsd lkasjd lkajsd r"];
+            [_hintView setText:@"Tap the button after each beat of the heart"];
             [_hintView moveTriangleToPosition:HINT_2];
 //            [_hintView moveTriangleToPosition:HINT_2];
             break;
@@ -500,14 +517,26 @@
 }
 
 - (void)segmentHelpButtonTapped:(id)sender {
-    LogMethod;
+//    LogMethod;
     [_hintView setShow:YES withDuration:3 affectCounter:YES];
 }
 
 - (void)genderSegmentedControlTapped:(id)sender {
 //    LogMethod;
     [self textFieldResignFirstResponder:nil];
-    
+    switch (_genderSegmentedControl.selectedSegmentIndex) {
+        case 0: {
+            [TTHRUser sharedUser].gender = GenderMale;
+            break;
+        }
+        case 1: {
+            [TTHRUser sharedUser].gender = GenderFemale;
+            break;
+        }
+        default:{
+            break;
+        }
+    }
 }
 
 - (void)stop {
@@ -532,6 +561,7 @@
                 [_heartRateLabel setText:@"---"];
                 [_beatLabel setText:@"Beats: -"];
                 [_offsetLabel setText:@"Offset: +00.00"];
+                [_heartIndicator setPercent:0.0];
             }
             // Not tracking, update Heart Rate (Be careful for the first time)
             else {
@@ -542,18 +572,14 @@
                     double offset = [lastTapTime doubleValue] - [firstTapTime doubleValue];
                     _heartRate = lround(60.0 / (offset / _countNumber));
                     [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
-                    if (_heartRate > MAX_HEART_RATE) {
-                        [_indicator setText:@"Too High"];
-                    } else if (_heartRate < MIN_HEART_RATE) {
-                        [_indicator setText:@"Too Low"];
-                    } else {
-                        [_indicator dismiss];
-                    }
+                    // Set heart indicator, indicator label
+                    [self updateHeartIndicators];
                     [_beatLabel setText:[NSString stringWithFormat:@"Beats: %ld", (long)_countNumber]];
                     [_offsetLabel setText:[NSString stringWithFormat:offset < 0 ? @"Offset: %06.2f": @"Offset: +%05.2f", offset]];
                     [self updateTimer];
                 } else {
                     [_indicator dismiss];
+                    [_heartIndicator setPercent:0.0];
                     [_heartRateLabel setText:@"---"];
                     [_beatLabel setText:@"Beats: -"];
                     [_offsetLabel setText:@"Offset: +00.00"];
@@ -577,7 +603,7 @@
                 [_tapButton setLabelBelowWithTitle:@"Tap after each beat" andColor:_backgroundColor];
                 [_tapButton.labelBelow setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]];
                 [_tapButton.labelBelow setNumberOfLines:2];
-                
+                [_heartIndicator setPercent:0.0];
             }
             [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:46]];
             [_tapButton setNeedsDisplay];
@@ -590,6 +616,7 @@
                 [_heartRateLabel setText:_heartRate == 0? @"---": [NSString stringWithFormat:@"%ld", (long)_heartRate]];
                 [_offsetLabel setText:@"Offset: +00.00"];
                 [_indicator dismiss];
+                [_heartIndicator setPercent:0.0];
                 return;
             }
             NSNumber *lastTapTime = [_tappedTimes lastObject];
@@ -606,13 +633,8 @@
             double averageOffset = totalOffset / (_beatNumber - 1);
             _heartRate = 60 / averageOffset;
             [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
-            if (_heartRate > MAX_HEART_RATE) {
-                [_indicator setText:@"Too High"];
-            } else if (_heartRate < MIN_HEART_RATE) {
-                [_indicator setText:@"Too Low"];
-            } else {
-                [_indicator dismiss];
-            }
+            // Set heart indicator, indicator label
+            [self updateHeartIndicators];
             break;
         }
         default:
@@ -620,6 +642,49 @@
     }
     if (_startTime == nil) {
         [_timerLabel setText:@"Time: 00:00.00"];
+    }
+}
+
+- (void)updateHeartIndicators {
+    // Set heart indicator
+    float percent = 0;
+    HRCondition condition = HRUnknown;
+    [[TTHRUser sharedUser] getHRCondition:&condition HRPercent:&percent heartRate:_heartRate];
+    [_heartIndicator setPercent:percent < 0.15 ? 0.15: percent];
+    
+    if (_heartRate > MAX_HEART_RATE) {
+        [_indicator setText:@"Too High"];
+    } else if (_heartRate < MIN_HEART_RATE) {
+        [_indicator setText:@"Too Low"];
+    } else {
+        switch (condition) {
+            case HRUnknown:
+                [_indicator dismiss];
+                break;
+            case HRPoor:
+                [_indicator setText:@"Poor"];
+                break;
+            case HRBelowAverage:
+                [_indicator setText:@"Below Average"];
+                break;
+            case HRAvergae:
+                [_indicator setText:@"Average"];
+                break;
+            case HRAboveAverage:
+                [_indicator setText:@"Above Average"];
+                break;
+            case HRGood:
+                [_indicator setText:@"Good"];
+                break;
+            case HRExcellent:
+                [_indicator setText:@"Excellent"];
+                break;
+            case HRAthlete:
+                [_indicator setText:@"Athlete"];
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -705,7 +770,7 @@
 #pragma mark - TTHRMainScrollViewDelegate methods
 
 - (void)scrollView:(UIScrollView *)scrollView moveToScreen:(Screen)screen {
-    LogMethod;
+//    LogMethod;
 //    [_tapButton setHighlighted:NO];
 //    [_resetButton setHighlighted:NO];
     if (screen == Screen0) {
@@ -720,20 +785,32 @@
 #pragma mark - Age text field delegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    LogMethod;
+//    LogMethod;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    LogMethod;
+//    LogMethod;
+    if ([textField.text length] == 0) {
+        [TTHRUser sharedUser].age = -1;
+    }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    LogMethod;
+//    LogMethod;
+//    NSLog(@"'%@' '%@'",textField.text, string);
+    NSInteger age = [[textField.text stringByAppendingString:string] integerValue];
+    if (age == 0 && [string integerValue] == 0) {
+        return NO;
+    }
+    if (age > 129) {
+        return NO;
+    }
+    [TTHRUser sharedUser].age = age;
     return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    LogMethod;
+//    LogMethod;
     [self textFieldResignFirstResponder:nil];
     return YES;
 }
@@ -751,4 +828,5 @@
     UIColor *newColor = [UIColor colorWithRed:red green:green blue:blue alpha:alpha - dim];
     return newColor;
 }
+
 @end

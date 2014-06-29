@@ -43,7 +43,7 @@
  *  @return a TTHRTapButton instance
  */
 - (instancetype)initWithFrame:(CGRect)frame circleWidth:(CGFloat)cirWidth buttonColor:(UIColor *)btnColor circleColor:(UIColor *)cirColor {
-    LogMethod;
+//    LogMethod;
     self = [super initWithFrame:frame];
     if (self) {
         // Init values

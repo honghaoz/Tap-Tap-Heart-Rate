@@ -124,14 +124,14 @@
 
 - (void)setShow:(BOOL)toShow withDuration:(float)duration affectCounter:(BOOL)affect {
     if (toShow) {
-        NSLog(@"%@", @"show");
+//        NSLog(@"%@", @"show");
         showCounter++;
         self.hidden = NO;
         if ([_textView.text length] <= 0) {
             return;
         }
         CGRect newFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y, _textView.frame.size.width, _textView.frame.size.height);
-        [UIView animateWithDuration:0.5
+        [UIView animateWithDuration:0.3
                               delay:0.0
                             options:UIViewAnimationOptionAllowUserInteraction
                          animations:^{
@@ -145,14 +145,14 @@
                              });
                          }];
     } else {
-        NSLog(@"NO");
+//        NSLog(@"NO");
         if (affect) {
             showCounter--;
             if (showCounter < 0) {
                 showCounter = 0;
             }
             if (showCounter == 0) {
-                [UIView animateWithDuration:0.5
+                [UIView animateWithDuration:0.3
                                       delay:0.0
                                     options:UIViewAnimationOptionAllowUserInteraction
                                  animations:^{
@@ -163,7 +163,7 @@
                                  }];
             }
         } else {
-            [UIView animateWithDuration:0.5
+            [UIView animateWithDuration:0.3
                                   delay:0.0
                                 options:UIViewAnimationOptionAllowUserInteraction
                              animations:^{
@@ -180,10 +180,10 @@
     if (_textView == nil) {
         _textView = [[UITextView alloc] initWithFrame:self.bounds];
         [_textView setBackgroundColor:[UIColor clearColor]];
-        [_textView setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:17]];
+        [_textView setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
         [_textView setTextAlignment:NSTextAlignmentNatural];
         [_textView setTextColor:_borderColor];
-        [_textView setTextContainerInset:UIEdgeInsetsMake(10, 10, 10, 10)];
+        [_textView setTextContainerInset:UIEdgeInsetsMake(8, 8, 8, 8)];
         [_textView setScrollEnabled:NO];
     }
     if ([text length] > 0) {
@@ -206,7 +206,7 @@
                      }
                      completion:nil];
     
-    [UIView animateWithDuration:0.5
+    [UIView animateWithDuration:0.3
                           delay:0.0
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^{
