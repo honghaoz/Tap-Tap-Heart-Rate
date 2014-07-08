@@ -417,6 +417,11 @@
         default:
             break;
     }
+//    NSLog(@"%f", *percent);
+    *percent += 0.20;
+    if (*percent > 1.0) {
+        *percent = 1.0;
+    }
 }
 
 //- (HRCondition)getHRCondition:(NSInteger)heartRate {

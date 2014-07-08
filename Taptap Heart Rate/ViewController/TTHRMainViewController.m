@@ -355,6 +355,8 @@
     _ageField.layer.borderColor = [_buttonColor CGColor];
     _ageField.layer.borderWidth = 1.0;
     _ageField.layer.cornerRadius = 4.0;
+//    [_ageField setBorderStyle:UITextBorderStyleRoundedRect];
+    [_ageField setTintColor:_buttonColor];
     
     // Gender SegmentControl
     CGFloat genderSegmentedControlWidth = 100;
