@@ -31,12 +31,12 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 //    LogMethod;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DismissKeyboard" object:self];
     isMoved = NO;
     lastMoveEnd = YES;
     [super touchesBegan:touches withEvent:event];
     for (UITouch *touch in touches) {
         touchBeginPoint = [touch locationInView:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DismissKeyboard" object:self userInfo:@{@"TouchedScreen": [NSNumber numberWithInteger:[self getScreenFromTouchPoint:[touch locationInView:self]]]}];
     }
 }
 

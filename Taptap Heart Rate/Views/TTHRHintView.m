@@ -10,6 +10,7 @@
 
 #define DEFAULT_BORDER_COLOR [UIColor colorWithRed:1 green:1 blue:1 alpha:0.85]
 //#define LINE_WIDTH 1.3
+#define ANIMATION_DURATION 0.5
 
 @implementation TTHRHintView {
     CGFloat lineWidth;
@@ -113,7 +114,7 @@
             break;
     }
     CGRect newFrame = CGRectMake(triangleX, triangleY, triangleWidth, triangleHeight);
-    [UIView animateWithDuration:0.3
+    [UIView animateWithDuration:ANIMATION_DURATION
                           delay:0.0
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^{
@@ -131,7 +132,7 @@
             return;
         }
         CGRect newFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y, _textView.frame.size.width, _textView.frame.size.height);
-        [UIView animateWithDuration:0.3
+        [UIView animateWithDuration:ANIMATION_DURATION
                               delay:0.0
                             options:UIViewAnimationOptionAllowUserInteraction
                          animations:^{
@@ -152,7 +153,7 @@
                 showCounter = 0;
             }
             if (showCounter == 0) {
-                [UIView animateWithDuration:0.3
+                [UIView animateWithDuration:ANIMATION_DURATION
                                       delay:0.0
                                     options:UIViewAnimationOptionAllowUserInteraction
                                  animations:^{
@@ -163,7 +164,7 @@
                                  }];
             }
         } else {
-            [UIView animateWithDuration:0.3
+            [UIView animateWithDuration:ANIMATION_DURATION
                                   delay:0.0
                                 options:UIViewAnimationOptionAllowUserInteraction
                              animations:^{
@@ -198,7 +199,7 @@
     showCounter++;
     self.hidden = NO;
     CGRect newFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y, _textView.frame.size.width, _textView.frame.size.height);
-    [UIView animateWithDuration:0.3
+    [UIView animateWithDuration:ANIMATION_DURATION
                           delay:0.0
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^{
@@ -206,7 +207,7 @@
                      }
                      completion:nil];
     
-    [UIView animateWithDuration:0.3
+    [UIView animateWithDuration:ANIMATION_DURATION
                           delay:0.0
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^{
@@ -216,7 +217,7 @@
                      }
                      completion:^(BOOL finished) {
                          [_textView setText:text];
-                         [UIView animateWithDuration:0.3
+                         [UIView animateWithDuration:ANIMATION_DURATION
                                                delay:0.0
                                              options:UIViewAnimationOptionAllowUserInteraction
                                           animations:^{

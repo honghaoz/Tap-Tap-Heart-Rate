@@ -537,6 +537,12 @@
             break;
         }
     }
+    [self updateLabels];
+}
+
+- (void)pause {
+    _isTracking = NO;
+    [_timer invalidate];
 }
 
 - (void)stop {
@@ -650,7 +656,7 @@
     float percent = 0;
     HRCondition condition = HRUnknown;
     [[TTHRUser sharedUser] getHRCondition:&condition HRPercent:&percent heartRate:_heartRate];
-    [_heartIndicator setPercent:percent < 0.15 ? 0.15: percent];
+    [_heartIndicator setPercent:percent < 0.2 ? 0.2: percent];
     
     if (_heartRate > MAX_HEART_RATE) {
         [_indicator setText:@"Too High"];
@@ -773,6 +779,7 @@
 //    LogMethod;
 //    [_tapButton setHighlighted:NO];
 //    [_resetButton setHighlighted:NO];
+//    [self pause];
     if (screen == Screen0) {
         _tapButton.enabled = YES;
         _resetButton.enabled = YES;
@@ -793,6 +800,7 @@
     if ([textField.text length] == 0) {
         [TTHRUser sharedUser].age = -1;
     }
+    [self updateLabels];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -816,6 +824,13 @@
 }
 
 - (void)textFieldResignFirstResponder:(id)sender {
+//    if ([sender isKindOfClass:[NSNotification class]]) {
+//        NSDictionary *userInfo = [(NSNotification *)sender userInfo];
+//        Screen touchedScreen = [userInfo[@"TouchedScreen"] integerValue];
+//        if (touchedScreen == Screen1) {
+//            
+//        }
+//    }
     [_ageField resignFirstResponder];
     [_hintView setShow:NO withDuration:0 affectCounter:NO];
 }
