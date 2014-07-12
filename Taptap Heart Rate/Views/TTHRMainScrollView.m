@@ -36,7 +36,7 @@
     [super touchesBegan:touches withEvent:event];
     for (UITouch *touch in touches) {
         touchBeginPoint = [touch locationInView:self];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DismissKeyboard" object:self userInfo:@{@"TouchedScreen": [NSNumber numberWithInteger:[self getScreenFromTouchPoint:[touch locationInView:self]]]}];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"DismissKeyboard" object:self userInfo:@{@"TouchedScreen": [NSNumber numberWithInteger:[self getScreenFromTouchPoint:[touch locationInView:self]]]}];
     }
 }
 
@@ -110,38 +110,37 @@
     }
 }
 
-- (void)moveToScreen:(Screen)sc {
-//    LogMethod;
-    if (sc == Screen0) {
-        if (isMoving == NO) {
-//            NSLog(@"%@", @"Screen0");
+- (void)moveToScreen:(Screen)sc
+{
+    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+    if (isMoving == NO) {
+        if ([self.screenDelegate scrollView:self shouldMoveToScreen:sc]) {
             isMoving = YES;
-            [UIView animateWithDuration:0.3
-                             animations:^{
-                                 [self setContentOffset:CGPointMake(0, 0) animated:NO];
-                             } completion:^(BOOL finished) {
-                                 isMoving = NO;
-//                                 NSLog(@"Screen0 complete");
-                             }];
-            if ([self.screenDelegate respondsToSelector:@selector(scrollView:moveToScreen:)]) {
-                [self.screenDelegate scrollView:self moveToScreen:Screen0];
+            if ([self.screenDelegate respondsToSelector:@selector(scrollView:willMoveToScreen:)]) {
+                [self.screenDelegate scrollView:self willMoveToScreen:sc];
             }
-        }
-    } else if (sc == Screen1) {
-        CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-        if (isMoving == NO) {
-//            NSLog(@"%@", @"Screen1");
-            isMoving = YES;
             [UIView animateWithDuration:0.3
-                             animations:^{
-                                 [self setContentOffset:CGPointMake(self.contentSize.width - screenWidth, 0) animated:NO];
-                             } completion:^(BOOL finished) {
+                animations:^{
+                                 switch (sc) {
+                                     case Screen0:{
+                                         [self setContentOffset:CGPointMake(0, 0) animated:NO];
+                                         break;
+                                     }
+                                     case Screen1:{
+                                         [self setContentOffset:CGPointMake(self.contentSize.width - screenWidth, 0) animated:NO];
+                                         break;
+                                     }
+                                     default:
+                                         assert(NO);
+                                         break;
+                                 }
+                }
+                completion:^(BOOL finished) {
                                  isMoving = NO;
-//                                 NSLog(@"Screen1 complete");
-                             }];
-            if ([self.screenDelegate respondsToSelector:@selector(scrollView:moveToScreen:)]) {
-                [self.screenDelegate scrollView:self moveToScreen:Screen1];
-            }
+                                 if ([self.screenDelegate respondsToSelector:@selector(scrollView:didMoveToScreen:)]) {
+                                     [self.screenDelegate scrollView:self didMoveToScreen:sc];
+                                 }
+                }];
         }
     }
 }

@@ -39,6 +39,8 @@
 @property (nonatomic, strong) NSTimer* timer;
 
 @property (nonatomic, strong) TTHRMainScrollView* mainScrollView;
+
+// Screen 0
 @property (nonatomic, strong) TTHRAnimatedView* indicator;
 @property (nonatomic, strong) UILabel* heartRateTilteLabel;
 @property (nonatomic, strong) UILabel* heartRateLabel;
@@ -51,6 +53,8 @@
 @property (nonatomic, strong) TTHRTapButton* tapButton;
 @property (nonatomic, strong) TTHRTapButton* resetButton;
 
+// Screen 1
+@property (nonatomic, assign) BOOL screen1IsLoaded;
 @property (nonatomic, strong) UILabel* segmentLabel;
 @property (nonatomic, strong) TTHRTapButton* segmentHelpButton;
 @property (nonatomic, strong) UISegmentedControl* modeSegmentControl;
@@ -63,6 +67,8 @@
 
 @property (nonatomic, strong) UILabel* genderLabel;
 @property (nonatomic, strong) UISegmentedControl* genderSegmentedControl;
+
+
 
 @end
 
@@ -254,6 +260,7 @@
     [_resetButton addTarget:self action:@selector(resetButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     _resetButton.adjustsImageWhenDisabled = NO;
 
+    
     // SegmentLabel
     CGFloat segmentLabelHeight = 30;
     CGFloat segmentLabelWidth  = 140;
@@ -357,7 +364,7 @@
     [_ageField setDelegate:self];
     [_ageField setKeyboardType:UIKeyboardTypeNumberPad];
     [_ageField setKeyboardAppearance:UIKeyboardAppearanceLight];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldResignFirstResponder:) name:@"DismissKeyboard" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldResignFirstResponder:) name:@"DismissKeyboard" object:nil];
     _ageField.layer.borderColor  = [_buttonColor CGColor];
     _ageField.layer.borderWidth  = 1.0;
     _ageField.layer.cornerRadius = 4.0;
@@ -512,6 +519,7 @@
 
 - (void)segmentTapped:(id)sender
 {
+    [self textFieldResignFirstResponder:nil];
     //    LogMethod;
     switch (_modeSegmentControl.selectedSegmentIndex) {
     case 0: {
@@ -544,6 +552,7 @@
 
 - (void)segmentHelpButtonTapped:(id)sender
 {
+    [self textFieldResignFirstResponder:nil];
     //    LogMethod;
     [_hintView setShow:YES withDuration:60 affectCounter:YES];
 }
@@ -812,9 +821,29 @@
 
 #pragma mark - TTHRMainScrollViewDelegate methods
 
-- (void)scrollView:(UIScrollView*)scrollView moveToScreen:(Screen)screen
+- (BOOL)scrollView:(UIScrollView *)scrollView shouldMoveToScreen:(Screen)screen {
+    LogMethod;
+    [_hintView setShow:NO withDuration:0 affectCounter:NO];
+    if (_ageField.isFirstResponder) {
+        [self textFieldResignFirstResponder:nil];
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+- (void)scrollView:(UIScrollView *)scrollView willMoveToScreen:(Screen)screen {
+    LogMethod;
+    if (screen == Screen0) {
+        //
+    } else if (screen == Screen1) {
+        
+    }
+}
+
+- (void)scrollView:(UIScrollView*)scrollView didMoveToScreen:(Screen)screen
 {
-    //    LogMethod;
+    LogMethod;
     //    [_tapButton setHighlighted:NO];
     //    [_resetButton setHighlighted:NO];
     //    [self pause];
@@ -845,6 +874,7 @@
 
 - (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string
 {
+//    NSLog(@"%d", _ageField.isFirstResponder ? 1: 0);
     //    LogMethod;
     //    NSLog(@"'%@' '%@'",textField.text, string);
     NSInteger age = [[textField.text stringByAppendingString:string] integerValue];
@@ -875,7 +905,7 @@
     //        }
     //    }
     [_ageField resignFirstResponder];
-    [_hintView setShow:NO withDuration:0 affectCounter:NO];
+
 }
 
 #pragma mark - Helper methods

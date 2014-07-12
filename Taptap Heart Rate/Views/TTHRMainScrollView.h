@@ -17,7 +17,11 @@ typedef enum {
 
 @protocol TTHRMainScrollViewDelegate <NSObject>
 
-- (void)scrollView:(UIScrollView *)scrollView moveToScreen:(Screen)screen;
+- (BOOL)scrollView:(UIScrollView *)scrollView shouldMoveToScreen:(Screen)screen;
+
+@optional
+- (void)scrollView:(UIScrollView *)scrollView willMoveToScreen:(Screen)screen;
+- (void)scrollView:(UIScrollView *)scrollView didMoveToScreen:(Screen)screen;
 
 @end
 
