@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TTHRMainViewController.h"
 
 @interface TTHRUser : NSObject
 
@@ -29,14 +30,14 @@ typedef enum {
 
 @property (nonatomic, assign) NSInteger age;
 @property (nonatomic, assign) Gender gender;
+@property (nonatomic, assign) Mode choosedMode;
 
 + (TTHRUser *)sharedUser;
 
-//- (NSInteger)lowestHeartRate;
-//- (NSInteger)highestHeartRate;
-//- (HRCondition)getHRCondition:(NSInteger)heartRate;
-//- (float)getHRPercent:(NSInteger)heartRate;
-
+//- (void)setAge:(NSInteger)newAge gender:(Gender)gen;
 - (void)getHRCondition:(HRCondition *)condition  HRPercent:(float *)percent heartRate:(NSInteger)heartRate;
+
+- (void)save;
+- (void)load;
 
 @end

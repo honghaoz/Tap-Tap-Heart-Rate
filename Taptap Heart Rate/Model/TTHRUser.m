@@ -43,12 +43,71 @@
     static TTHRUser *sharedUser = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        LogMethod;
         sharedUser = [[self alloc] init];
-        sharedUser.gender = GenderUnknown;
-        sharedUser.age = -1;
     });
     return sharedUser;
 }
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _gender = GenderUnknown;
+        _age = -1;
+        _choosedMode = TapMode;
+    }
+    return self;
+}
+
+- (void)setAge:(NSInteger)age {
+    LogMethod;
+    _age = age;
+    [self save];
+}
+
+- (void)setGender:(Gender)gender {
+    LogMethod;
+    _gender = gender;
+    [self save];
+}
+
+- (void)setChoosedMode:(Mode)choosedMode {
+    _choosedMode = choosedMode;
+    [self save];
+}
+
+//- (void)registerAsObserver {
+//    [self addObserver:self
+//           forKeyPath:@"age"
+//              options:NSKeyValueObservingOptionNew//(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld)
+//              context:NULL];
+//    [self addObserver:self
+//           forKeyPath:@"gender"
+//              options:NSKeyValueObservingOptionNew
+//              context:NULL];
+//}
+//
+//- (void)observeValueForKeyPath:(NSString *)keyPath
+//                      ofObject:(id)object
+//                        change:(NSDictionary *)change
+//                       context:(void *)context {
+//    LogMethod;
+//    if ([keyPath isEqual:@"age"]) {
+//        self.age = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+//    }
+//    if ([keyPath isEqual:@"gender"]) {
+//        self.gender = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+//    }
+//    /*
+//     Be sure to call the superclass's implementation *if it implements it*.
+//     NSObject does not implement the method.
+//     */
+//    [super observeValueForKeyPath:keyPath
+//                         ofObject:object
+//                           change:change
+//                          context:context];
+//}
+
 
 //- (NSInteger)lowestHeartRate {
 //    
@@ -424,24 +483,33 @@
     }
 }
 
-//- (HRCondition)getHRCondition:(NSInteger)heartRate {
-//    switch (_gender) {
-//        case GenderUnknown: {
-//            return HRUnknown;
-//            break;
-//        }
-//        case GenderMale: {
-//            break;
-//        }
-//        case GenderFemale: {
-//            break;
-//        }
-//        default:
-//            break;
-//    }
+
+//- (void)setAge:(NSInteger)newAge gender:(Gender)gen
+//{
+//    self.age = newAge;
+//    self.gender = gen;
+//    [self save];
 //}
-//- (float)getHRPercent:(NSInteger)heartRate {
-//    
-//}
+
+
+- (void)save
+{
+    LogMethod;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setInteger:self.age forKey:@"UserAge"];
+    [defaults setInteger:self.gender forKey:@"UserGender"];
+    [defaults setInteger:self.choosedMode forKey:@"UserChoosedMode"];
+    [defaults synchronize];
+}
+
+
+- (void)load
+{
+    LogMethod;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    _age = [defaults integerForKey:@"UserAge"];
+    _gender = [defaults integerForKey:@"UserGender"];
+    _choosedMode = [defaults integerForKey:@"UserChoosedMode"];
+}
 
 @end

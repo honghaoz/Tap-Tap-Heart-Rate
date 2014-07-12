@@ -125,7 +125,6 @@
 
 - (void)setShow:(BOOL)toShow withDuration:(float)duration affectCounter:(BOOL)affect {
     if (toShow) {
-//        NSLog(@"%@", @"show");
         showCounter++;
         self.hidden = NO;
         if ([_textView.text length] <= 0) {
@@ -146,24 +145,7 @@
                              });
                          }];
     } else {
-//        NSLog(@"NO");
-        if (affect) {
-            showCounter--;
-            if (showCounter < 0) {
-                showCounter = 0;
-            }
-            if (showCounter == 0) {
-                [UIView animateWithDuration:ANIMATION_DURATION
-                                      delay:0.0
-                                    options:UIViewAnimationOptionAllowUserInteraction
-                                 animations:^{
-                                     self.alpha = 0.0;
-                                 }
-                                 completion:^(BOOL finished) {
-                                     self.hidden = YES;
-                                 }];
-            }
-        } else {
+        void (^hideAnimationBlock)(void) = ^{
             [UIView animateWithDuration:ANIMATION_DURATION
                                   delay:0.0
                                 options:UIViewAnimationOptionAllowUserInteraction
@@ -173,6 +155,13 @@
                              completion:^(BOOL finished) {
                                  self.hidden = YES;
                              }];
+        };
+        if (affect) {
+            showCounter--;
+            if (showCounter < 0) showCounter = 0;
+            if (showCounter == 0) hideAnimationBlock();
+        } else {
+            hideAnimationBlock();
         }
     }
 }
@@ -184,7 +173,7 @@
         [_textView setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
         [_textView setTextAlignment:NSTextAlignmentNatural];
         [_textView setTextColor:_borderColor];
-        [_textView setTextContainerInset:UIEdgeInsetsMake(8, 8, 8, 8)];
+        [_textView setTextContainerInset:UIEdgeInsetsMake(8, 6, 8, 6)];
         [_textView setScrollEnabled:NO];
     }
     if ([text length] > 0) {

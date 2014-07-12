@@ -12,17 +12,23 @@
 #import "ZHHParseDevice.h"
 #import "GAI.h"
 
+#import "TTHRUser.h"
+
 @implementation TTHRAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
+    LogMethod;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    
+
     self.window.rootViewController = [[TTHRMainViewController alloc] init];
-    
+
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+
+    // Load User data
+//    [[TTHRUser sharedUser] load];
     
     // Parse services
     [Parse setApplicationId:@"ifM1WwMLZMMsCWNgwsCbQteYiBjcBLZPuWKQULFH"
@@ -32,17 +38,17 @@
     if (testMode) {
         [ZHHParseDevice trackDevice];
     }
-    
+
     // Google Analytics
     // Optional: automatically send uncaught exceptions to Google Analytics.
     [GAI sharedInstance].trackUncaughtExceptions = YES;
-    
+
     // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
     [GAI sharedInstance].dispatchInterval = 20;
-    
+
     // Optional: set Logger to VERBOSE for debug information.
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
-    
+
     // Initialize tracker. Replace with your tracking ID.
     [[GAI sharedInstance] trackerWithTrackingId:@"UA-45146473-4"];
     return YES;
