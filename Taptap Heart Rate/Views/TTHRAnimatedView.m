@@ -41,9 +41,9 @@
         return;
     }
     [_titleLabel setText:title];
-    
-    NSLog(@"%@", NSStringFromCGRect(self.frame));
-    NSLog(@"%@", NSStringFromCGRect(_titleLabel.frame));
+//    
+//    NSLog(@"%@", NSStringFromCGRect(self.frame));
+//    NSLog(@"%@", NSStringFromCGRect(_titleLabel.frame));
     
     // Text field changes
     CGFloat fixedHeight = _titleLabel.frame.size.height;

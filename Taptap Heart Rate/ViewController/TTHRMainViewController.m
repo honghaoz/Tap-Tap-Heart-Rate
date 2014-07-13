@@ -33,22 +33,23 @@ typedef enum {
 
 @interface TTHRMainViewController () <TTHRMainScrollViewDelegate, UITextFieldDelegate>
 
-@property (nonatomic, strong) UIColor* backgroundColor;
-@property (nonatomic, strong) UIColor* buttonColor;
-
+// Preference data
+@property (nonatomic, assign) NSInteger countModeNumber;
 @property (nonatomic, assign) Mode currentMode;
 @property (nonatomic, weak) TTHRUser *user;
 
-@property (nonatomic, assign) NSInteger countNumber;
+// Tracking data
 @property (nonatomic, assign) TrackState currentState;
-@property (nonatomic, strong) NSNumber* startTime;
-@property (nonatomic, assign) NSInteger beatNumber;
 @property (nonatomic, assign) NSInteger heartRate;
-@property (nonatomic, strong) NSMutableArray* tappedTimes;
+@property (nonatomic, assign) NSInteger beatNumber;
+@property (nonatomic, strong) NSNumber* startTime;
 @property (nonatomic, strong) NSTimer* timer;
+@property (nonatomic, strong) NSMutableArray* tappedTimes;
 
+// Views
+@property (nonatomic, strong) UIColor* backgroundColor;
+@property (nonatomic, strong) UIColor* buttonColor;
 @property (nonatomic, assign) CGSize mainScreenSize;
-
 @property (nonatomic, strong) TTHRMainScrollView* mainScrollView;
 
 // Screen 0
@@ -79,8 +80,6 @@ typedef enum {
 @property (nonatomic, strong) UILabel* genderLabel;
 @property (nonatomic, strong) UISegmentedControl* genderSegmentedControl;
 
-
-
 @end
 
 @implementation TTHRMainViewController
@@ -105,11 +104,11 @@ typedef enum {
 
         _currentMode = FiveMode;
         if (_currentMode == FiveMode) {
-            _countNumber = 5;
+            _countModeNumber = 5;
         } else if (_currentMode == TenMode) {
-            _countNumber = 10;
+            _countModeNumber = 10;
         } else {
-            _countNumber = 0;
+            _countModeNumber = 0;
         }
 
 //        _isTracking  = NO;
@@ -463,7 +462,7 @@ typedef enum {
 
     // Google Analytics
     [ZHHGoogleAnalytics trackScreen:@"Main Screen"];
-
+    
     // Delay execution (iOS 8 Bugs?)
     //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.0001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
     [self segmentTapped:nil];
@@ -490,53 +489,95 @@ typedef enum {
     [super didReceiveMemoryWarning];
 }
 
-- (void)tapButtonTapped:(id)sender
-{
-    //    LogMethod;
-    _beatNumber++;
-    [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
+#pragma mark - State switch
 
-//    if (!_isTracking) {
+- (void)start
+{
+    LogMethod;
+    // If before start is not ongoing, init timer
+    // Else, don't init the timer again
     if (_currentState != TrackOngoing) {
+        // Init timer
         NSRunLoop* runloop = [NSRunLoop currentRunLoop];
         _timer = [NSTimer timerWithTimeInterval:0.01 target:self selector:@selector(timer:) userInfo:nil repeats:YES];
         [runloop addTimer:_timer forMode:NSRunLoopCommonModes];
         [runloop addTimer:_timer forMode:UITrackingRunLoopMode];
     }
+    _currentState = TrackOngoing;
+}
+
+- (void)pause
+{
+    LogMethod;
+    _currentState = TrackPause;
+    // Stop the timer
+    [_timer invalidate];
+    _timer = nil;
+}
+
+- (void)stop
+{
+    LogMethod;
+    _currentState = TrackStop;
+    // Stop the timer
+    [_timer invalidate];
+    _timer = nil;
+    // Clean data
+    _startTime = nil;
+    _beatNumber = 0;
+    _heartRate = 0;
+    [_tappedTimes removeAllObjects];
+}
+
+#pragma mark - Buttons selectors
+
+- (void)tapButtonTapped:(id)sender
+{
+    
+    _beatNumber++;
+    NSNumber *tappedTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
+    [_tappedTimes addObject:tappedTime];
+    
     switch (_currentMode) {
-    case FiveMode:
-    case TenMode: {
-        // From isTracking to not traking
-        if (_currentState == TrackOngoing) {
-            _currentState = TrackPause;
-            [self updateLabels];
-            [self stop];
+        case FiveMode:
+        case TenMode: {
+            switch (_currentState) {
+                case TrackOngoing: {
+                    [self pause];
+                    [self updateLabels];
+                    break;
+                }
+                case TrackPause: {
+                    [self stop];
+                    // Since stop will clean tapped time, need to add again
+                    [_tappedTimes addObject:tappedTime];
+                    [self start];
+                    [self updateLabels];
+                    break;
+                }
+                case TrackStop: {
+                    [self start];
+                    [self updateLabels];
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
         }
-        // From not tracking to isTracking
-        else {
-            _currentState = TrackOngoing;
+        case TapMode: {
+            [self start];
             [self updateLabels];
+            break;
         }
-        break;
-    }
-    case TapMode: {
-        _currentState = TrackOngoing;
-        [self updateLabels];
-        break;
-    }
-    default:
-        break;
+        default:
+            break;
     }
 }
 
 - (void)resetButtonTapped:(id)sender
 {
-    _currentState = TrackStop;
-    _startTime = nil;
-    [_timer invalidate];
-    _beatNumber = 0;
-    _heartRate = 0;
-    [_tappedTimes removeAllObjects];
+    [self stop];
     [_tapButton setDimmed:NO];
     [self updateLabels];
 }
@@ -554,15 +595,15 @@ typedef enum {
     switch (choosedMode) {
     case 0: {
         _currentMode = FiveMode;
-        _countNumber = 5;
-        [_hintView setText:[NSString stringWithFormat:@"After tapping the start button, count %ld beats, then tap again to end.\n\nInstructions: Tap start button, count 5... 4... 3... 2... 1... 0, at the moment '0', tap again to end.", (long)_countNumber]];
+        _countModeNumber = 5;
+        [_hintView setText:[NSString stringWithFormat:@"After tapping the start button, count %ld beats, then tap again to end.\n\nInstructions: Tap start button, count 5... 4... 3... 2... 1... 0, at the moment '0', tap again to end.", (long)_countModeNumber]];
         [_hintView moveTriangleToPosition:HINT_0];
         break;
     }
     case 1: {
         _currentMode = TenMode;
-        _countNumber = 10;
-        [_hintView setText:[NSString stringWithFormat:@"After tapping the start button, count %ld beats, then tap again to end.\n\nInstructions: Tap start button, count 10 to 0, at the moment '0', tap again to end.", (long)_countNumber]];
+        _countModeNumber = 10;
+        [_hintView setText:[NSString stringWithFormat:@"After tapping the start button, count %ld beats, then tap again to end.\n\nInstructions: Tap start button, count 10 to 0, at the moment '0', tap again to end.", (long)_countModeNumber]];
         [_hintView moveTriangleToPosition:HINT_1];
         break;
     }
@@ -607,88 +648,105 @@ typedef enum {
     [self updateLabels];
 }
 
-- (void)start {
-    _currentState = TrackOngoing;
-}
-
-- (void)pause
-{
-    _currentState = TrackPause;
-    [_timer invalidate];
-}
-
-- (void)stop
-{
-    _currentState = TrackStop;
-    _startTime = nil;
-    [_timer invalidate];
-    _beatNumber = 0;
-    _heartRate = 0;
-    [_tappedTimes removeAllObjects];
-}
+#pragma mark - UIViews update
 
 - (void)updateLabels
 {
     switch (_currentMode) {
     case FiveMode:
     case TenMode: {
-        if (_currentState == TrackOngoing) {
-            [_indicator dismiss];
-            [_tapButton setTitle:@"Counting..." forState:UIControlStateNormal];
-            [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:34]];
-            [_tapButton setLabelBelowWithTitle:@"Tap to end" andColor:_backgroundColor];
-            [_tapButton setDimmed:YES];
-            [_heartRateLabel setText:@"---"];
-            [_beatLabel setText:@"Beats: -"];
-            [_offsetLabel setText:@"Offset: +00.00"];
-            [_heartIndicator setPercent:0.0];
-        }
-        // Not tracking, update Heart Rate (Be careful for the first time)
-        else {
-            // Need to show Heart Rate
-            if (_beatNumber == 2) {
-                NSNumber* firstTapTime = [_tappedTimes firstObject];
-                NSNumber* lastTapTime = [_tappedTimes lastObject];
-                double offset = [lastTapTime doubleValue] - [firstTapTime doubleValue];
-                _heartRate = lround(60.0 / (offset / _countNumber));
-                [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
-                // Set heart indicator, indicator label
-                [self updateHeartIndicators];
-                [_beatLabel setText:[NSString stringWithFormat:@"Beats: %ld", (long)_countNumber]];
-                [_offsetLabel setText:[NSString stringWithFormat:offset < 0 ? @"Offset: %06.2f" : @"Offset: +%05.2f", offset]];
-                [self updateTimer];
-            } else {
+        switch (_currentState) {
+            case TrackOngoing: {
                 [_indicator dismiss];
                 [_heartIndicator setPercent:0.0];
+                
                 [_heartRateLabel setText:@"---"];
                 [_beatLabel setText:@"Beats: -"];
                 [_offsetLabel setText:@"Offset: +00.00"];
+                
+                [_tapButton setTitle:@"Counting..." forState:UIControlStateNormal];
+                [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:34]];
+                [_tapButton setLabelBelowWithTitle:@"Tap to end" andColor:_backgroundColor];
+                [_tapButton setDimmed:YES];
+                break;
             }
-            [_tapButton setTitle:@"Start" forState:UIControlStateNormal];
-            [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:46]];
-            [_tapButton setLabelBelowWithTitle:[NSString stringWithFormat:@"Count %ld beats", (long)_countNumber] andColor:_backgroundColor];
-            [_tapButton setDimmed:NO];
+            case TrackPause: {
+
+                // Update heart rate
+                NSNumber* firstTapTime = [_tappedTimes firstObject];
+                NSNumber* lastTapTime = [_tappedTimes lastObject];
+                double offset = [lastTapTime doubleValue] - [firstTapTime doubleValue];
+                _heartRate = lround(60.0 / (offset / _countModeNumber));
+                // Set heart indicator, indicator label
+                [self updateHeartIndicators];
+                
+                [_heartRateLabel setText:[NSString stringWithFormat:@"%ld", (long)_heartRate]];
+                
+                [_beatLabel setText:[NSString stringWithFormat:@"Beats: %ld", (long)_countModeNumber]];
+                [_offsetLabel setText:[NSString stringWithFormat:offset < 0 ? @"Offset: %06.2f" : @"Offset: +%05.2f", offset]];
+                
+                // Fixme!!!
+                [_tapButton setTitle:@"Start" forState:UIControlStateNormal];
+                [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:46]];
+                [_tapButton setLabelBelowWithTitle:[NSString stringWithFormat:@"Count %ld beats", (long)_countModeNumber] andColor:_backgroundColor];
+                [_tapButton setDimmed:NO];
+                
+                [self updateTimer];
+                break;
+            }
+            case TrackStop: {
+                [_indicator dismiss];
+                [_heartIndicator setPercent:0.0];
+                
+                [_heartRateLabel setText:@"---"];
+                [_beatLabel setText:@"Beats: -"];
+                [_offsetLabel setText:@"Offset: +00.00"];
+                
+                // Fixme!!!
+                [_tapButton setTitle:@"Start" forState:UIControlStateNormal];
+                [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:46]];
+                [_tapButton setLabelBelowWithTitle:[NSString stringWithFormat:@"Count %ld beats", (long)_countModeNumber] andColor:_backgroundColor];
+                [_tapButton setDimmed:NO];
+                
+                break;
+            }
+            default:
+                // Never goes here
+                break;
         }
         [_tapButton.labelBelow setNumberOfLines:1];
         [_tapButton setNeedsDisplay];
         break;
     }
     case TapMode: {
-        if (_currentState == TrackOngoing) {
-            [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
-            [_tapButton setLabelBelowWithTitle:@"" andColor:_backgroundColor];
-
-        } else {
-            [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
-            [_tapButton setLabelBelowWithTitle:@"Tap after each beat" andColor:_backgroundColor];
-            [_tapButton.labelBelow setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]];
-            [_tapButton.labelBelow setNumberOfLines:2];
-            [_heartIndicator setPercent:0.0];
+        switch (_currentState) {
+            case TrackOngoing: {
+                [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
+                [_tapButton setLabelBelowWithTitle:@"" andColor:_backgroundColor];
+                break;
+            }
+            case TrackPause: {
+//                break;
+            }
+            case TrackStop: {
+                [_heartIndicator setPercent:0.0];
+                
+                [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
+                [_tapButton setLabelBelowWithTitle:@"Tap after each beat" andColor:_backgroundColor];
+                [_tapButton.labelBelow setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]];
+                [_tapButton.labelBelow setNumberOfLines:2];
+                break;
+            }
+            default:
+                // Never goes here
+                break;
         }
+        
+        [_beatLabel setText:[NSString stringWithFormat:@"Beats: %ld", (long)_beatNumber]];
+        
         [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:46]];
         [_tapButton setNeedsDisplay];
-
-        [_beatLabel setText:[NSString stringWithFormat:@"Beats: %ld", (long)_beatNumber]];
+        
         if (_startTime == nil) {
             [_timerLabel setText:@"Time: 00:00.00"];
         }
@@ -718,6 +776,7 @@ typedef enum {
         break;
     }
     default:
+        // Never goes here
         break;
     }
     if (_startTime == nil) {
@@ -794,29 +853,29 @@ typedef enum {
     [_timerLabel setText:[NSString stringWithFormat:@"Time: %02ld:%05.2f", (long)min, sec]];
 }
 
-#pragma mark -
-
-- (void)keyboardDidShow:(NSNotification*)notification
-{
-    CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    _keyboardSize = keyboardFrame.size;
-    CGFloat moveUpHeight = _keyboardSize.height;
-    __block CGRect mainFrame = _mainScrollView.frame;
-    [UIView animateWithDuration:0.3 animations:^{
-        mainFrame.origin.y -= moveUpHeight;
-        _mainScrollView.frame = mainFrame;
-    }];
-}
-
-- (void)keyboardDidHide:(NSNotification*)notification
-{
-    CGFloat moveDownHeight = _keyboardSize.height;
-    __block CGRect mainFrame = _mainScrollView.frame;
-    [UIView animateWithDuration:0.3 animations:^{
-        mainFrame.origin.y += moveDownHeight;
-        _mainScrollView.frame = mainFrame;
-    }];
-}
+//#pragma mark -
+//
+//- (void)keyboardDidShow:(NSNotification*)notification
+//{
+//    CGRect keyboardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+//    _keyboardSize = keyboardFrame.size;
+//    CGFloat moveUpHeight = _keyboardSize.height;
+//    __block CGRect mainFrame = _mainScrollView.frame;
+//    [UIView animateWithDuration:0.3 animations:^{
+//        mainFrame.origin.y -= moveUpHeight;
+//        _mainScrollView.frame = mainFrame;
+//    }];
+//}
+//
+//- (void)keyboardDidHide:(NSNotification*)notification
+//{
+//    CGFloat moveDownHeight = _keyboardSize.height;
+//    __block CGRect mainFrame = _mainScrollView.frame;
+//    [UIView animateWithDuration:0.3 animations:^{
+//        mainFrame.origin.y += moveDownHeight;
+//        _mainScrollView.frame = mainFrame;
+//    }];
+//}
 
 #pragma mark - Rotation
 
@@ -856,7 +915,7 @@ typedef enum {
 #pragma mark - TTHRMainScrollViewDelegate methods
 
 - (BOOL)scrollView:(UIScrollView *)scrollView shouldMoveToScreen:(Screen)screen {
-    LogMethod;
+//    LogMethod;
     [_hintView setShow:NO withDuration:0 affectCounter:NO];
     if (_ageField.isFirstResponder) {
         [self textFieldResignFirstResponder:nil];
@@ -867,7 +926,7 @@ typedef enum {
 }
 
 - (void)scrollView:(UIScrollView *)scrollView willMoveToScreen:(Screen)screen {
-    LogMethod;
+//    LogMethod;
     if (screen == Screen0) {
         //
     } else if (screen == Screen1) {
@@ -877,7 +936,7 @@ typedef enum {
 
 - (void)scrollView:(UIScrollView*)scrollView didMoveToScreen:(Screen)screen
 {
-    LogMethod;
+//    LogMethod;
     //    [_tapButton setHighlighted:NO];
     //    [_resetButton setHighlighted:NO];
     //    [self pause];
