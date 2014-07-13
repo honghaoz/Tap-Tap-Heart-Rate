@@ -15,12 +15,21 @@
 #import "TTHRHeartIndicatorView.h"
 #import "TTHRUser.h"
 
+// Define max and min heart rate
 #define MAX_HEART_RATE 229
-#define MIN_HEART_RATE 30
+#define MIN_HEART_RATE 32
 
+// Define hintView positions
 #define HINT_0 0.13
 #define HINT_1 0.496
 #define HINT_2 0.85
+
+// Define states
+typedef enum {
+    TrackOngoing = 100,
+    TrackPause,
+    TrackStop
+} TrackState;
 
 @interface TTHRMainViewController () <TTHRMainScrollViewDelegate, UITextFieldDelegate>
 
@@ -31,12 +40,14 @@
 @property (nonatomic, weak) TTHRUser *user;
 
 @property (nonatomic, assign) NSInteger countNumber;
-@property (nonatomic, assign) BOOL isTracking;
+@property (nonatomic, assign) TrackState currentState;
 @property (nonatomic, strong) NSNumber* startTime;
 @property (nonatomic, assign) NSInteger beatNumber;
 @property (nonatomic, assign) NSInteger heartRate;
 @property (nonatomic, strong) NSMutableArray* tappedTimes;
 @property (nonatomic, strong) NSTimer* timer;
+
+@property (nonatomic, assign) CGSize mainScreenSize;
 
 @property (nonatomic, strong) TTHRMainScrollView* mainScrollView;
 
@@ -101,7 +112,8 @@
             _countNumber = 0;
         }
 
-        _isTracking  = NO;
+//        _isTracking  = NO;
+        _currentState = TrackStop;
         _beatNumber  = 0;
         _heartRate   = 0;
         _tappedTimes = nil;
@@ -111,15 +123,14 @@
 
 - (void)loadView
 {
-    //    LogMethod;
     self.view = [[UIView alloc] init];
     [self.view setBackgroundColor:_backgroundColor];
 
-    CGSize mainScreenSize = [UIScreen mainScreen].bounds.size;
-
+    // Initialize view properties
+    _mainScreenSize = [UIScreen mainScreen].bounds.size;
     _mainScrollView = [[TTHRMainScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
 
-    CGSize bigSize = mainScreenSize;
+    CGSize bigSize = _mainScreenSize;
     bigSize.width *= 1.7;
     [_mainScrollView setContentSize:bigSize];
     [_mainScrollView setPagingEnabled:YES];
@@ -134,11 +145,17 @@
     [_mainScrollView setScrollEnabled:NO];
     [_mainScrollView setScreenDelegate:self];
     [self.view addSubview:_mainScrollView];
+    
+    [self loadScreen0];
+    _screen1IsLoaded = NO;
+}
 
+- (void)loadScreen0 {
+    
     // Heart Rate Label
     CGFloat heartRateLabelHeight = 100;
     CGFloat heartRateLabelWidth  = 300;
-    CGFloat heartRateLabelX      = (mainScreenSize.width - heartRateLabelWidth) / 2;
+    CGFloat heartRateLabelX      = (_mainScreenSize.width - heartRateLabelWidth) / 2;
     CGFloat heartRateLabelY      = 0;
     
     // On 4inch Screen, move label down
@@ -153,7 +170,7 @@
     [_heartRateLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:130]];
     [_heartRateLabel setTextAlignment:NSTextAlignmentCenter];
     [_heartRateLabel setTextColor:_buttonColor];
-
+    
     // Heart Rate Title Label
     CGFloat heartRateTitleLabelHeight = 30;
     CGFloat heartRateTitleLabelWidth  = 43;
@@ -165,30 +182,30 @@
     [_heartRateTilteLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [_heartRateTilteLabel setTextAlignment:NSTextAlignmentLeft];
     [_heartRateTilteLabel setTextColor:_buttonColor];
-
+    
     // Animated View
     CGFloat indicatorWidth  = 80;
     CGFloat indicatorHeight = 20;
-    CGFloat indicatorX      = (mainScreenSize.width - indicatorWidth) / 2;
+    CGFloat indicatorX      = (_mainScreenSize.width - indicatorWidth) / 2;
     CGFloat indicatorY      = (heartRateTitleLabelY + heartRateTitleLabelHeight / 2) - indicatorHeight / 2 + 1;
     CGRect indicatorFrame = CGRectMake(indicatorX, indicatorY, indicatorWidth, indicatorHeight);
     _indicator = [[TTHRAnimatedView alloc] initWithFrame:indicatorFrame];
     [_indicator dismiss];
-
+    
     CGFloat heartIndicatorY      = heartRateTitleLabelY;
     CGFloat heartIndicatorWidth  = 0;// will update later
     CGFloat heartIndicatorHeight = 0;// will update later
-    CGFloat heartIndicatorX      = mainScreenSize.width - heartRateTitleLabelX - heartIndicatorWidth;
+    CGFloat heartIndicatorX      = _mainScreenSize.width - heartRateTitleLabelX - heartIndicatorWidth;
     CGRect heartIndicatorFrame = CGRectMake(heartIndicatorX, heartIndicatorY, heartIndicatorWidth, heartIndicatorHeight);
     _heartIndicator = [[TTHRHeartIndicatorView alloc] initWithFrame:heartIndicatorFrame color:_buttonColor imageNamed:@"Heart.png"];
     
     heartIndicatorWidth  = _heartIndicator.frame.size.width;
     heartIndicatorHeight = _heartIndicator.frame.size.height;
     heartIndicatorY      = heartRateTitleLabelY + 1 / 2 * heartRateTitleLabelHeight - 1 / 2 * heartIndicatorHeight + 5;
-    heartIndicatorX      = mainScreenSize.width - heartRateTitleLabelX - heartIndicatorWidth + 3;
+    heartIndicatorX      = _mainScreenSize.width - heartRateTitleLabelX - heartIndicatorWidth + 3;
     heartIndicatorFrame = CGRectMake(heartIndicatorX, heartIndicatorY, heartIndicatorWidth, heartIndicatorHeight);
     [_heartIndicator setFrame:heartIndicatorFrame];
-
+    
     // Beat Label
     CGFloat beatLabelHeight = 30;
     CGFloat beatLabelWidth  = 79;
@@ -200,7 +217,7 @@
     [_beatLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:15]];
     [_beatLabel setTextAlignment:NSTextAlignmentLeft];
     [_beatLabel setTextColor:_buttonColor];
-
+    
     // Timer Label
     CGFloat timerLabelHeight = 30;
     CGFloat timerLabelWidth  = 97;
@@ -212,7 +229,7 @@
     [_timerLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:15]];
     [_timerLabel setTextAlignment:NSTextAlignmentLeft];
     [_timerLabel setTextColor:_buttonColor];
-
+    
     // Offset Label
     CGFloat offsetLabelHeight = 30;
     CGFloat offsetLabelWidth  = 100;
@@ -224,17 +241,17 @@
     [_offsetLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:15]];
     [_offsetLabel setTextAlignment:NSTextAlignmentLeft];
     [_offsetLabel setTextColor:_buttonColor];
-
+    
     // Tap Button
     CGFloat tapButtonHeight = 230;
     CGFloat tapButtonWidth  = 230;
-    CGFloat tapButtonX      = (mainScreenSize.width - tapButtonWidth) / 2;
+    CGFloat tapButtonX      = (_mainScreenSize.width - tapButtonWidth) / 2;
     CGFloat tapButtonY      = 0;
     // On 4inch Screen, move label up
     if (IS_IPHONE_5) {
-        tapButtonY = mainScreenSize.height - tapButtonHeight - 50;
+        tapButtonY = _mainScreenSize.height - tapButtonHeight - 50;
     } else {
-        tapButtonY = mainScreenSize.height - tapButtonHeight - 30;
+        tapButtonY = _mainScreenSize.height - tapButtonHeight - 30;
     }
     CGRect tapButtonFrame = CGRectMake(tapButtonX, tapButtonY, tapButtonWidth, tapButtonHeight);
     _tapButton = [[TTHRTapButton alloc] initWithFrame:tapButtonFrame];
@@ -246,7 +263,7 @@
     [_tapButton addTarget:self action:@selector(tapButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     _tapButton.adjustsImageWhenDisabled = NO;
     [_tapButton.titleLabel setNumberOfLines:0];
-
+    
     // Reset Button
     CGFloat resetButtonHeight = 70;
     CGFloat resetButtonWidth  = 70;
@@ -259,12 +276,29 @@
     [_resetButton setTitleColor:_backgroundColor forState:UIControlStateNormal];
     [_resetButton addTarget:self action:@selector(resetButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     _resetButton.adjustsImageWhenDisabled = NO;
+    
+    [_mainScrollView addSubview:_heartRateTilteLabel];
+    [_mainScrollView addSubview:_heartRateLabel];
+    [_mainScrollView addSubview:_indicator];
+    
+    [_mainScrollView addSubview:_heartIndicator];
+    [_mainScrollView addSubview:_beatLabel];
+    [_mainScrollView addSubview:_timerLabel];
+    [_mainScrollView addSubview:_offsetLabel];
+    
+    [_mainScrollView addSubview:_tapButton];
+    [_mainScrollView addSubview:_resetButton];
+}
 
+- (void)loadScreen1 {
+    if (_screen1IsLoaded)
+        return;
+    CGFloat heartRateTitleLabelY = _heartRateTilteLabel.frame.origin.y;
     
     // SegmentLabel
     CGFloat segmentLabelHeight = 30;
     CGFloat segmentLabelWidth  = 140;
-    CGFloat segmentLabelX      = mainScreenSize.width + (_mainScrollView.contentSize.width - mainScreenSize.width - segmentLabelWidth) / 2;
+    CGFloat segmentLabelX      = _mainScreenSize.width + (_mainScrollView.contentSize.width - _mainScreenSize.width - segmentLabelWidth) / 2;
     CGFloat segmentLabelY      = heartRateTitleLabelY;
     CGRect segmentLabelFrame = CGRectMake(segmentLabelX, segmentLabelY, segmentLabelWidth, segmentLabelHeight);
     _segmentLabel = [[UILabel alloc] initWithFrame:segmentLabelFrame];
@@ -272,7 +306,7 @@
     [_segmentLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [_segmentLabel setTextAlignment:NSTextAlignmentCenter];
     [_segmentLabel setTextColor:_buttonColor];
-
+    
     // ModeSegment help button
     CGFloat segmentHelpX      = segmentLabelX + segmentLabelWidth;
     CGFloat segmentHelpWidth  = segmentLabelHeight + 5;
@@ -287,7 +321,7 @@
     _segmentHelpButton.adjustsImageWhenDisabled = NO;
     [_segmentHelpButton enlargeShouldTapRaidus:5];
     [_segmentHelpButton setShouldPassTouch:NO];
-
+    
     // ModeSegmentControl
     CGFloat modeSegmentHeight = 70;
     CGFloat modeSegmentWidth  = 170;
@@ -295,14 +329,14 @@
     CGFloat modeSegmentY      = segmentLabelY + segmentLabelHeight + 7;
     _modeSegmentControl = [[UISegmentedControl alloc] initWithItems:@[ @"5", @"10", @"Tap" ]];
     modeSegmentHeight = _modeSegmentControl.frame.size.height;
-    modeSegmentX = mainScreenSize.width + (_mainScrollView.contentSize.width - mainScreenSize.width - modeSegmentWidth) / 2;
+    modeSegmentX = _mainScreenSize.width + (_mainScrollView.contentSize.width - _mainScreenSize.width - modeSegmentWidth) / 2;
     CGRect segmentFrame = CGRectMake(modeSegmentX, modeSegmentY, modeSegmentWidth, modeSegmentHeight);
     _modeSegmentControl.frame = segmentFrame;
     [_modeSegmentControl setTintColor:_buttonColor];
-//    [_modeSegmentControl setSelectedSegmentIndex:2];
+    //    [_modeSegmentControl setSelectedSegmentIndex:2];
     [_modeSegmentControl setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:15] } forState:UIControlStateNormal];
     [_modeSegmentControl addTarget:self action:@selector(segmentTapped:) forControlEvents:UIControlEventValueChanged];
-
+    
     // Hint view
     CGFloat hintViewX      = modeSegmentX;
     CGFloat hintViewY      = modeSegmentY + modeSegmentHeight + 13;
@@ -310,12 +344,13 @@
     CGFloat hintViewHeight = 150;
     CGRect hintViewFrame = CGRectMake(hintViewX, hintViewY, hintViewWidth, hintViewHeight);
     _hintView = [[TTHRHintView alloc] initWithFrame:hintViewFrame borderColor:_buttonColor borderWidth:1.0 backgroundColor:_backgroundColor pinDirection:PinAbove pinPosition:HINT_2 triangleSize:CGSizeMake(15, 14)];
+    [_hintView setAlpha:0];
     [_hintView setShow:NO withDuration:0 affectCounter:NO];
-
+    
     // Personal label
     CGFloat personalLabelHeight = 30;
     CGFloat personalLabelWidth  = 200;
-    CGFloat personalLabelX      = mainScreenSize.width + (_mainScrollView.contentSize.width - mainScreenSize.width - personalLabelWidth) / 2;
+    CGFloat personalLabelX      = _mainScreenSize.width + (_mainScrollView.contentSize.width - _mainScreenSize.width - personalLabelWidth) / 2;
     CGFloat personalLabelY      = modeSegmentY + modeSegmentHeight + 40;
     CGRect personalLabelFrame = CGRectMake(personalLabelX, personalLabelY, personalLabelWidth, personalLabelHeight);
     _personalLabel = [[UILabel alloc] initWithFrame:personalLabelFrame];
@@ -323,7 +358,7 @@
     [_personalLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [_personalLabel setTextAlignment:NSTextAlignmentCenter];
     [_personalLabel setTextColor:_buttonColor];
-
+    
     // AgeLabel
     CGFloat ageLabelX      = modeSegmentX;
     CGFloat ageLabelY      = personalLabelY + personalLabelHeight + 5;
@@ -336,7 +371,7 @@
     //    [_ageLabel sizeToFit];
     [_ageLabel setTextAlignment:NSTextAlignmentRight];
     [_ageLabel setTextColor:_buttonColor];
-
+    
     // Gender Label
     CGFloat genderLabelX      = ageLabelX;
     CGFloat genderLabelY      = ageLabelY + ageLabelHeight + 5;
@@ -349,7 +384,7 @@
     //    [_genderLabel sizeToFit];
     [_genderLabel setTextAlignment:NSTextAlignmentRight];
     [_genderLabel setTextColor:_buttonColor];
-
+    
     // Age Field
     CGFloat ageFieldX      = genderLabelX + genderLabelWidth + 10;
     CGFloat ageFieldY      = ageLabelY;
@@ -364,13 +399,13 @@
     [_ageField setDelegate:self];
     [_ageField setKeyboardType:UIKeyboardTypeNumberPad];
     [_ageField setKeyboardAppearance:UIKeyboardAppearanceLight];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldResignFirstResponder:) name:@"DismissKeyboard" object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldResignFirstResponder:) name:@"DismissKeyboard" object:nil];
     _ageField.layer.borderColor  = [_buttonColor CGColor];
     _ageField.layer.borderWidth  = 1.0;
     _ageField.layer.cornerRadius = 4.0;
     //    [_ageField setBorderStyle:UITextBorderStyleRoundedRect];
     [_ageField setTintColor:_buttonColor];
-
+    
     // Gender SegmentControl
     CGFloat genderSegmentedControlWidth  = 100;
     CGFloat genderSegmentedControlHeight = 70;
@@ -386,30 +421,33 @@
     [_genderSegmentedControl setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:15] } forState:UIControlStateNormal];
     //    [_genderSegmentedControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:15]} forState:UIControlStateHighlighted];
     [_genderSegmentedControl addTarget:self action:@selector(genderSegmentedControlTapped:) forControlEvents:UIControlEventValueChanged];
-
-    [_mainScrollView addSubview:_heartRateTilteLabel];
-    [_mainScrollView addSubview:_heartRateLabel];
-    [_mainScrollView addSubview:_indicator];
-
-    [_mainScrollView addSubview:_heartIndicator];
-    [_mainScrollView addSubview:_beatLabel];
-    [_mainScrollView addSubview:_timerLabel];
-    [_mainScrollView addSubview:_offsetLabel];
-
-    [_mainScrollView addSubview:_tapButton];
-    [_mainScrollView addSubview:_resetButton];
-
+    
     [_mainScrollView addSubview:_segmentLabel];
     [_mainScrollView addSubview:_segmentHelpButton];
     [_mainScrollView addSubview:_modeSegmentControl];
-
+    
     [_mainScrollView addSubview:_personalLabel];
     [_mainScrollView addSubview:_ageLabel];
     [_mainScrollView addSubview:_ageField];
     [_mainScrollView addSubview:_genderLabel];
     [_mainScrollView addSubview:_genderSegmentedControl];
-
+    
     [_mainScrollView addSubview:_hintView];
+    
+    // Update user's preference
+    [_modeSegmentControl setSelectedSegmentIndex:_currentMode];
+    
+    if (_user.age > 0) {
+        [_ageField setText:[NSString stringWithFormat:@"%ld", (long)_user.age]];
+    }
+
+    if (_user.gender == GenderMale) {
+        [_genderSegmentedControl setSelectedSegmentIndex:0];
+    } else if(_user.gender == GenderFemale) {
+        [_genderSegmentedControl setSelectedSegmentIndex:1];
+    }
+    
+    _screen1IsLoaded = YES;
 }
 
 - (void)viewDidLoad
@@ -431,21 +469,6 @@
     [self segmentTapped:nil];
     //    });
     
-    
-    // Update user's preference
-    [_modeSegmentControl setSelectedSegmentIndex:_currentMode];
-    
-    NSInteger age = _user.age;
-    NSLog(@"%d", age);
-    if (age > 0) {
-        [_ageField setText:[NSString stringWithFormat:@"%d", age]];
-    }
-    Gender gen = _user.gender;
-    if (gen == GenderMale) {
-        [_genderSegmentedControl setSelectedSegmentIndex:0];
-    } else if(gen == GenderFemale) {
-        [_genderSegmentedControl setSelectedSegmentIndex:1];
-    }
 
     //    // Register notification from keyboard
     //    [[NSNotificationCenter defaultCenter] addObserver:self
@@ -473,7 +496,8 @@
     _beatNumber++;
     [_tappedTimes addObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]]];
 
-    if (!_isTracking) {
+//    if (!_isTracking) {
+    if (_currentState != TrackOngoing) {
         NSRunLoop* runloop = [NSRunLoop currentRunLoop];
         _timer = [NSTimer timerWithTimeInterval:0.01 target:self selector:@selector(timer:) userInfo:nil repeats:YES];
         [runloop addTimer:_timer forMode:NSRunLoopCommonModes];
@@ -483,20 +507,20 @@
     case FiveMode:
     case TenMode: {
         // From isTracking to not traking
-        if (_isTracking) {
-            _isTracking = NO;
+        if (_currentState == TrackOngoing) {
+            _currentState = TrackPause;
             [self updateLabels];
             [self stop];
         }
         // From not tracking to isTracking
         else {
-            _isTracking = YES;
+            _currentState = TrackOngoing;
             [self updateLabels];
         }
         break;
     }
     case TapMode: {
-        _isTracking = YES;
+        _currentState = TrackOngoing;
         [self updateLabels];
         break;
     }
@@ -507,7 +531,7 @@
 
 - (void)resetButtonTapped:(id)sender
 {
-    _isTracking = NO;
+    _currentState = TrackStop;
     _startTime = nil;
     [_timer invalidate];
     _beatNumber = 0;
@@ -520,8 +544,14 @@
 - (void)segmentTapped:(id)sender
 {
     [self textFieldResignFirstResponder:nil];
-    //    LogMethod;
-    switch (_modeSegmentControl.selectedSegmentIndex) {
+    Mode choosedMode = FiveMode;
+    if ([sender isKindOfClass:[UISegmentedControl class]]) {
+        choosedMode = ((UISegmentedControl *)sender).selectedSegmentIndex;
+    } else {
+        choosedMode = _currentMode;
+    }
+    
+    switch (choosedMode) {
     case 0: {
         _currentMode = FiveMode;
         _countNumber = 5;
@@ -545,47 +575,51 @@
     default:
         break;
     }
-    _user.choosedMode = _currentMode;
+    if ([sender isKindOfClass:[UISegmentedControl class]]) {
+        _user.choosedMode = _currentMode;
+    }
+    
     [self resetButtonTapped:nil];
-    //    [_mainScrollView moveToScreen:Screen0];
 }
 
 - (void)segmentHelpButtonTapped:(id)sender
 {
     [self textFieldResignFirstResponder:nil];
-    //    LogMethod;
     [_hintView setShow:YES withDuration:60 affectCounter:YES];
 }
 
 - (void)genderSegmentedControlTapped:(id)sender
 {
-    //    LogMethod;
     [self textFieldResignFirstResponder:nil];
     switch (_genderSegmentedControl.selectedSegmentIndex) {
-    case 0: {
-        [TTHRUser sharedUser].gender = GenderMale;
-        break;
-    }
-    case 1: {
-        [TTHRUser sharedUser].gender = GenderFemale;
-        break;
-    }
-    default: {
-        break;
-    }
+        case 0: {
+            [TTHRUser sharedUser].gender = GenderMale;
+            break;
+        }
+        case 1: {
+            [TTHRUser sharedUser].gender = GenderFemale;
+            break;
+        }
+        default: {
+            break;
+        }
     }
     [self updateLabels];
 }
 
+- (void)start {
+    _currentState = TrackOngoing;
+}
+
 - (void)pause
 {
-    _isTracking = NO;
+    _currentState = TrackPause;
     [_timer invalidate];
 }
 
 - (void)stop
 {
-    _isTracking = NO;
+    _currentState = TrackStop;
     _startTime = nil;
     [_timer invalidate];
     _beatNumber = 0;
@@ -598,7 +632,7 @@
     switch (_currentMode) {
     case FiveMode:
     case TenMode: {
-        if (_isTracking) {
+        if (_currentState == TrackOngoing) {
             [_indicator dismiss];
             [_tapButton setTitle:@"Counting..." forState:UIControlStateNormal];
             [_tapButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:34]];
@@ -640,7 +674,7 @@
         break;
     }
     case TapMode: {
-        if (_isTracking) {
+        if (_currentState == TrackOngoing) {
             [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
             [_tapButton setLabelBelowWithTitle:@"" andColor:_backgroundColor];
 
@@ -837,7 +871,7 @@
     if (screen == Screen0) {
         //
     } else if (screen == Screen1) {
-        
+        [self loadScreen1];
     }
 }
 

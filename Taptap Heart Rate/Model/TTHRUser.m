@@ -510,6 +510,7 @@
     _age = [defaults integerForKey:@"UserAge"];
     _gender = [defaults integerForKey:@"UserGender"];
     _choosedMode = [defaults integerForKey:@"UserChoosedMode"];
+    NSLog(@"Age: %d", _age);
 }
 
 @end
