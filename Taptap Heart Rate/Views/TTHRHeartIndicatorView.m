@@ -15,6 +15,8 @@
     UIView *_maskView;
     UIImageView *_imageView;
     float _percent;
+    
+    BOOL _isBlinking;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -32,6 +34,7 @@
         _percent = 0;
         CGRect newFrame = CGRectMake(frame.origin.x, frame.origin.y, _image.size.width, _image.size.height);
         [self setFrame:newFrame];
+        
         _dimmedImageView = [[UIImageView alloc] initWithImage:_dimmedImage];
         _maskView = [[UIView alloc] initWithFrame:CGRectMake(0, _imageView.frame.size.height * (1 - _percent), _imageView.frame.size.width, _percent * _imageView.frame.size.height)];
         [_maskView setClipsToBounds:YES];
@@ -43,6 +46,8 @@
         [self addSubview:_maskView];
         [_maskView addSubview:_imageView];
         [self setBackgroundColor:[UIColor clearColor]];
+        
+        _isBlinking = NO;
     }
     return self;
 }
@@ -56,14 +61,14 @@
 ////    [_dimmedImage drawAtPoint:CGPointMake(0, 0)];
 //}
 
-- (void)setPercent:(float)percent {
+- (void)setPercent:(float)percent withDuration:(float)duration {
     if (percent > 1.0) {
         percent = 1.0;
     } else if (percent < 0.0) {
         percent = 0.0;
     }
     _percent = percent;
-    [UIView animateWithDuration:0.5
+    [UIView animateWithDuration:duration
                           delay:0.0
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^{
@@ -72,6 +77,35 @@
                          [_imageView setFrame:CGRectMake(0, - _imageView.frame.size.height * (1 - _percent), _imageView.frame.size.width, _imageView.frame.size.height)];
                      }
                      completion:nil];
+}
+
+
+- (void)setBlink:(BOOL)toBlink
+{
+    [self setPercent:1.0 withDuration:0];
+    [_imageView setAlpha:1.0];
+    void (^blinkAnimationBlock)() = ^{
+        [UIView animateWithDuration:1.0
+                              delay:0.0
+                            options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             [_imageView setAlpha:0.0];
+                         }
+                         completion:NULL];
+    };
+    void (^restoreAnimationBlock)() = ^{
+        [UIView animateWithDuration:0.5
+                              delay:0.0
+                            options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             [_imageView setAlpha: 1.0f];
+                         } completion:NULL];
+    };
+    if (toBlink) {
+        blinkAnimationBlock();
+    } else {
+        restoreAnimationBlock();
+    }
 }
 
 #pragma mark - Helper methods

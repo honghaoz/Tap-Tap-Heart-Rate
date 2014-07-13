@@ -658,7 +658,8 @@ typedef enum {
         switch (_currentState) {
             case TrackOngoing: {
                 [_indicator dismiss];
-                [_heartIndicator setPercent:0.0];
+                [_heartIndicator setBlink:YES];
+//                [_heartIndicator setPercent:0.0 withDuration:0.5];
                 
                 [_heartRateLabel setText:@"---"];
                 [_beatLabel setText:@"Beats: -"];
@@ -671,7 +672,7 @@ typedef enum {
                 break;
             }
             case TrackPause: {
-
+                [_heartIndicator setBlink:NO];
                 // Update heart rate
                 NSNumber* firstTapTime = [_tappedTimes firstObject];
                 NSNumber* lastTapTime = [_tappedTimes lastObject];
@@ -695,8 +696,9 @@ typedef enum {
                 break;
             }
             case TrackStop: {
+                [_heartIndicator setBlink:NO];
                 [_indicator dismiss];
-                [_heartIndicator setPercent:0.0];
+                [_heartIndicator setPercent:0.0 withDuration:1.0];
                 
                 [_heartRateLabel setText:@"---"];
                 [_beatLabel setText:@"Beats: -"];
@@ -721,6 +723,7 @@ typedef enum {
     case TapMode: {
         switch (_currentState) {
             case TrackOngoing: {
+//                [_heartIndicator setBlink:YES];
                 [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
                 [_tapButton setLabelBelowWithTitle:@"" andColor:_backgroundColor];
                 break;
@@ -729,7 +732,8 @@ typedef enum {
 //                break;
             }
             case TrackStop: {
-                [_heartIndicator setPercent:0.0];
+                [_heartIndicator setPercent:0.0 withDuration:1.0];
+//                [_heartIndicator setBlink:NO];
                 
                 [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
                 [_tapButton setLabelBelowWithTitle:@"Tap after each beat" andColor:_backgroundColor];
@@ -754,7 +758,7 @@ typedef enum {
             [_heartRateLabel setText:_heartRate == 0 ? @"---" : [NSString stringWithFormat:@"%ld", (long)_heartRate]];
             [_offsetLabel setText:@"Offset: +00.00"];
             [_indicator dismiss];
-            [_heartIndicator setPercent:0.0];
+            [_heartIndicator setPercent:0.0 withDuration:1.0];
             return;
         }
         NSNumber* lastTapTime = [_tappedTimes lastObject];
@@ -790,7 +794,7 @@ typedef enum {
     float percent = 0;
     HRCondition condition = HRUnknown;
     [[TTHRUser sharedUser] getHRCondition:&condition HRPercent:&percent heartRate:_heartRate];
-    [_heartIndicator setPercent:percent < 0.2 ? 0.2 : percent];
+    [_heartIndicator setPercent:percent < 0.2 ? 0.2 : percent withDuration:1.0];
 
     if (_heartRate > MAX_HEART_RATE) {
         [_indicator setText:@"Too High"];

@@ -12,5 +12,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame color:(UIColor *)color imageNamed:(NSString *)imageName;
 
-- (void)setPercent:(float)percent;
+- (void)setPercent:(float)percent withDuration:(float)duration;
+- (void)setBlink:(BOOL)toBlink;
+
 @end
