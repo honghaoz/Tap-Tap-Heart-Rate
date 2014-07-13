@@ -80,6 +80,8 @@ typedef enum {
 @property (nonatomic, strong) UILabel* genderLabel;
 @property (nonatomic, strong) UISegmentedControl* genderSegmentedControl;
 
+@property (nonatomic, strong) UILabel *designLabel;
+
 @end
 
 @implementation TTHRMainViewController
@@ -421,6 +423,26 @@ typedef enum {
     //    [_genderSegmentedControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:15]} forState:UIControlStateHighlighted];
     [_genderSegmentedControl addTarget:self action:@selector(genderSegmentedControlTapped:) forControlEvents:UIControlEventValueChanged];
     
+    // CopyLabel
+    CGFloat designX      = 0;
+    CGFloat designY      = 0;
+    CGFloat designWidth  = 0;
+    CGFloat designHeight = 10;
+    CGRect designFrame   = CGRectMake(designX, designY, designWidth, designHeight);
+    _designLabel = [[UILabel alloc] initWithFrame:designFrame];
+    [_designLabel setText:@"Designed by HonghaoZ"];
+    [_designLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
+    [_designLabel setTextAlignment:NSTextAlignmentCenter];
+    [_designLabel setTextColor:_buttonColor];
+    [_designLabel setAlpha:0.75];
+    [_designLabel sizeToFit];
+    designWidth  = _designLabel.frame.size.width;
+    designHeight = _designLabel.frame.size.height;
+    designX      = _mainScreenSize.width + (_mainScrollView.contentSize.width - _mainScreenSize.width - designWidth) / 2;
+    designY      = _mainScreenSize.height - designHeight - 10;
+    designFrame  = CGRectMake(designX, designY, designWidth, designHeight);
+    [_designLabel setFrame:designFrame];
+    
     [_mainScrollView addSubview:_segmentLabel];
     [_mainScrollView addSubview:_segmentHelpButton];
     [_mainScrollView addSubview:_modeSegmentControl];
@@ -430,6 +452,7 @@ typedef enum {
     [_mainScrollView addSubview:_ageField];
     [_mainScrollView addSubview:_genderLabel];
     [_mainScrollView addSubview:_genderSegmentedControl];
+    [_mainScrollView addSubview:_designLabel];
     
     [_mainScrollView addSubview:_hintView];
     
@@ -465,7 +488,8 @@ typedef enum {
     
     // Delay execution (iOS 8 Bugs?)
     //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.0001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-    [self segmentTapped:nil];
+//    [self segmentTapped:nil];
+    [self resetButtonTapped:nil];
     //    });
     
 
@@ -585,14 +609,14 @@ typedef enum {
 - (void)segmentTapped:(id)sender
 {
     [self textFieldResignFirstResponder:nil];
-    Mode choosedMode = FiveMode;
-    if ([sender isKindOfClass:[UISegmentedControl class]]) {
-        choosedMode = ((UISegmentedControl *)sender).selectedSegmentIndex;
-    } else {
-        choosedMode = _currentMode;
-    }
+//    Mode choosedMode = FiveMode;
+//    if ([sender isKindOfClass:[UISegmentedControl class]]) {
+//        choosedMode = ((UISegmentedControl *)sender).selectedSegmentIndex;
+//    } else {
+//        choosedMode = _currentMode;
+//    }
     
-    switch (choosedMode) {
+    switch (_modeSegmentControl.selectedSegmentIndex) {
     case 0: {
         _currentMode = FiveMode;
         _countModeNumber = 5;
@@ -616,10 +640,10 @@ typedef enum {
     default:
         break;
     }
-    if ([sender isKindOfClass:[UISegmentedControl class]]) {
-        _user.choosedMode = _currentMode;
-    }
-    
+//    if ([sender isKindOfClass:[UISegmentedControl class]]) {
+//        _user.choosedMode = _currentMode;
+//    }
+    _user.choosedMode = _currentMode;
     [self resetButtonTapped:nil];
 }
 
@@ -698,7 +722,7 @@ typedef enum {
             case TrackStop: {
                 [_heartIndicator setBlink:NO];
                 [_indicator dismiss];
-                [_heartIndicator setPercent:0.0 withDuration:1.0];
+                [_heartIndicator setPercent:0.0 withDuration:0.0];
                 
                 [_heartRateLabel setText:@"---"];
                 [_beatLabel setText:@"Beats: -"];
@@ -732,7 +756,7 @@ typedef enum {
 //                break;
             }
             case TrackStop: {
-                [_heartIndicator setPercent:0.0 withDuration:1.0];
+                [_heartIndicator setPercent:0.0 withDuration:0.0];
 //                [_heartIndicator setBlink:NO];
                 
                 [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
@@ -798,9 +822,12 @@ typedef enum {
 
     if (_heartRate > MAX_HEART_RATE) {
         [_indicator setText:@"Too High"];
+        [_indicator setBlink:YES];
     } else if (_heartRate < MIN_HEART_RATE) {
         [_indicator setText:@"Too Low"];
+        [_indicator setBlink:YES];
     } else {
+        [_indicator setBlink:NO];
         switch (condition) {
         case HRUnknown:
             [_indicator dismiss];

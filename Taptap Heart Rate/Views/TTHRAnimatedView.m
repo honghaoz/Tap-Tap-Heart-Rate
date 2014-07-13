@@ -120,4 +120,31 @@
                      completion:nil];
 }
 
+- (void)setBlink:(BOOL)toBlink
+{
+    self.alpha = 1.0;
+    void (^blinkAnimationBlock)() = ^{
+        [UIView animateWithDuration:0.8
+                              delay:0.0
+                            options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             [self setAlpha:0.4];
+                         }
+                         completion:NULL];
+    };
+    void (^restoreAnimationBlock)() = ^{
+        [UIView animateWithDuration:0.5
+                              delay:0.0
+                            options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             [self setAlpha: 1.0f];
+                         } completion:NULL];
+    };
+    if (toBlink) {
+        blinkAnimationBlock();
+    } else {
+        restoreAnimationBlock();
+    }
+}
+
 @end

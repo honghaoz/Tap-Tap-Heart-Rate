@@ -15,4 +15,6 @@
 - (void)show;
 - (void)dismiss;
 
+- (void)setBlink:(BOOL)toBlink;
+
 @end

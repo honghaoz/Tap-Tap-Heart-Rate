@@ -82,9 +82,9 @@
 
 - (void)setBlink:(BOOL)toBlink
 {
-    [self setPercent:1.0 withDuration:0];
-    [_imageView setAlpha:1.0];
     void (^blinkAnimationBlock)() = ^{
+        [self setPercent:1.0 withDuration:0];
+        [_imageView setAlpha:1.0];
         [UIView animateWithDuration:1.0
                               delay:0.0
                             options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
