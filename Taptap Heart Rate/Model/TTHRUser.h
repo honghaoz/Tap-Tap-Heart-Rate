@@ -28,15 +28,18 @@ typedef enum {
     HRPoor
 } HRCondition;
 
+@property (nonatomic, assign) BOOL isCompleted;
 @property (nonatomic, assign) NSInteger age;
 @property (nonatomic, assign) Gender gender;
 @property (nonatomic, assign) Mode choosedMode;
+@property (nonatomic, assign) NSInteger maxHR;
 
 + (TTHRUser *)sharedUser;
 
 //- (void)setAge:(NSInteger)newAge gender:(Gender)gen;
 - (void)getHRCondition:(HRCondition *)condition  HRPercent:(float *)percent heartRate:(NSInteger)heartRate;
 
+- (NSInteger)calculateMaxHR;
 - (void)save;
 - (void)load;
 

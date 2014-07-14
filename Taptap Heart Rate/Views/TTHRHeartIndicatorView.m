@@ -17,6 +17,8 @@
     float _percent;
     
     BOOL _isBlinking;
+    CGFloat _initPercent;
+    CGFloat _initAlpha;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -48,6 +50,8 @@
         [self setBackgroundColor:[UIColor clearColor]];
         
         _isBlinking = NO;
+        _initAlpha = 0;
+        _initPercent = 0;
     }
     return self;
 }
@@ -62,6 +66,7 @@
 //}
 
 - (void)setPercent:(float)percent withDuration:(float)duration {
+//    LogMethod;
     if (percent > 1.0) {
         percent = 1.0;
     } else if (percent < 0.0) {
@@ -70,7 +75,7 @@
     _percent = percent;
     [UIView animateWithDuration:duration
                           delay:0.0
-                        options:UIViewAnimationOptionAllowUserInteraction
+                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          // Update maskView and imageView frame
                          [_maskView setFrame:CGRectMake(0, _imageView.frame.size.height * (1 - _percent), _imageView.frame.size.width, _percent * _imageView.frame.size.height)];
@@ -79,33 +84,58 @@
                      completion:nil];
 }
 
-
 - (void)setBlink:(BOOL)toBlink
 {
+//    LogMethod;
     void (^blinkAnimationBlock)() = ^{
+        [_imageView setAlpha:0.0];
         [self setPercent:1.0 withDuration:0];
-        [_imageView setAlpha:1.0];
         [UIView animateWithDuration:1.0
                               delay:0.0
                             options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             [_imageView setAlpha:0.0];
+                             [_imageView setAlpha:1.0];
                          }
                          completion:NULL];
     };
     void (^restoreAnimationBlock)() = ^{
+        [_imageView.layer removeAllAnimations];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             [_imageView setAlpha: 1.0f];
-                         } completion:NULL];
+                             [_imageView setAlpha:_initAlpha];/////////
+                         } completion:^(BOOL finished) {
+//                             [self setPercent:_initPercent withDuration:0.0];
+                         }];
     };
     if (toBlink) {
+//        NSLog(@"UnBlink -> Blink");
+        if (_isBlinking == NO) {
+            _initAlpha = _imageView.alpha;
+            _initPercent = _percent;
+//            NSLog(@"per: %f, alpha: %f", _initPercent, _initAlpha);
+        }
+        _isBlinking = toBlink;
         blinkAnimationBlock();
     } else {
+//        NSLog(@"Blink -> UnBlink");
+        _isBlinking = toBlink;
         restoreAnimationBlock();
     }
+}
+
+- (void)setAlpha:(CGFloat)alpha withDuration:(float)duration
+{
+//    LogMethod;
+    [UIView animateWithDuration:duration
+                          delay:0.0
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:^{
+                         [_imageView setAlpha:alpha];
+//                         NSLog(@"imageView alpha: %f", alpha);
+                     }
+                     completion:nil];
 }
 
 #pragma mark - Helper methods

@@ -18,6 +18,8 @@
 		1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */; };
 		1B1B75D91947F18600C7FAC3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAB19479FFC006718B5 /* Foundation.framework */; };
 		1B3E9BBA195BC38E000D144E /* TTHRAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E9BB9195BC38E000D144E /* TTHRAnimatedView.m */; };
+		1B4131FE19743C4200C51BD8 /* POViewFrameBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4131FB19743C4200C51BD8 /* POViewFrameBuilder.m */; };
+		1B4131FF19743C4200C51BD8 /* UIView+POViewFrameBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4131FD19743C4200C51BD8 /* UIView+POViewFrameBuilder.m */; };
 		1B75F202195F17C700AFAFC4 /* TTHRHintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B75F201195F17C700AFAFC4 /* TTHRHintView.m */; };
 		1B75F205195F807900AFAFC4 /* TTHRHeartIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B75F204195F807900AFAFC4 /* TTHRHeartIndicatorView.m */; };
 		1B75F20A195F935500AFAFC4 /* Heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B75F208195F935500AFAFC4 /* Heart.png */; };
@@ -81,6 +83,11 @@
 		1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRTapButton.m; path = Views/TTHRTapButton.m; sourceTree = "<group>"; };
 		1B3E9BB8195BC38E000D144E /* TTHRAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRAnimatedView.h; path = Views/TTHRAnimatedView.h; sourceTree = "<group>"; };
 		1B3E9BB9195BC38E000D144E /* TTHRAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRAnimatedView.m; path = Views/TTHRAnimatedView.m; sourceTree = "<group>"; };
+		1B4131F919743C4200C51BD8 /* POGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POGeometry.h; sourceTree = "<group>"; };
+		1B4131FA19743C4200C51BD8 /* POViewFrameBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POViewFrameBuilder.h; sourceTree = "<group>"; };
+		1B4131FB19743C4200C51BD8 /* POViewFrameBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POViewFrameBuilder.m; sourceTree = "<group>"; };
+		1B4131FC19743C4200C51BD8 /* UIView+POViewFrameBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+POViewFrameBuilder.h"; sourceTree = "<group>"; };
+		1B4131FD19743C4200C51BD8 /* UIView+POViewFrameBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+POViewFrameBuilder.m"; sourceTree = "<group>"; };
 		1B75F200195F17C700AFAFC4 /* TTHRHintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRHintView.h; path = Views/TTHRHintView.h; sourceTree = "<group>"; };
 		1B75F201195F17C700AFAFC4 /* TTHRHintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRHintView.m; path = Views/TTHRHintView.m; sourceTree = "<group>"; };
 		1B75F203195F807900AFAFC4 /* TTHRHeartIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRHeartIndicatorView.h; path = Views/TTHRHeartIndicatorView.h; sourceTree = "<group>"; };
@@ -196,6 +203,18 @@
 				1B75F207195F934900AFAFC4 /* HeartIndicatorView */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		1B4131F819743C4200C51BD8 /* POViewFrameBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				1B4131F919743C4200C51BD8 /* POGeometry.h */,
+				1B4131FA19743C4200C51BD8 /* POViewFrameBuilder.h */,
+				1B4131FB19743C4200C51BD8 /* POViewFrameBuilder.m */,
+				1B4131FC19743C4200C51BD8 /* UIView+POViewFrameBuilder.h */,
+				1B4131FD19743C4200C51BD8 /* UIView+POViewFrameBuilder.m */,
+			);
+			path = POViewFrameBuilder;
 			sourceTree = "<group>";
 		};
 		1B75F207195F934900AFAFC4 /* HeartIndicatorView */ = {
@@ -332,6 +351,7 @@
 		1BDA8EF01947BF1B006718B5 /* ThirdPartyDependency */ = {
 			isa = PBXGroup;
 			children = (
+				1B4131F819743C4200C51BD8 /* POViewFrameBuilder */,
 				1B0583BC194E975C000D43C2 /* GoogleAnalytics */,
 				1B0583B3194E30EB000D43C2 /* Parse.framework */,
 				1B058351194E2938000D43C2 /* ZHHHandyMacros */,
@@ -444,8 +464,10 @@
 				1B0F96CF1953F141004FD9BD /* ZHHParseDevice.m in Sources */,
 				1B3E9BBA195BC38E000D144E /* TTHRAnimatedView.m in Sources */,
 				1BC002611947DFCA0040E828 /* UIApplication+AppVersion.m in Sources */,
+				1B4131FF19743C4200C51BD8 /* UIView+POViewFrameBuilder.m in Sources */,
 				1B75F212195FA3D000AFAFC4 /* TTHRUser.m in Sources */,
 				1B0F96CC1953F113004FD9BD /* ZHHGoogleAnalytics.m in Sources */,
+				1B4131FE19743C4200C51BD8 /* POViewFrameBuilder.m in Sources */,
 				1BDA8EDC1947A063006718B5 /* TTHRMainViewController.m in Sources */,
 				1B75F205195F807900AFAFC4 /* TTHRHeartIndicatorView.m in Sources */,
 				1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */,

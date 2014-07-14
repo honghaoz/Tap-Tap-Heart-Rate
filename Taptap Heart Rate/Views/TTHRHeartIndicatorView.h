@@ -14,5 +14,6 @@
 
 - (void)setPercent:(float)percent withDuration:(float)duration;
 - (void)setBlink:(BOOL)toBlink;
+- (void)setAlpha:(CGFloat)alpha withDuration:(float)duration;
 
 @end

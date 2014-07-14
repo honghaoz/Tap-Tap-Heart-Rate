@@ -10,6 +10,8 @@
 
 @implementation TTHRAnimatedView {
     UILabel *_titleLabel;
+    BOOL _isBlinking;
+    CGFloat _initAlpha;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -122,27 +124,40 @@
 
 - (void)setBlink:(BOOL)toBlink
 {
-    self.alpha = 1.0;
     void (^blinkAnimationBlock)() = ^{
-        [UIView animateWithDuration:0.8
-                              delay:0.0
-                            options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             [self setAlpha:0.4];
-                         }
-                         completion:NULL];
-    };
-    void (^restoreAnimationBlock)() = ^{
+        
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             [self setAlpha: 1.0f];
+                             self.alpha = 0.4;
+                         } completion:NULL];
+        
+        [UIView animateWithDuration:0.8
+                              delay:0.0
+                            options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             [self setAlpha:1.0];
+                         }
+                         completion:NULL];
+    };
+    void (^restoreAnimationBlock)() = ^{
+        [self.layer removeAllAnimations];
+        [UIView animateWithDuration:0.5
+                              delay:0.0
+                            options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             [self setAlpha: _initAlpha];
                          } completion:NULL];
     };
     if (toBlink) {
+        if (_isBlinking == NO) {
+            _initAlpha = self.alpha;
+        }
+        _isBlinking = toBlink;
         blinkAnimationBlock();
     } else {
+        _isBlinking = toBlink;
         restoreAnimationBlock();
     }
 }

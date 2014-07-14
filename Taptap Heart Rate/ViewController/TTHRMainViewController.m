@@ -14,6 +14,7 @@
 #import "TTHRHintView.h"
 #import "TTHRHeartIndicatorView.h"
 #import "TTHRUser.h"
+#import "UIView+POViewFrameBuilder.h"
 
 // Define max and min heart rate
 #define MAX_HEART_RATE 229
@@ -79,6 +80,9 @@ typedef enum {
 
 @property (nonatomic, strong) UILabel* genderLabel;
 @property (nonatomic, strong) UISegmentedControl* genderSegmentedControl;
+
+@property (nonatomic, strong) UILabel *maxHRTitleLabel;
+@property (nonatomic, strong) UILabel *maxHRLable;
 
 @property (nonatomic, strong) UILabel *designLabel;
 
@@ -191,7 +195,7 @@ typedef enum {
     CGFloat indicatorY      = (heartRateTitleLabelY + heartRateTitleLabelHeight / 2) - indicatorHeight / 2 + 1;
     CGRect indicatorFrame = CGRectMake(indicatorX, indicatorY, indicatorWidth, indicatorHeight);
     _indicator = [[TTHRAnimatedView alloc] initWithFrame:indicatorFrame];
-    [_indicator dismiss];
+    [_indicator setAlpha:0.0];
     
     CGFloat heartIndicatorY      = heartRateTitleLabelY;
     CGFloat heartIndicatorWidth  = 0;// will update later
@@ -352,7 +356,7 @@ typedef enum {
     CGFloat personalLabelHeight = 30;
     CGFloat personalLabelWidth  = 200;
     CGFloat personalLabelX      = _mainScreenSize.width + (_mainScrollView.contentSize.width - _mainScreenSize.width - personalLabelWidth) / 2;
-    CGFloat personalLabelY      = modeSegmentY + modeSegmentHeight + 40;
+    CGFloat personalLabelY      = modeSegmentY + modeSegmentHeight + 37;
     CGRect personalLabelFrame = CGRectMake(personalLabelX, personalLabelY, personalLabelWidth, personalLabelHeight);
     _personalLabel = [[UILabel alloc] initWithFrame:personalLabelFrame];
     [_personalLabel setText:@"Personal Information"];
@@ -423,6 +427,31 @@ typedef enum {
     //    [_genderSegmentedControl setTitleTextAttributes:@{NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:15]} forState:UIControlStateHighlighted];
     [_genderSegmentedControl addTarget:self action:@selector(genderSegmentedControlTapped:) forControlEvents:UIControlEventValueChanged];
     
+    // Max Heart Rate Labels
+    CGFloat maxHRTitleX = ageLabelX;
+    CGFloat maxHRTitleY = genderLabelY + genderLabelHeight + 5;
+    CGFloat maxHRTitleWidth = genderLabelWidth;
+    CGFloat maxHRTitleHeight = modeSegmentHeight;
+    CGRect maxHRTitleFrame = CGRectMake(maxHRTitleX, maxHRTitleY, maxHRTitleWidth, maxHRTitleHeight);
+    _maxHRTitleLabel = [[UILabel alloc] initWithFrame:maxHRTitleFrame];
+    [_maxHRTitleLabel setText:@"Max HR"];
+    [_maxHRTitleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Thin" size:16]];
+    //    [_genderLabel sizeToFit];
+    [_maxHRTitleLabel setTextAlignment:NSTextAlignmentRight];
+    [_maxHRTitleLabel setTextColor:_buttonColor];
+    
+    CGFloat maxHRLabelX = genderSegmentedControlX;
+    CGFloat maxHRLabelY = maxHRTitleY;
+    CGFloat maxHRLabelWidth = genderSegmentedControlWidth;
+    CGFloat maxHRLabelHeight = maxHRTitleHeight;
+    CGRect maxHRLabelFrame = CGRectMake(maxHRLabelX, maxHRLabelY, maxHRLabelWidth, maxHRLabelHeight);
+    _maxHRLable = [[UILabel alloc] initWithFrame:maxHRLabelFrame];
+    [_maxHRLable setText:[NSString stringWithFormat:@" %ld", (long)[TTHRUser sharedUser].maxHR]];
+    [_maxHRLable setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]];
+    [_maxHRLable setTextAlignment:NSTextAlignmentLeft];
+    [_maxHRLable setTextColor:_buttonColor];
+    
+    
     // CopyLabel
     CGFloat designX      = 0;
     CGFloat designY      = 0;
@@ -453,11 +482,15 @@ typedef enum {
     [_mainScrollView addSubview:_genderLabel];
     [_mainScrollView addSubview:_genderSegmentedControl];
     [_mainScrollView addSubview:_designLabel];
+    [_mainScrollView addSubview:_maxHRTitleLabel];
+    [_mainScrollView addSubview:_maxHRLable];
+    
     
     [_mainScrollView addSubview:_hintView];
     
     // Update user's preference
     [_modeSegmentControl setSelectedSegmentIndex:_currentMode];
+    [self segmentTapped:nil];
     
     if (_user.age > 0) {
         [_ageField setText:[NSString stringWithFormat:@"%ld", (long)_user.age]];
@@ -650,7 +683,7 @@ typedef enum {
 - (void)segmentHelpButtonTapped:(id)sender
 {
     [self textFieldResignFirstResponder:nil];
-    [_hintView setShow:YES withDuration:60 affectCounter:YES];
+    [_hintView setShow:YES withDuration:10 affectCounter:YES];
 }
 
 - (void)genderSegmentedControlTapped:(id)sender
@@ -670,6 +703,7 @@ typedef enum {
         }
     }
     [self updateLabels];
+    [_maxHRLable setText:[NSString stringWithFormat:@" %ld", (long)[TTHRUser sharedUser].maxHR]];
 }
 
 #pragma mark - UIViews update
@@ -682,6 +716,11 @@ typedef enum {
         switch (_currentState) {
             case TrackOngoing: {
                 [_indicator dismiss];
+                if ([TTHRUser sharedUser].isCompleted) {
+                    [_heartIndicator setAlpha:1.0 withDuration:0.0];
+                } else {
+                    [_heartIndicator setAlpha:0.0 withDuration:0.0];
+                }
                 [_heartIndicator setBlink:YES];
 //                [_heartIndicator setPercent:0.0 withDuration:0.5];
                 
@@ -722,7 +761,7 @@ typedef enum {
             case TrackStop: {
                 [_heartIndicator setBlink:NO];
                 [_indicator dismiss];
-                [_heartIndicator setPercent:0.0 withDuration:0.0];
+                [_heartIndicator setPercent:0.0 withDuration:0.7];
                 
                 [_heartRateLabel setText:@"---"];
                 [_beatLabel setText:@"Beats: -"];
@@ -745,6 +784,11 @@ typedef enum {
         break;
     }
     case TapMode: {
+        if ([TTHRUser sharedUser].isCompleted) {
+            [_heartIndicator setAlpha:1.0 withDuration:0.0];
+        } else {
+            [_heartIndicator setAlpha:0.0 withDuration:0.0];
+        }
         switch (_currentState) {
             case TrackOngoing: {
 //                [_heartIndicator setBlink:YES];
@@ -756,7 +800,7 @@ typedef enum {
 //                break;
             }
             case TrackStop: {
-                [_heartIndicator setPercent:0.0 withDuration:0.0];
+                [_heartIndicator setPercent:0.0 withDuration:0.7];
 //                [_heartIndicator setBlink:NO];
                 
                 [_tapButton setTitle:@"Tap" forState:UIControlStateNormal];
@@ -818,7 +862,9 @@ typedef enum {
     float percent = 0;
     HRCondition condition = HRUnknown;
     [[TTHRUser sharedUser] getHRCondition:&condition HRPercent:&percent heartRate:_heartRate];
-    [_heartIndicator setPercent:percent < 0.2 ? 0.2 : percent withDuration:1.0];
+    if (condition != HRUnknown) {
+        [_heartIndicator setPercent:percent < 0.2 ? 0.2 : percent withDuration:1.0];
+    }
 
     if (_heartRate > MAX_HEART_RATE) {
         [_indicator setText:@"Too High"];
@@ -827,11 +873,11 @@ typedef enum {
         [_indicator setText:@"Too Low"];
         [_indicator setBlink:YES];
     } else {
-        [_indicator setBlink:NO];
         switch (condition) {
         case HRUnknown:
             [_indicator dismiss];
             break;
+        [_indicator setBlink:NO];
         case HRPoor:
             [_indicator setText:@"Poor"];
             break;
@@ -946,7 +992,7 @@ typedef enum {
 #pragma mark - TTHRMainScrollViewDelegate methods
 
 - (BOOL)scrollView:(UIScrollView *)scrollView shouldMoveToScreen:(Screen)screen {
-//    LogMethod;
+    LogMethod;
     [_hintView setShow:NO withDuration:0 affectCounter:NO];
     if (_ageField.isFirstResponder) {
         [self textFieldResignFirstResponder:nil];
@@ -957,7 +1003,8 @@ typedef enum {
 }
 
 - (void)scrollView:(UIScrollView *)scrollView willMoveToScreen:(Screen)screen {
-//    LogMethod;
+    LogMethod;
+//    [self pause];
     if (screen == Screen0) {
         //
     } else if (screen == Screen1) {
@@ -967,7 +1014,7 @@ typedef enum {
 
 - (void)scrollView:(UIScrollView*)scrollView didMoveToScreen:(Screen)screen
 {
-//    LogMethod;
+    LogMethod;
     //    [_tapButton setHighlighted:NO];
     //    [_resetButton setHighlighted:NO];
     //    [self pause];
@@ -994,6 +1041,7 @@ typedef enum {
         [TTHRUser sharedUser].age = -1;
     }
     [self updateLabels];
+    [_maxHRLable setText:[NSString stringWithFormat:@" %ld", (long)[TTHRUser sharedUser].maxHR]];
 }
 
 - (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string
@@ -1009,6 +1057,7 @@ typedef enum {
         return NO;
     }
     [TTHRUser sharedUser].age = age;
+    [_maxHRLable setText:[NSString stringWithFormat:@" %ld", (long)[[TTHRUser sharedUser] calculateMaxHR]]];
     return YES;
 }
 

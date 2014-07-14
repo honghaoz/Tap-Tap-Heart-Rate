@@ -52,6 +52,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        _isCompleted = NO;
         _gender = GenderUnknown;
         _age = -1;
         _choosedMode = TapMode;
@@ -62,13 +63,40 @@
 - (void)setAge:(NSInteger)age {
     LogMethod;
     _age = age;
+    [self updateMaxHR];
+    [self updateIsCompleted];
     [self save];
 }
 
 - (void)setGender:(Gender)gender {
     LogMethod;
     _gender = gender;
+    [self updateMaxHR];
+    [self updateIsCompleted];
     [self save];
+}
+
+- (NSInteger)calculateMaxHR {
+    if (_gender == GenderMale) {
+        return (NSInteger)(202 - (0.55 * _age));
+    } else if (_gender == GenderFemale) {
+        return (NSInteger)(216 - (1.09 * _age));
+    } else {
+        return 0;
+    }
+}
+
+- (void)updateMaxHR {
+    _maxHR = [self calculateMaxHR];
+    NSLog(@"maxHR: %d", _maxHR);
+}
+
+- (void)updateIsCompleted {
+    if (_age > 0 && _gender != GenderUnknown) {
+        _isCompleted = YES;
+    } else {
+        _isCompleted = NO;
+    }
 }
 
 - (void)setChoosedMode:(Mode)choosedMode {
@@ -499,6 +527,7 @@
     [defaults setInteger:self.age forKey:@"UserAge"];
     [defaults setInteger:self.gender forKey:@"UserGender"];
     [defaults setInteger:self.choosedMode forKey:@"UserChoosedMode"];
+    [defaults setInteger:self.maxHR forKey:@"MaxHR"];
     [defaults synchronize];
 }
 
@@ -508,8 +537,10 @@
     LogMethod;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     _age = [defaults integerForKey:@"UserAge"];
-    _gender = [defaults integerForKey:@"UserGender"];
-    _choosedMode = [defaults integerForKey:@"UserChoosedMode"];
+    _gender = (int)[defaults integerForKey:@"UserGender"];
+    _choosedMode = (int)[defaults integerForKey:@"UserChoosedMode"];
+    _maxHR = [defaults integerForKey:@"MaxHR"];
+    [self updateIsCompleted];
     NSLog(@"Age: %d", _age);
 }
 

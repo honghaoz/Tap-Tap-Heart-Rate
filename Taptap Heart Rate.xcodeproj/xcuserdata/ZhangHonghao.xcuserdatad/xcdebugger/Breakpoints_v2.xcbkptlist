@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Taptap Heart Rate/Model/TTHRUser.m"
-            timestampString = "426835511.332645"
+            timestampString = "427056739.806722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "-setAge:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Taptap Heart Rate/Model/TTHRUser.m"
-            timestampString = "426905038.820521"
+            timestampString = "427056739.806722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "497"
-            endingLineNumber = "497"
+            startingLineNumber = "525"
+            endingLineNumber = "525"
             landmarkName = "-save"
             landmarkType = "5">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Taptap Heart Rate/ViewController/TTHRMainViewController.m"
-            timestampString = "426912977.112631"
+            timestampString = "427057435.732472"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "699"
-            endingLineNumber = "699"
+            startingLineNumber = "738"
+            endingLineNumber = "738"
             landmarkName = "-updateLabels"
             landmarkType = "5">
          </BreakpointContent>
