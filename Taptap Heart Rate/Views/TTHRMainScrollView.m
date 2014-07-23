@@ -13,6 +13,7 @@
     BOOL isMoved;
     BOOL isMoving;
     BOOL lastMoveEnd;
+    NSArray *contentOffsets;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -25,6 +26,10 @@
         lastMoveEnd = NO;
     }
     return self;
+}
+
+- (void)setScreenContentOffsets:(NSArray *)offsets {
+    contentOffsets = offsets;
 }
 
 #pragma mark - UIResponder methods
@@ -108,6 +113,25 @@
     } else {
         return Screen2;
     }
+//
+//    int touchIndex = -1;
+//    int offsetsCount = [contentOffsets count];
+//    for (int i = 0; i < offsetsCount - 1; i++) {
+//        CGFloat priorStartPoint = [contentOffsets[i] floatValue];
+//        CGFloat posteriorStartPoint = [contentOffsets[i + 1] floatValue];
+//        CGFloat touchPoint = point.x;
+//        if (priorStartPoint <= touchPoint && touchPoint < posteriorStartPoint) {
+//            touchIndex = i;
+//            break;
+//        }
+//    }
+//    if (touchIndex == 0) {
+//        return Screen1_;
+//    } else if (touchIndex == 1) {
+//        return Screen0;
+//    } else {
+//        return Screen1;
+//    }
 }
 
 - (void)moveToScreen:(Screen)sc

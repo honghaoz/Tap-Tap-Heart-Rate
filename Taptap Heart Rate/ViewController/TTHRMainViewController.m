@@ -137,6 +137,8 @@ typedef enum {
 
     CGSize bigSize = _mainScreenSize;
     bigSize.width *= 1.7;
+//    bigSize.width *= 2.4;
+    
     [_mainScrollView setContentSize:bigSize];
     [_mainScrollView setPagingEnabled:YES];
     [_mainScrollView setBackgroundColor:_backgroundColor];
@@ -156,6 +158,8 @@ typedef enum {
 }
 
 - (void)loadScreen0 {
+//    _mainScreenSize = [UIScreen mainScreen].bounds.size;
+//    CGFloat screen0xOffset = 0.7 * _mainScreenSize.width;
     
     // Heart Rate Label
     CGFloat heartRateLabelHeight = 100;
