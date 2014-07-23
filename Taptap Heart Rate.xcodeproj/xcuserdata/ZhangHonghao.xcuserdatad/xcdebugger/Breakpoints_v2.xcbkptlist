@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Taptap Heart Rate/ViewController/TTHRMainViewController.m"
-            timestampString = "427780081.133862"
+            timestampString = "427816649.870243"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "742"
-            endingLineNumber = "742"
+            startingLineNumber = "743"
+            endingLineNumber = "743"
             landmarkName = "-updateLabels"
             landmarkType = "5">
          </BreakpointContent>

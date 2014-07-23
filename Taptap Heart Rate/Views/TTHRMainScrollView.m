@@ -18,6 +18,10 @@
     CGFloat _offset1_;
     CGFloat _offset0;
     CGFloat _offset1;
+    
+    CGFloat _width1_;
+    CGFloat _width0;
+    CGFloat _width1;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -60,6 +64,14 @@
     _offset1_ = offset1_;
     _offset0 = offset0;
     _offset1 = offset1;
+}
+
+- (void)setScreen1_Width:(CGFloat)width1_
+            screen0Width:(CGFloat)width0
+            screen1Width:(CGFloat)width1 {
+    _width1_ = width1_;
+    _width0 = width0;
+    _width1 = width1;
 }
 
 #pragma mark - UIResponder methods
@@ -108,11 +120,6 @@
         for (UITouch *touch in touches) {
             CGPoint currentPoint = [touch locationInView:self];
             Screen touchedScreen = [self getScreenFromTouchPoint:currentPoint];
-//            if (touchedScreen == Screen0) {
-//                [self moveToScreen:Screen0];
-//            } else if (touchedScreen == Screen1) {
-//                [self moveToScreen:Screen1];
-//            }
             [self moveToScreen:touchedScreen];
         }
     }
@@ -138,47 +145,17 @@
  *  @return Screen number
  */
 - (Screen)getScreenFromTouchPoint:(CGPoint)point {
-//    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-//    if (0 <= point.x && point.x < screenWidth) {
-//        return Screen0;
-//    } else if (point.x < screenWidth * 2) {
-//        return Screen1;
-//    } else {
-//        return Screen2;
-//    }
-    if (_offset1_ <= point.x && point.x < _offset0) {
+    if (0 <= point.x && point.x < _width1_) {
         return Screen1_;
-    } else if (_offset0 <= point.x && point.x < _offset1) {
+    } else if (_width1_ <= point.x && point.x < _width1_ + _width0) {
         return Screen0;
     } else {
         return Screen1;
     }
-    
-//
-//    int touchIndex = -1;
-//    int offsetsCount = [contentOffsets count];
-//    for (int i = 0; i < offsetsCount - 1; i++) {
-//        CGFloat priorStartPoint = [contentOffsets[i] floatValue];
-//        CGFloat posteriorStartPoint = [contentOffsets[i + 1] floatValue];
-//        CGFloat touchPoint = point.x;
-//        if (priorStartPoint <= touchPoint && touchPoint < posteriorStartPoint) {
-//            touchIndex = i;
-//            break;
-//        }
-//    }
-//    if (touchIndex == 0) {
-//        return Screen1_;
-//    } else if (touchIndex == 1) {
-//        return Screen0;
-//    } else {
-//        return Screen1;
-//    }
-    
 }
 
 - (void)moveToScreen:(Screen)sc
 {
-//    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     if (isMoving == NO) {
         if ([self.screenDelegate scrollView:self shouldMoveToScreen:sc]) {
             isMoving = YES;

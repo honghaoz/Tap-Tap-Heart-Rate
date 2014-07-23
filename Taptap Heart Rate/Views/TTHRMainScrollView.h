@@ -35,6 +35,10 @@ typedef enum {
             screen0Offset:(CGFloat)offset0
             screen1Offset:(CGFloat)offset1;
 
+- (void)setScreen1_Width:(CGFloat)width1_
+            screen0Width:(CGFloat)width0
+            screen1Width:(CGFloat)width1;
+
 - (void)moveToScreen:(Screen)sc;
 
 @end

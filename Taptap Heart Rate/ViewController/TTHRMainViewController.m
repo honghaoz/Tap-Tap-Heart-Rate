@@ -86,6 +86,9 @@ typedef enum {
 
 @property (nonatomic, strong) UILabel *designLabel;
 
+// Screen 1_ (Screen -1)
+@property (nonatomic, assign) BOOL screen1_IsLoaded;
+
 @end
 
 @implementation TTHRMainViewController
@@ -142,6 +145,7 @@ typedef enum {
     [_mainScrollView setContentSize:bigSize];
     [_mainScrollView setScreen1_Offset:0 screen0Offset:0.7 * _mainScreenSize.width screen1Offset:1.4 * _mainScreenSize.width];
     [_mainScrollView setCurrentScreen:Screen0];
+    [_mainScrollView setScreen1_Width:0.7 * _mainScreenSize.width screen0Width:_mainScreenSize.width screen1Width:0.7 * _mainScreenSize.width];
     
     [_mainScrollView setPagingEnabled:YES];
     [_mainScrollView setBackgroundColor:_backgroundColor];
@@ -511,6 +515,13 @@ typedef enum {
     }
     
     _screen1IsLoaded = YES;
+}
+
+- (void)loadScreen1_ {
+    if (_screen1_IsLoaded)
+        return;
+    
+    _screen1_IsLoaded = YES;
 }
 
 - (void)viewDidLoad
@@ -1000,7 +1011,7 @@ typedef enum {
 #pragma mark - TTHRMainScrollViewDelegate methods
 
 - (BOOL)scrollView:(UIScrollView *)scrollView shouldMoveToScreen:(Screen)screen {
-    LogMethod;
+//    LogMethod;
     [_hintView setShow:NO withDuration:0 affectCounter:NO];
     if (_ageField.isFirstResponder) {
         [self textFieldResignFirstResponder:nil];
@@ -1011,18 +1022,20 @@ typedef enum {
 }
 
 - (void)scrollView:(UIScrollView *)scrollView willMoveToScreen:(Screen)screen {
-    LogMethod;
+//    LogMethod;
 //    [self pause];
     if (screen == Screen0) {
         //
     } else if (screen == Screen1) {
         [self loadScreen1];
+    } else {
+        [self loadScreen1_];
     }
 }
 
 - (void)scrollView:(UIScrollView*)scrollView didMoveToScreen:(Screen)screen
 {
-    LogMethod;
+//    LogMethod;
     //    [_tapButton setHighlighted:NO];
     //    [_resetButton setHighlighted:NO];
     //    [self pause];
