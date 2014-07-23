@@ -13,7 +13,11 @@
     BOOL isMoved;
     BOOL isMoving;
     BOOL lastMoveEnd;
-    NSArray *contentOffsets;
+    
+    Screen _currentScreen;
+    CGFloat _offset1_;
+    CGFloat _offset0;
+    CGFloat _offset1;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -24,12 +28,38 @@
         isMoved = NO;
         isMoving = NO;
         lastMoveEnd = NO;
+        _currentScreen = Screen0;
     }
     return self;
 }
 
-- (void)setScreenContentOffsets:(NSArray *)offsets {
-    contentOffsets = offsets;
+- (void)setCurrentScreen:(Screen)screen {
+    _currentScreen = screen;
+    switch (screen) {
+        case Screen1_: {
+            [self setContentOffset:CGPointMake(_offset1_, 0) animated:NO];
+            break;
+        }
+        case Screen0:{
+            [self setContentOffset:CGPointMake(_offset0, 0) animated:NO];
+            break;
+        }
+        case Screen1:{
+            [self setContentOffset:CGPointMake(_offset1, 0) animated:NO];
+            break;
+        }
+        default:
+            assert(NO);
+            break;
+    }
+}
+
+- (void)setScreen1_Offset:(CGFloat)offset1_
+            screen0Offset:(CGFloat)offset0
+            screen1Offset:(CGFloat)offset1 {
+    _offset1_ = offset1_;
+    _offset0 = offset0;
+    _offset1 = offset1;
 }
 
 #pragma mark - UIResponder methods
@@ -49,18 +79,20 @@
 //    LogMethod;
     for (UITouch *touch in touches) {
         CGPoint currentPoint = [touch locationInView:self];
+        // Scroll left
         if (touchBeginPoint.x - currentPoint.x > 70) {
             isMoved = YES;
             if (!isMoving && lastMoveEnd) {
                 lastMoveEnd = NO;
-                [self moveToScreen:Screen1];
+                [self moveToScreen:_currentScreen + 1];
             }
         }
+        // Scroll right
         if (currentPoint.x - touchBeginPoint.x > 70) {
             isMoved = YES;
             if (!isMoving && lastMoveEnd) {
                 lastMoveEnd = NO;
-                [self moveToScreen:Screen0];
+                [self moveToScreen:_currentScreen - 1];
             }
         }
     }
@@ -76,11 +108,12 @@
         for (UITouch *touch in touches) {
             CGPoint currentPoint = [touch locationInView:self];
             Screen touchedScreen = [self getScreenFromTouchPoint:currentPoint];
-            if (touchedScreen == Screen0) {
-                [self moveToScreen:Screen0];
-            } else if (touchedScreen == Screen1) {
-                [self moveToScreen:Screen1];
-            }
+//            if (touchedScreen == Screen0) {
+//                [self moveToScreen:Screen0];
+//            } else if (touchedScreen == Screen1) {
+//                [self moveToScreen:Screen1];
+//            }
+            [self moveToScreen:touchedScreen];
         }
     }
     lastMoveEnd = YES;
@@ -105,14 +138,22 @@
  *  @return Screen number
  */
 - (Screen)getScreenFromTouchPoint:(CGPoint)point {
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-    if (0 <= point.x && point.x < screenWidth) {
+//    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+//    if (0 <= point.x && point.x < screenWidth) {
+//        return Screen0;
+//    } else if (point.x < screenWidth * 2) {
+//        return Screen1;
+//    } else {
+//        return Screen2;
+//    }
+    if (_offset1_ <= point.x && point.x < _offset0) {
+        return Screen1_;
+    } else if (_offset0 <= point.x && point.x < _offset1) {
         return Screen0;
-    } else if (point.x < screenWidth * 2) {
-        return Screen1;
     } else {
-        return Screen2;
+        return Screen1;
     }
+    
 //
 //    int touchIndex = -1;
 //    int offsetsCount = [contentOffsets count];
@@ -132,11 +173,12 @@
 //    } else {
 //        return Screen1;
 //    }
+    
 }
 
 - (void)moveToScreen:(Screen)sc
 {
-    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+//    CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
     if (isMoving == NO) {
         if ([self.screenDelegate scrollView:self shouldMoveToScreen:sc]) {
             isMoving = YES;
@@ -146,12 +188,16 @@
             [UIView animateWithDuration:0.3
                 animations:^{
                                  switch (sc) {
+                                     case Screen1_: {
+                                         [self setContentOffset:CGPointMake(_offset1_, 0) animated:NO];
+                                         break;
+                                     }
                                      case Screen0:{
-                                         [self setContentOffset:CGPointMake(0, 0) animated:NO];
+                                         [self setContentOffset:CGPointMake(_offset0, 0) animated:NO];
                                          break;
                                      }
                                      case Screen1:{
-                                         [self setContentOffset:CGPointMake(self.contentSize.width - screenWidth, 0) animated:NO];
+                                         [self setContentOffset:CGPointMake(_offset1, 0) animated:NO];
                                          break;
                                      }
                                      default:
@@ -164,6 +210,7 @@
                                  if ([self.screenDelegate respondsToSelector:@selector(scrollView:didMoveToScreen:)]) {
                                      [self.screenDelegate scrollView:self didMoveToScreen:sc];
                                  }
+                    _currentScreen = sc;
                 }];
         }
     }

@@ -10,11 +10,9 @@
 @class TTHRMainScrollView;
 
 typedef enum {
-    Screen2_ = 100,
-    Screen1_,
+    Screen1_ = 100,
     Screen0,
     Screen1,
-    Screen2
 } Screen;
 
 @protocol TTHRMainScrollViewDelegate <NSObject>
@@ -31,7 +29,11 @@ typedef enum {
 
 @property (nonatomic, weak) id <TTHRMainScrollViewDelegate> screenDelegate;
 
-- (void)setScreenContentOffsets:(NSArray *)offsets;
+- (void)setCurrentScreen:(Screen)screen;
+
+- (void)setScreen1_Offset:(CGFloat)offset1_
+            screen0Offset:(CGFloat)offset0
+            screen1Offset:(CGFloat)offset1;
 
 - (void)moveToScreen:(Screen)sc;
 

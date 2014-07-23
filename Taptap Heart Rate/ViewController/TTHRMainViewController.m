@@ -136,10 +136,13 @@ typedef enum {
     _mainScrollView = [[TTHRMainScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
 
     CGSize bigSize = _mainScreenSize;
-    bigSize.width *= 1.7;
-//    bigSize.width *= 2.4;
+//    bigSize.width *= 1.7;
+    bigSize.width *= 2.4;
     
     [_mainScrollView setContentSize:bigSize];
+    [_mainScrollView setScreen1_Offset:0 screen0Offset:0.7 * _mainScreenSize.width screen1Offset:1.4 * _mainScreenSize.width];
+    [_mainScrollView setCurrentScreen:Screen0];
+    
     [_mainScrollView setPagingEnabled:YES];
     [_mainScrollView setBackgroundColor:_backgroundColor];
     [_mainScrollView setOpaque:YES];
@@ -153,18 +156,18 @@ typedef enum {
     [_mainScrollView setScreenDelegate:self];
     [self.view addSubview:_mainScrollView];
     
-    [self loadScreen0];
+    [self loadScreen0WithOffset:0.7 * _mainScreenSize.width];
     _screen1IsLoaded = NO;
 }
 
-- (void)loadScreen0 {
+- (void)loadScreen0WithOffset:(CGFloat)offsetX {
 //    _mainScreenSize = [UIScreen mainScreen].bounds.size;
 //    CGFloat screen0xOffset = 0.7 * _mainScreenSize.width;
     
     // Heart Rate Label
     CGFloat heartRateLabelHeight = 100;
     CGFloat heartRateLabelWidth  = 300;
-    CGFloat heartRateLabelX      = (_mainScreenSize.width - heartRateLabelWidth) / 2;
+    CGFloat heartRateLabelX      = offsetX + (_mainScreenSize.width - heartRateLabelWidth) / 2;
     CGFloat heartRateLabelY      = 0;
     
     // On 4inch Screen, move label down
@@ -195,7 +198,7 @@ typedef enum {
     // Animated View
     CGFloat indicatorWidth  = 80;
     CGFloat indicatorHeight = 20;
-    CGFloat indicatorX      = (_mainScreenSize.width - indicatorWidth) / 2;
+    CGFloat indicatorX      = offsetX + (_mainScreenSize.width - indicatorWidth) / 2;
     CGFloat indicatorY      = (heartRateTitleLabelY + heartRateTitleLabelHeight / 2) - indicatorHeight / 2 + 1;
     CGRect indicatorFrame = CGRectMake(indicatorX, indicatorY, indicatorWidth, indicatorHeight);
     _indicator = [[TTHRAnimatedView alloc] initWithFrame:indicatorFrame];
@@ -204,14 +207,14 @@ typedef enum {
     CGFloat heartIndicatorY      = heartRateTitleLabelY;
     CGFloat heartIndicatorWidth  = 0;// will update later
     CGFloat heartIndicatorHeight = 0;// will update later
-    CGFloat heartIndicatorX      = _mainScreenSize.width - heartRateTitleLabelX - heartIndicatorWidth;
+    CGFloat heartIndicatorX      = offsetX + _mainScreenSize.width - (heartRateTitleLabelX - offsetX) - heartIndicatorWidth;
     CGRect heartIndicatorFrame = CGRectMake(heartIndicatorX, heartIndicatorY, heartIndicatorWidth, heartIndicatorHeight);
     _heartIndicator = [[TTHRHeartIndicatorView alloc] initWithFrame:heartIndicatorFrame color:_buttonColor imageNamed:@"Heart.png"];
     
     heartIndicatorWidth  = _heartIndicator.frame.size.width;
     heartIndicatorHeight = _heartIndicator.frame.size.height;
     heartIndicatorY      = heartRateTitleLabelY + 1 / 2 * heartRateTitleLabelHeight - 1 / 2 * heartIndicatorHeight + 5;
-    heartIndicatorX      = _mainScreenSize.width - heartRateTitleLabelX - heartIndicatorWidth + 3;
+    heartIndicatorX      = offsetX + _mainScreenSize.width - (heartRateTitleLabelX - offsetX) - heartIndicatorWidth + 3;
     heartIndicatorFrame = CGRectMake(heartIndicatorX, heartIndicatorY, heartIndicatorWidth, heartIndicatorHeight);
     [_heartIndicator setFrame:heartIndicatorFrame];
     
@@ -254,7 +257,7 @@ typedef enum {
     // Tap Button
     CGFloat tapButtonHeight = 230;
     CGFloat tapButtonWidth  = 230;
-    CGFloat tapButtonX      = (_mainScreenSize.width - tapButtonWidth) / 2;
+    CGFloat tapButtonX      = offsetX + (_mainScreenSize.width - tapButtonWidth) / 2;
     CGFloat tapButtonY      = 0;
     // On 4inch Screen, move label up
     if (IS_IPHONE_5) {
@@ -302,12 +305,13 @@ typedef enum {
 - (void)loadScreen1 {
     if (_screen1IsLoaded)
         return;
+    CGFloat offsetX = _mainScreenSize.width * 1.7;
     CGFloat heartRateTitleLabelY = _heartRateTilteLabel.frame.origin.y;
     
     // SegmentLabel
     CGFloat segmentLabelHeight = 30;
     CGFloat segmentLabelWidth  = 140;
-    CGFloat segmentLabelX      = _mainScreenSize.width + (_mainScrollView.contentSize.width - _mainScreenSize.width - segmentLabelWidth) / 2;
+    CGFloat segmentLabelX      = offsetX + (_mainScrollView.contentSize.width - offsetX - segmentLabelWidth) / 2;
     CGFloat segmentLabelY      = heartRateTitleLabelY;
     CGRect segmentLabelFrame = CGRectMake(segmentLabelX, segmentLabelY, segmentLabelWidth, segmentLabelHeight);
     _segmentLabel = [[UILabel alloc] initWithFrame:segmentLabelFrame];
@@ -338,7 +342,7 @@ typedef enum {
     CGFloat modeSegmentY      = segmentLabelY + segmentLabelHeight + 7;
     _modeSegmentControl = [[UISegmentedControl alloc] initWithItems:@[ @"5", @"10", @"Tap" ]];
     modeSegmentHeight = _modeSegmentControl.frame.size.height;
-    modeSegmentX = _mainScreenSize.width + (_mainScrollView.contentSize.width - _mainScreenSize.width - modeSegmentWidth) / 2;
+    modeSegmentX = offsetX + (_mainScrollView.contentSize.width - offsetX - modeSegmentWidth) / 2;
     CGRect segmentFrame = CGRectMake(modeSegmentX, modeSegmentY, modeSegmentWidth, modeSegmentHeight);
     _modeSegmentControl.frame = segmentFrame;
     [_modeSegmentControl setTintColor:_buttonColor];
@@ -359,7 +363,7 @@ typedef enum {
     // Personal label
     CGFloat personalLabelHeight = 30;
     CGFloat personalLabelWidth  = 200;
-    CGFloat personalLabelX      = _mainScreenSize.width + (_mainScrollView.contentSize.width - _mainScreenSize.width - personalLabelWidth) / 2;
+    CGFloat personalLabelX      = offsetX + (_mainScrollView.contentSize.width - offsetX - personalLabelWidth) / 2;
     CGFloat personalLabelY      = modeSegmentY + modeSegmentHeight + 37;
     CGRect personalLabelFrame = CGRectMake(personalLabelX, personalLabelY, personalLabelWidth, personalLabelHeight);
     _personalLabel = [[UILabel alloc] initWithFrame:personalLabelFrame];
@@ -471,7 +475,7 @@ typedef enum {
     [_designLabel sizeToFit];
     designWidth  = _designLabel.frame.size.width;
     designHeight = _designLabel.frame.size.height;
-    designX      = _mainScreenSize.width + (_mainScrollView.contentSize.width - _mainScreenSize.width - designWidth) / 2;
+    designX      = offsetX + (_mainScrollView.contentSize.width - offsetX - designWidth) / 2;
     designY      = _mainScreenSize.height - designHeight - 10;
     designFrame  = CGRectMake(designX, designY, designWidth, designHeight);
     [_designLabel setFrame:designFrame];
@@ -1025,7 +1029,7 @@ typedef enum {
     if (screen == Screen0) {
         _tapButton.enabled = YES;
         _resetButton.enabled = YES;
-    } else if (screen == Screen1) {
+    } else /*if (screen == Screen1)*/ {
         _tapButton.enabled = NO;
         _resetButton.enabled = NO;
     }
