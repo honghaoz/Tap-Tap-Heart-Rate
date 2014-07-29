@@ -104,7 +104,6 @@ typedef enum {
 
 - (id)init
 {
-    //    LogMethod;
     self = [super init];
     if (self) {
         _backgroundColor = [UIColor colorWithRed:0.73 green:0.03 blue:0.10 alpha:1];
@@ -120,7 +119,6 @@ typedef enum {
             _countModeNumber = 0;
         }
 
-//        _isTracking  = NO;
         _currentState = TrackStop;
         _beatNumber  = 0;
         _heartRate   = 0;
@@ -139,7 +137,6 @@ typedef enum {
     _mainScrollView = [[TTHRMainScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
 
     CGSize bigSize = _mainScreenSize;
-//    bigSize.width *= 1.7;
     bigSize.width *= 2.4;
     
     [_mainScrollView setContentSize:bigSize];
@@ -160,13 +157,12 @@ typedef enum {
     [_mainScrollView setScreenDelegate:self];
     [self.view addSubview:_mainScrollView];
     
-    [self loadScreen0WithOffset:0.7 * _mainScreenSize.width];
+    [self loadScreen0];
     _screen1IsLoaded = NO;
 }
 
-- (void)loadScreen0WithOffset:(CGFloat)offsetX {
-//    _mainScreenSize = [UIScreen mainScreen].bounds.size;
-//    CGFloat screen0xOffset = 0.7 * _mainScreenSize.width;
+- (void)loadScreen0 {
+    CGFloat offsetX = 0.7 * _mainScreenSize.width;
     
     // Heart Rate Label
     CGFloat heartRateLabelHeight = 100;
@@ -497,7 +493,6 @@ typedef enum {
     [_mainScrollView addSubview:_maxHRTitleLabel];
     [_mainScrollView addSubview:_maxHRLable];
     
-    
     [_mainScrollView addSubview:_hintView];
     
     // Update user's preference
@@ -544,15 +539,6 @@ typedef enum {
     [self resetButtonTapped:nil];
     //    });
     
-
-    //    // Register notification from keyboard
-    //    [[NSNotificationCenter defaultCenter] addObserver:self
-    //                                             selector:@selector(keyboardDidShow:)
-    //                                                 name:UIKeyboardDidShowNotification
-    //                                               object:nil];
-    //    [[NSNotificationCenter defaultCenter] addObserver:self
-    //                                             selector:@selector(keyboardDidHide:)
-    //                                                 name:UIKeyboardDidHideNotification object:nil];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle

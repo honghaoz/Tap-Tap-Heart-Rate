@@ -96,7 +96,9 @@
             isMoved = YES;
             if (!isMoving && lastMoveEnd) {
                 lastMoveEnd = NO;
-                [self moveToScreen:_currentScreen + 1];
+                if (_currentScreen != Screen1) {
+                    [self moveToScreen:_currentScreen + 1];
+                }
             }
         }
         // Scroll right
@@ -104,7 +106,9 @@
             isMoved = YES;
             if (!isMoving && lastMoveEnd) {
                 lastMoveEnd = NO;
-                [self moveToScreen:_currentScreen - 1];
+                if (_currentScreen != Screen1_) {
+                    [self moveToScreen:_currentScreen - 1];
+                }
             }
         }
     }
