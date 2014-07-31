@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UILabel *labelBelow;
 @property (nonatomic, strong) UILabel *labelAbove;
 
+
 /**
  *  Initiate a button with frame, circle width, button color and circlr color
  *
@@ -29,7 +30,21 @@
  *  @return a TTHRTapButton instance
  */
 - (instancetype)initWithFrame:(CGRect)frame circleWidth:(CGFloat)cirWidth buttonColor:(UIColor *)btnColor circleColor:(UIColor *)cirColor;
+
+/**
+ *  Set above title string and color. If passed in @"", this label will be removed
+ *
+ *  @param string     Title string
+ *  @param titleColor Color for title
+ */
 - (void)setLabelAboveWithTitle:(NSString *)string andColor:(UIColor *)titleColor;
+
+/**
+ *  Set below title string and color. If passed in @"", this label will be removed
+ *
+ *  @param string     Title string
+ *  @param titleColor Color for title
+ */
 - (void)setLabelBelowWithTitle:(NSString *)string andColor:(UIColor *)titleColor;
 
 /**
@@ -39,8 +54,18 @@
  */
 - (void)setDimmed:(BOOL)isDim;
 
+/**
+ *  Enlarge touchable area of the button, useful for small buttons
+ *
+ *  @param enlarge Radius that need to enlarge
+ */
 - (void)enlargeShouldTapRaidus:(float)enlarge;
 
+/**
+ *  Set whether touches on this button could pass to its parent view
+ *
+ *  @param shouldPass <#shouldPass description#>
+ */
 - (void)setShouldPassTouch:(BOOL)shouldPass;
 
 @end

@@ -13,18 +13,25 @@
 #define HIGHLIGHT_BUTTON_ALPHA 0.55
 
 @implementation TTHRTapButton {
-    CGFloat _circleWidth; // _circleWidth is out circle width
-    CGFloat _shrinkWidth; // _shrinkWidth is widht between outer circle and inner button
-    CGPoint touchBeginPoint; // begin point in button view
-    CGPoint touchEndPoint; // end point in button view
+    CGFloat _circleWidth; // Surrounding circle width
+    CGFloat _shrinkWidth; // Widht between outer circle and inner button
+    CGPoint touchBeginPoint; // Begin point in button view
+    CGPoint touchEndPoint; // End point in button view
 
-    CGFloat _shouldTapRadius;
-    BOOL _shouldPassTouch;
+    CGFloat _shouldTapRadius; // The radius of touchable circle
+    BOOL _shouldPassTouch; // Whether the touch on button should paased throught to the parent view
 
-    UIImageView* _pressableImageView; // _pressableImageView is inner button image
-    BOOL _isDimmed; // _isDimmed is a state for highlighted button
+    UIImageView* _pressableImageView; // Inner button imageView
+    BOOL _isDimmed; // State for highlighted button
 }
 
+/**
+ *  Initiate a button with frame and default color (white)
+ *
+ *  @param frame Button rect frame
+ *
+ *  @return a TTHRTapButton instance
+ */
 - (instancetype)initWithFrame:(CGRect)frame
 {
     // Default color is white
@@ -44,7 +51,6 @@
  */
 - (instancetype)initWithFrame:(CGRect)frame circleWidth:(CGFloat)cirWidth buttonColor:(UIColor*)btnColor circleColor:(UIColor*)cirColor
 {
-    //    LogMethod;
     self = [super initWithFrame:frame];
     if (self) {
         // Init values
@@ -52,6 +58,7 @@
         _shrinkWidth = 9 + _circleWidth;
         _shouldTapRadius = MAX(frame.size.height, frame.size.width) / 2;
         _shouldPassTouch = YES;
+        
         self.buttonColor = btnColor;
         self.buttonCircleColor = cirColor;
         CGFloat red = 0.0, green = 0.0, blue = 0.0, alpha = 0.0;
@@ -74,6 +81,11 @@
     return self;
 }
 
+/**
+ *  Set highlighted, there will be a animation of transiting from normal state to hightlight state (dimmed)
+ *
+ *  @param highlighted
+ */
 - (void)setHighlighted:(BOOL)highlighted
 {
     [super setHighlighted:highlighted];
@@ -88,7 +100,7 @@
             // NSLog(@"high -> normal")
             [UIView animateWithDuration:0.5
                                   delay:0.0
-                                options:UIViewAnimationOptionAllowUserInteraction
+                                options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                              animations:^{
                                  _pressableImageView.alpha = NORMAL_BUTTON_ALPHA;
                              }
@@ -96,6 +108,7 @@
         }
     }
 }
+
 
 - (void)setbuttonColor:(UIColor*)color
 {
