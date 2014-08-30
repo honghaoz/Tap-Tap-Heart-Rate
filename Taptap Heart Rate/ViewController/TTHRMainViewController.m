@@ -1003,6 +1003,9 @@ typedef enum {
         [self textFieldResignFirstResponder:nil];
         return NO;
     } else {
+        if (screen == Screen1_) {
+            return NO;
+        }
         return YES;
     }
 }
