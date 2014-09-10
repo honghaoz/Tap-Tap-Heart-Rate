@@ -534,7 +534,7 @@ typedef enum {
     [ZHHGoogleAnalytics trackScreen:@"Main Screen"];
     
     // Delay execution (iOS 8 Bugs?)
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.00001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self resetButtonTapped:nil];
     });
     
