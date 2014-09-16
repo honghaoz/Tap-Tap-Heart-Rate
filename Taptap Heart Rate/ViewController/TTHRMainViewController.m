@@ -16,6 +16,11 @@
 #import "TTHRUser.h"
 #import "UIView+POViewFrameBuilder.h"
 
+#import "GAI.h"
+#import "GAITracker.h"
+#import "GAIFields.h"
+#import "GAIDictionaryBuilder.h"
+
 // Define max and min heart rate
 #define MAX_HEART_RATE 229
 #define MIN_HEART_RATE 32
@@ -538,6 +543,15 @@ typedef enum {
         [self resetButtonTapped:nil];
     });
     
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    // Google Analytics
+    id tracker = [[GAI sharedInstance] defaultTracker];
+    // This screen name value will remain set on the tracker and sent with
+    // hits until it is set to a new value or to nil.
+    [tracker set:kGAIScreenName value:@"MainView"];
+    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
