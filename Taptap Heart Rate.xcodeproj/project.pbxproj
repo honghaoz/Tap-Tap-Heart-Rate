@@ -8,11 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1B058354194E2938000D43C2 /* ZHHHandyMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B058353194E2938000D43C2 /* ZHHHandyMacros.m */; };
-		1B0583B4194E30EB000D43C2 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583B3194E30EB000D43C2 /* Parse.framework */; };
 		1B0583B7194E3BE5000D43C2 /* TTHRMainScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0583B6194E3BE5000D43C2 /* TTHRMainScrollView.m */; };
 		1B0583B9194E9737000D43C2 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583B8194E9737000D43C2 /* AdSupport.framework */; };
 		1B0583BB194E973F000D43C2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583BA194E973F000D43C2 /* CoreData.framework */; };
-		1B0583C4194E975C000D43C2 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583C3194E975C000D43C2 /* libGoogleAnalyticsServices.a */; };
 		1B0F96CC1953F113004FD9BD /* ZHHGoogleAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0F96CB1953F113004FD9BD /* ZHHGoogleAnalytics.m */; };
 		1B0F96CF1953F141004FD9BD /* ZHHParseDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0F96CE1953F141004FD9BD /* ZHHParseDevice.m */; };
 		1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */; };
@@ -47,6 +45,8 @@
 		1BDA8EEC1947BEAC006718B5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EEB1947BEAC006718B5 /* StoreKit.framework */; };
 		1BDA8EEE1947BEB4006718B5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EED1947BEB4006718B5 /* SystemConfiguration.framework */; };
 		1BF2FB9E1989F42C002DD49A /* ZHHBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF2FB9D1989F42C002DD49A /* ZHHBarChartView.m */; };
+		B9B6B1BC357920E593E1924B /* libPods-Taptap Heart Rate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4230394B06141D6ACA7FB7D /* libPods-Taptap Heart Rate.a */; };
+		E40A93DE1B8434940000EF57 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E40A93DD1B8434940000EF57 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,18 +62,10 @@
 /* Begin PBXFileReference section */
 		1B058352194E2938000D43C2 /* ZHHHandyMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHHHandyMacros.h; sourceTree = "<group>"; };
 		1B058353194E2938000D43C2 /* ZHHHandyMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHHHandyMacros.m; sourceTree = "<group>"; };
-		1B0583B3194E30EB000D43C2 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		1B0583B5194E3BE5000D43C2 /* TTHRMainScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRMainScrollView.h; path = Views/TTHRMainScrollView.h; sourceTree = "<group>"; };
 		1B0583B6194E3BE5000D43C2 /* TTHRMainScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRMainScrollView.m; path = Views/TTHRMainScrollView.m; sourceTree = "<group>"; };
 		1B0583B8194E9737000D43C2 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		1B0583BA194E973F000D43C2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		1B0583BD194E975C000D43C2 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
-		1B0583BE194E975C000D43C2 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
-		1B0583BF194E975C000D43C2 /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
-		1B0583C0194E975C000D43C2 /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
-		1B0583C1194E975C000D43C2 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
-		1B0583C2194E975C000D43C2 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
-		1B0583C3194E975C000D43C2 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		1B0F96CA1953F113004FD9BD /* ZHHGoogleAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZHHGoogleAnalytics.h; path = "Taptap Heart Rate/Others/ZHHGoogleAnalytics.h"; sourceTree = "<group>"; };
 		1B0F96CB1953F113004FD9BD /* ZHHGoogleAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZHHGoogleAnalytics.m; path = "Taptap Heart Rate/Others/ZHHGoogleAnalytics.m"; sourceTree = "<group>"; };
 		1B0F96CD1953F141004FD9BD /* ZHHParseDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZHHParseDevice.h; path = "Taptap Heart Rate/Others/ZHHParseDevice.h"; sourceTree = "<group>"; };
@@ -123,6 +115,10 @@
 		1BDA8EED1947BEB4006718B5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1BF2FB9C1989F42C002DD49A /* ZHHBarChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZHHBarChartView.h; path = Views/ZHHBarChartView.h; sourceTree = "<group>"; };
 		1BF2FB9D1989F42C002DD49A /* ZHHBarChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZHHBarChartView.m; path = Views/ZHHBarChartView.m; sourceTree = "<group>"; };
+		A4230394B06141D6ACA7FB7D /* libPods-Taptap Heart Rate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Taptap Heart Rate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C298DAF6FF0E8B43C1956D61 /* Pods-Taptap Heart Rate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taptap Heart Rate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate.debug.xcconfig"; sourceTree = "<group>"; };
+		CFD764A380B765178F9F06C5 /* Pods-Taptap Heart Rate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taptap Heart Rate.release.xcconfig"; path = "Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate.release.xcconfig"; sourceTree = "<group>"; };
+		E40A93DD1B8434940000EF57 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,13 +135,12 @@
 				1BDA8EEA1947BEA7006718B5 /* Security.framework in Frameworks */,
 				1BDA8EE81947BEA2006718B5 /* QuartzCore.framework in Frameworks */,
 				1BDA8EE61947BE9E006718B5 /* MobileCoreServices.framework in Frameworks */,
-				1B0583B4194E30EB000D43C2 /* Parse.framework in Frameworks */,
 				1BDA8EE21947BE8F006718B5 /* CoreLocation.framework in Frameworks */,
-				1B0583C4194E975C000D43C2 /* libGoogleAnalyticsServices.a in Frameworks */,
 				1BDA8EAE19479FFC006718B5 /* CoreGraphics.framework in Frameworks */,
 				1BDA8EE01947BE84006718B5 /* CFNetwork.framework in Frameworks */,
 				1BDA8EDE1947BE7E006718B5 /* AudioToolbox.framework in Frameworks */,
 				1BDA8EB019479FFC006718B5 /* UIKit.framework in Frameworks */,
+				B9B6B1BC357920E593E1924B /* libPods-Taptap Heart Rate.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,20 +164,6 @@
 				1B058353194E2938000D43C2 /* ZHHHandyMacros.m */,
 			);
 			path = ZHHHandyMacros;
-			sourceTree = "<group>";
-		};
-		1B0583BC194E975C000D43C2 /* GoogleAnalytics */ = {
-			isa = PBXGroup;
-			children = (
-				1B0583BD194E975C000D43C2 /* GAI.h */,
-				1B0583BE194E975C000D43C2 /* GAIDictionaryBuilder.h */,
-				1B0583BF194E975C000D43C2 /* GAIFields.h */,
-				1B0583C0194E975C000D43C2 /* GAILogger.h */,
-				1B0583C1194E975C000D43C2 /* GAITrackedViewController.h */,
-				1B0583C2194E975C000D43C2 /* GAITracker.h */,
-				1B0583C3194E975C000D43C2 /* libGoogleAnalyticsServices.a */,
-			);
-			path = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
 		1B1A376E194BFD7400C9F9EC /* Views */ = {
@@ -256,6 +237,7 @@
 				1BDA8ECA19479FFC006718B5 /* Taptap Heart RateTests */,
 				1BDA8EAA19479FFC006718B5 /* Frameworks */,
 				1BDA8EA919479FFC006718B5 /* Products */,
+				FC7DB40923C19A5AC6D000B8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -286,6 +268,7 @@
 				1BDA8EAD19479FFC006718B5 /* CoreGraphics.framework */,
 				1BDA8EAF19479FFC006718B5 /* UIKit.framework */,
 				1BDA8EC419479FFC006718B5 /* XCTest.framework */,
+				A4230394B06141D6ACA7FB7D /* libPods-Taptap Heart Rate.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -308,6 +291,7 @@
 		1BDA8EB219479FFC006718B5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E40A93DD1B8434940000EF57 /* GoogleService-Info.plist */,
 				1BDA8EB319479FFC006718B5 /* Taptap Heart Rate-Info.plist */,
 				1BDA8EB419479FFC006718B5 /* InfoPlist.strings */,
 				1BDA8EB719479FFC006718B5 /* main.m */,
@@ -337,12 +321,19 @@
 		1BDA8EF01947BF1B006718B5 /* ThirdPartyDependency */ = {
 			isa = PBXGroup;
 			children = (
-				1B0583BC194E975C000D43C2 /* GoogleAnalytics */,
-				1B0583B3194E30EB000D43C2 /* Parse.framework */,
 				1B058351194E2938000D43C2 /* ZHHHandyMacros */,
 			);
 			name = ThirdPartyDependency;
 			path = "Taptap Heart Rate/ThirdPartyDependency";
+			sourceTree = "<group>";
+		};
+		FC7DB40923C19A5AC6D000B8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C298DAF6FF0E8B43C1956D61 /* Pods-Taptap Heart Rate.debug.xcconfig */,
+				CFD764A380B765178F9F06C5 /* Pods-Taptap Heart Rate.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -352,9 +343,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1BDA8ED419479FFC006718B5 /* Build configuration list for PBXNativeTarget "Taptap Heart Rate" */;
 			buildPhases = (
+				F644B0EFA659C37604379AD7 /* Check Pods Manifest.lock */,
 				1BDA8EA419479FFC006718B5 /* Sources */,
 				1BDA8EA519479FFC006718B5 /* Frameworks */,
 				1BDA8EA619479FFC006718B5 /* Resources */,
+				5F116968B58EA95FD9946BDF /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -426,6 +419,7 @@
 			files = (
 				1B75F20A195F935500AFAFC4 /* Heart.png in Resources */,
 				1B75F20B195F935500AFAFC4 /* Heart@2x.png in Resources */,
+				E40A93DE1B8434940000EF57 /* GoogleService-Info.plist in Resources */,
 				1BDA8EB619479FFC006718B5 /* InfoPlist.strings in Resources */,
 				1BDA8EBE19479FFC006718B5 /* Images.xcassets in Resources */,
 			);
@@ -440,6 +434,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5F116968B58EA95FD9946BDF /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F644B0EFA659C37604379AD7 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1BDA8EA419479FFC006718B5 /* Sources */ = {
@@ -576,22 +603,17 @@
 		};
 		1BDA8ED519479FFC006718B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C298DAF6FF0E8B43C1956D61 /* Pods-Taptap Heart Rate.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Taptap Heart Rate/Taptap Heart Rate-Prefix.pch";
 				INFOPLIST_FILE = "Taptap Heart Rate/Taptap Heart Rate-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/**",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "f7fb67c6-dfac-42ac-aa1c-bd5b07b5e2e3";
 				WRAPPER_EXTENSION = app;
@@ -600,22 +622,17 @@
 		};
 		1BDA8ED619479FFC006718B5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CFD764A380B765178F9F06C5 /* Pods-Taptap Heart Rate.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/**",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Taptap Heart Rate/Taptap Heart Rate-Prefix.pch";
 				INFOPLIST_FILE = "Taptap Heart Rate/Taptap Heart Rate-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/**",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "9f73a720-d32c-4863-9d08-a37ecd757521";
 				WRAPPER_EXTENSION = app;

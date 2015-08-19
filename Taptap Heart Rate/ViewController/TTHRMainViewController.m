@@ -314,18 +314,18 @@ typedef enum {
     
     // SegmentLabel
     CGFloat segmentLabelHeight = 30;
-    CGFloat segmentLabelWidth  = 140;
+    CGFloat segmentLabelWidth  = 176;
     CGFloat segmentLabelX      = offsetX + (_mainScrollView.contentSize.width - offsetX - segmentLabelWidth) / 2;
     CGFloat segmentLabelY      = heartRateTitleLabelY;
     CGRect segmentLabelFrame = CGRectMake(segmentLabelX, segmentLabelY, segmentLabelWidth, segmentLabelHeight);
     _segmentLabel = [[UILabel alloc] initWithFrame:segmentLabelFrame];
-    [_segmentLabel setText:@"Choose Test Mode"];
+    [_segmentLabel setText:@"Choose Measure Mode"];
     [_segmentLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [_segmentLabel setTextAlignment:NSTextAlignmentCenter];
     [_segmentLabel setTextColor:_buttonColor];
     
     // ModeSegment help button
-    CGFloat segmentHelpX      = segmentLabelX + segmentLabelWidth;
+    CGFloat segmentHelpX      = segmentLabelX + segmentLabelWidth - 8;
     CGFloat segmentHelpWidth  = segmentLabelHeight + 5;
     CGFloat segmentHelpHeight = segmentLabelHeight + 5;
     CGFloat segmentHelpY      = segmentLabelY + 1 / 2 * segmentLabelHeight - 1 / 2 * segmentHelpHeight - 2;
@@ -550,7 +550,7 @@ typedef enum {
     // This screen name value will remain set on the tracker and sent with
     // hits until it is set to a new value or to nil.
     [tracker set:kGAIScreenName value:@"MainView"];
-    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle

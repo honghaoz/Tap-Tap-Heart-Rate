@@ -10,7 +10,7 @@
 #import "TTHRMainViewController.h"
 #import <Parse/Parse.h>
 #import "ZHHParseDevice.h"
-#import "GAI.h"
+#import <Google/Analytics.h>
 
 #import "TTHRUser.h"
 
@@ -34,23 +34,28 @@
     [Parse setApplicationId:@"ifM1WwMLZMMsCWNgwsCbQteYiBjcBLZPuWKQULFH"
                   clientKey:@"fEf84dVgJkeYojraNDbTgB9u8HLKwaYPratdEPEP"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+#if DEBUG
     BOOL testMode = YES;
+#else
+	BOOL testMode = NO;
+#endif
     if (testMode) {
         [ZHHParseDevice trackDevice];
     }
 
-    // Google Analytics
-    // Optional: automatically send uncaught exceptions to Google Analytics.
-    [GAI sharedInstance].trackUncaughtExceptions = YES;
+	// Configure tracker from GoogleService-Info.plist.
+	NSError *configureError;
+	[[GGLContext sharedInstance] configureWithError:&configureError];
+	NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+	
+	// Optional: configure GAI options.
+	GAI *gai = [GAI sharedInstance];
+	gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
+	gai.dispatchInterval = 10;
+	gai.logger.logLevel = testMode ? kGAILogLevelVerbose : kGAILogLevelError;  // remove before app release
 
-    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
-    [GAI sharedInstance].dispatchInterval = 20;
-
-    // Optional: set Logger to VERBOSE for debug information.
-    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
-
-    // Initialize tracker. Replace with your tracking ID.
-    [[GAI sharedInstance] trackerWithTrackingId:@"UA-45146473-4"];
+	[gai.defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"App" action:@"Launch" label:@"" value:nil] build]];
+	
     return YES;
 }
 

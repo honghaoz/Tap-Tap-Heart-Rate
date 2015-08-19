@@ -7,11 +7,7 @@
 //
 
 #import "ZHHGoogleAnalytics.h"
-
-#import "GAI.h"
-#import "GAITracker.h"
-#import "GAIFields.h"
-#import "GAIDictionaryBuilder.h"
+#import <Google/Analytics.h>
 
 @implementation ZHHGoogleAnalytics
 
@@ -22,7 +18,8 @@
     // hits until it is set to a new value or to nil.
     [tracker set:kGAIScreenName
            value:screenName];
-    [tracker send:[[GAIDictionaryBuilder createAppView] build]];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+	[tracker dispatch];
 }
 
 @end
