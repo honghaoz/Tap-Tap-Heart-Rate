@@ -14,7 +14,6 @@
 #import "TTHRHintView.h"
 #import "TTHRHeartIndicatorView.h"
 #import "TTHRUser.h"
-#import "UIView+POViewFrameBuilder.h"
 
 #import "GAI.h"
 #import "GAITracker.h"

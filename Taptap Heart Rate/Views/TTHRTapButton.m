@@ -215,7 +215,7 @@
     for (UITouch* touch in touches) {
         touchEndPoint = [touch locationInView:self];
         // if touch end offset smaller than 15, touched
-        if (abs(touchBeginPoint.x - touchEndPoint.x) < 15) {
+        if (fabs(touchBeginPoint.x - touchEndPoint.x) < 15) {
             [super touchesEnded:touches withEvent:event];
         } else {
             [super touchesCancelled:touches withEvent:event];
