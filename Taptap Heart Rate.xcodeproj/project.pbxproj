@@ -45,6 +45,7 @@
 		1BF2FB9E1989F42C002DD49A /* ZHHBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF2FB9D1989F42C002DD49A /* ZHHBarChartView.m */; };
 		B9B6B1BC357920E593E1924B /* libPods-Taptap Heart Rate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4230394B06141D6ACA7FB7D /* libPods-Taptap Heart Rate.a */; };
 		E40A93DE1B8434940000EF57 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E40A93DD1B8434940000EF57 /* GoogleService-Info.plist */; };
+		E43824FB1B856A4100D85E41 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43824FA1B856A4100D85E41 /* iAd.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,7 @@
 		C298DAF6FF0E8B43C1956D61 /* Pods-Taptap Heart Rate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taptap Heart Rate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate.debug.xcconfig"; sourceTree = "<group>"; };
 		CFD764A380B765178F9F06C5 /* Pods-Taptap Heart Rate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taptap Heart Rate.release.xcconfig"; path = "Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate.release.xcconfig"; sourceTree = "<group>"; };
 		E40A93DD1B8434940000EF57 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E43824FA1B856A4100D85E41 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E43824FB1B856A4100D85E41 /* iAd.framework in Frameworks */,
 				1BDA8EE41947BE98006718B5 /* libz.dylib in Frameworks */,
 				1BDA8EEE1947BEB4006718B5 /* SystemConfiguration.framework in Frameworks */,
 				1B0583BB194E973F000D43C2 /* CoreData.framework in Frameworks */,
@@ -237,6 +240,7 @@
 		1BDA8EAA19479FFC006718B5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E43824FA1B856A4100D85E41 /* iAd.framework */,
 				1B0583BA194E973F000D43C2 /* CoreData.framework */,
 				1B0583B8194E9737000D43C2 /* AdSupport.framework */,
 				1BDA8EED1947BEB4006718B5 /* SystemConfiguration.framework */,

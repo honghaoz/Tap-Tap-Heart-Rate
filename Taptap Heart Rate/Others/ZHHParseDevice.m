@@ -39,7 +39,7 @@ static NSString *deviceType;
                     object[@"System_Version"] = [[UIDevice currentDevice] systemVersion];
                     object[@"App_Version"] = [UIApplication appVersion];
                     object[@"Opens"] = [NSNumber numberWithInteger:[object[@"Opens"] integerValue] + 1];
-                    NSLog(@"%ld", [object[@"Opens"] integerValue]);
+                    NSLog(@"%d", [object[@"Opens"] integerValue]);
                     [object saveEventually];
                 }
             }

@@ -20,6 +20,8 @@
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 
+#import <iAd/iAd.h>
+
 // Define max and min heart rate
 #define MAX_HEART_RATE 229
 #define MIN_HEART_RATE 32
@@ -36,7 +38,7 @@ typedef enum {
     TrackStop
 } TrackState;
 
-@interface TTHRMainViewController () <TTHRMainScrollViewDelegate, UITextFieldDelegate>
+@interface TTHRMainViewController () <TTHRMainScrollViewDelegate, UITextFieldDelegate, ADBannerViewDelegate>
 
 // Preference data
 @property (nonatomic, assign) NSInteger countModeNumber;
@@ -92,6 +94,9 @@ typedef enum {
 
 // Screen 1_ (Screen -1)
 @property (nonatomic, assign) BOOL screen1_IsLoaded;
+
+@property (nonatomic, strong) ADBannerView *adView;
+@property (nonatomic, assign) BOOL bannerIsVisible;
 
 @end
 
@@ -480,7 +485,7 @@ typedef enum {
     designWidth  = _designLabel.frame.size.width;
     designHeight = _designLabel.frame.size.height;
     designX      = offsetX + (_mainScrollView.contentSize.width - offsetX - designWidth) / 2;
-    designY      = _mainScreenSize.height - designHeight - 10;
+	designY      = (_mainScreenSize.height - (_bannerIsVisible ? 50 : 0)) - designHeight - 10;
     designFrame  = CGRectMake(designX, designY, designWidth, designHeight);
     [_designLabel setFrame:designFrame];
     
@@ -542,9 +547,15 @@ typedef enum {
     
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	// Google Analytics
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
 	[ZHHGoogleAnalytics trackScreen:@"MainView"];
+	
+	// iAd
+	self.adView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+	self.adView.frame = CGRectMake(0, self.view.frame.size.height, self.adView.bounds.size.width, self.adView.bounds.size.height);
+	self.adView.delegate = self;
+	[self.view addSubview:self.adView];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -1101,6 +1112,57 @@ typedef enum {
     [color getRed:&red green:&green blue:&blue alpha:&alpha];
     UIColor* newColor = [UIColor colorWithRed:red green:green blue:blue alpha:alpha - dim];
     return newColor;
+}
+
+#pragma mark - iAd
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+	if (!_bannerIsVisible)
+	{
+		// If banner isn't part of view hierarchy, add it
+		if (self.adView.superview == nil)
+		{
+			[self.view addSubview:self.adView];
+		}
+		
+		[UIView beginAnimations:@"animateAdBannerOn" context:NULL];
+		
+		banner.frame = CGRectMake(0, self.view.frame.size.height - self.adView.bounds.size.height, self.adView.bounds.size.width, self.adView.bounds.size.height);
+		
+		self.tapButton.frame = CGRectOffset(self.tapButton.frame, 0, -banner.bounds.size.height / 2.0);
+		self.resetButton.frame = CGRectOffset(self.resetButton.frame, 0, -banner.bounds.size.height / 2.0);
+		
+		if (self.designLabel) {
+			self.designLabel.frame = CGRectOffset(self.designLabel.frame, 0, -banner.bounds.size.height);
+		}
+		
+		[UIView commitAnimations];
+		
+		_bannerIsVisible = YES;
+	}
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+	NSLog(@"Failed to retrieve ad");
+	
+	if (_bannerIsVisible)
+	{
+		[UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+		
+		banner.frame = CGRectMake(0, self.view.frame.size.height, self.adView.bounds.size.width, self.adView.bounds.size.height);
+		
+		self.tapButton.frame = CGRectOffset(self.tapButton.frame, 0, banner.bounds.size.height / 2.0);
+		self.resetButton.frame = CGRectOffset(self.resetButton.frame, 0, banner.bounds.size.height / 2.0);
+		if (self.designLabel) {
+			self.designLabel.frame = CGRectOffset(self.designLabel.frame, 0, banner.bounds.size.height);
+		}
+		
+		[UIView commitAnimations];
+		
+		_bannerIsVisible = NO;
+	}
 }
 
 @end
