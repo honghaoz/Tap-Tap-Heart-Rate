@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Google/Analytics.h>
 
 typedef enum {
     FiveMode = 0,
@@ -14,6 +15,6 @@ typedef enum {
     TapMode
 } Mode;
 
-@interface TTHRMainViewController : UIViewController
+@interface TTHRMainViewController : GAITrackedViewController
 
 @end

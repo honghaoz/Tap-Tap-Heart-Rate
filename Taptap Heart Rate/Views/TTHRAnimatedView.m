@@ -79,7 +79,6 @@
 //}
 
 //- (void)show {
-//    LogMethod;
 //    [self setBackgroundColor:[UIColor blueColor]];
 //    NSEnumerator *frontToBackWindows = [[[UIApplication sharedApplication]windows]reverseObjectEnumerator];
 //    NSLog(@"%d", [[frontToBackWindows allObjects] count]);

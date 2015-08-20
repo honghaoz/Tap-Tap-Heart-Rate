@@ -175,7 +175,7 @@ typedef enum {
     CGFloat heartRateLabelY      = 0;
     
     // On 4inch Screen, move label down
-    if (IS_IPHONE_5) {
+    if (_mainScreenSize.height > 480) {
         heartRateLabelY = 65;
     } else {
         heartRateLabelY = 55;
@@ -264,7 +264,7 @@ typedef enum {
     CGFloat tapButtonX      = offsetX + (_mainScreenSize.width - tapButtonWidth) / 2;
     CGFloat tapButtonY      = 0;
     // On 4inch Screen, move label up
-    if (IS_IPHONE_5) {
+    if (_mainScreenSize.height > 480) {
         tapButtonY = _mainScreenSize.height - tapButtonHeight - 50;
     } else {
         tapButtonY = _mainScreenSize.height - tapButtonHeight - 30;
@@ -525,7 +525,6 @@ typedef enum {
 
 - (void)viewDidLoad
 {
-    LogMethod;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _user = [TTHRUser sharedUser];
@@ -533,10 +532,9 @@ typedef enum {
     _currentMode = _user.choosedMode;
     _tappedTimes = [[NSMutableArray alloc] init];
     [self setNeedsStatusBarAppearanceUpdate];
-
-    // Google Analytics
-    [ZHHGoogleAnalytics trackScreen:@"Main Screen"];
-    
+	
+	self.screenName = @"MainView";
+	
     // Delay execution (iOS 8 Bugs?)
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.0001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self resetButtonTapped:nil];
@@ -545,12 +543,8 @@ typedef enum {
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    // Google Analytics
-    id tracker = [[GAI sharedInstance] defaultTracker];
-    // This screen name value will remain set on the tracker and sent with
-    // hits until it is set to a new value or to nil.
-    [tracker set:kGAIScreenName value:@"MainView"];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
+	// Google Analytics
+	[ZHHGoogleAnalytics trackScreen:@"MainView"];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -567,7 +561,6 @@ typedef enum {
 
 - (void)start
 {
-    LogMethod;
     // If before start is not ongoing, init timer
     // Else, don't init the timer again
     if (_currentState != TrackOngoing) {
@@ -582,7 +575,6 @@ typedef enum {
 
 - (void)pause
 {
-    LogMethod;
     _currentState = TrackPause;
     // Stop the timer
     [_timer invalidate];
@@ -591,7 +583,6 @@ typedef enum {
 
 - (void)stop
 {
-    LogMethod;
     _currentState = TrackStop;
     // Stop the timer
     [_timer invalidate];
@@ -980,7 +971,6 @@ typedef enum {
 
 - (void)prepareViewsForOrientation:(UIInterfaceOrientation)orientation
 {
-    LogMethod;
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         return;
     }

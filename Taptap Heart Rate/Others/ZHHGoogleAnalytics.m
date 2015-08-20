@@ -18,8 +18,7 @@
     // hits until it is set to a new value or to nil.
     [tracker set:kGAIScreenName
            value:screenName];
-    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
-	[tracker dispatch];
+	[tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 @end

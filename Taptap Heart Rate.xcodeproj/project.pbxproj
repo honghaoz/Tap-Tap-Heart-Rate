@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B058354194E2938000D43C2 /* ZHHHandyMacros.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B058353194E2938000D43C2 /* ZHHHandyMacros.m */; };
 		1B0583B7194E3BE5000D43C2 /* TTHRMainScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0583B6194E3BE5000D43C2 /* TTHRMainScrollView.m */; };
 		1B0583B9194E9737000D43C2 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583B8194E9737000D43C2 /* AdSupport.framework */; };
 		1B0583BB194E973F000D43C2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583BA194E973F000D43C2 /* CoreData.framework */; };
@@ -42,7 +41,6 @@
 		1BDA8EE61947BE9E006718B5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EE51947BE9E006718B5 /* MobileCoreServices.framework */; };
 		1BDA8EE81947BEA2006718B5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EE71947BEA2006718B5 /* QuartzCore.framework */; };
 		1BDA8EEA1947BEA7006718B5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EE91947BEA7006718B5 /* Security.framework */; };
-		1BDA8EEC1947BEAC006718B5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EEB1947BEAC006718B5 /* StoreKit.framework */; };
 		1BDA8EEE1947BEB4006718B5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EED1947BEB4006718B5 /* SystemConfiguration.framework */; };
 		1BF2FB9E1989F42C002DD49A /* ZHHBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF2FB9D1989F42C002DD49A /* ZHHBarChartView.m */; };
 		B9B6B1BC357920E593E1924B /* libPods-Taptap Heart Rate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4230394B06141D6ACA7FB7D /* libPods-Taptap Heart Rate.a */; };
@@ -60,8 +58,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1B058352194E2938000D43C2 /* ZHHHandyMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHHHandyMacros.h; sourceTree = "<group>"; };
-		1B058353194E2938000D43C2 /* ZHHHandyMacros.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHHHandyMacros.m; sourceTree = "<group>"; };
 		1B0583B5194E3BE5000D43C2 /* TTHRMainScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRMainScrollView.h; path = Views/TTHRMainScrollView.h; sourceTree = "<group>"; };
 		1B0583B6194E3BE5000D43C2 /* TTHRMainScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRMainScrollView.m; path = Views/TTHRMainScrollView.m; sourceTree = "<group>"; };
 		1B0583B8194E9737000D43C2 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -111,7 +107,6 @@
 		1BDA8EE51947BE9E006718B5 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		1BDA8EE71947BEA2006718B5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1BDA8EE91947BEA7006718B5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		1BDA8EEB1947BEAC006718B5 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		1BDA8EED1947BEB4006718B5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1BF2FB9C1989F42C002DD49A /* ZHHBarChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZHHBarChartView.h; path = Views/ZHHBarChartView.h; sourceTree = "<group>"; };
 		1BF2FB9D1989F42C002DD49A /* ZHHBarChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZHHBarChartView.m; path = Views/ZHHBarChartView.m; sourceTree = "<group>"; };
@@ -131,7 +126,6 @@
 				1B0583BB194E973F000D43C2 /* CoreData.framework in Frameworks */,
 				1B0583B9194E9737000D43C2 /* AdSupport.framework in Frameworks */,
 				1B1B75D91947F18600C7FAC3 /* Foundation.framework in Frameworks */,
-				1BDA8EEC1947BEAC006718B5 /* StoreKit.framework in Frameworks */,
 				1BDA8EEA1947BEA7006718B5 /* Security.framework in Frameworks */,
 				1BDA8EE81947BEA2006718B5 /* QuartzCore.framework in Frameworks */,
 				1BDA8EE61947BE9E006718B5 /* MobileCoreServices.framework in Frameworks */,
@@ -157,15 +151,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1B058351194E2938000D43C2 /* ZHHHandyMacros */ = {
-			isa = PBXGroup;
-			children = (
-				1B058352194E2938000D43C2 /* ZHHHandyMacros.h */,
-				1B058353194E2938000D43C2 /* ZHHHandyMacros.m */,
-			);
-			path = ZHHHandyMacros;
-			sourceTree = "<group>";
-		};
 		1B1A376E194BFD7400C9F9EC /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,7 +215,6 @@
 		1BDA8E9F19479FFC006718B5 = {
 			isa = PBXGroup;
 			children = (
-				1BDA8EF01947BF1B006718B5 /* ThirdPartyDependency */,
 				1BC002571947DD510040E828 /* Others */,
 				1BC0025C1947DFCA0040E828 /* Category */,
 				1BDA8EB119479FFC006718B5 /* Taptap Heart Rate */,
@@ -256,7 +240,6 @@
 				1B0583BA194E973F000D43C2 /* CoreData.framework */,
 				1B0583B8194E9737000D43C2 /* AdSupport.framework */,
 				1BDA8EED1947BEB4006718B5 /* SystemConfiguration.framework */,
-				1BDA8EEB1947BEAC006718B5 /* StoreKit.framework */,
 				1BDA8EE91947BEA7006718B5 /* Security.framework */,
 				1BDA8EE71947BEA2006718B5 /* QuartzCore.framework */,
 				1BDA8EE51947BE9E006718B5 /* MobileCoreServices.framework */,
@@ -316,15 +299,6 @@
 				1BDA8ECD19479FFC006718B5 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		1BDA8EF01947BF1B006718B5 /* ThirdPartyDependency */ = {
-			isa = PBXGroup;
-			children = (
-				1B058351194E2938000D43C2 /* ZHHHandyMacros */,
-			);
-			name = ThirdPartyDependency;
-			path = "Taptap Heart Rate/ThirdPartyDependency";
 			sourceTree = "<group>";
 		};
 		FC7DB40923C19A5AC6D000B8 /* Pods */ = {
@@ -387,9 +361,14 @@
 				ORGANIZATIONNAME = "org-honghao";
 				TargetAttributes = {
 					1BDA8EA719479FFC006718B5 = {
-						DevelopmentTeam = UYW9ZSKZAQ;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+						};
 					};
 					1BDA8EC219479FFC006718B5 = {
+						DevelopmentTeam = UYW9ZSKZAQ;
 						TestTargetID = 1BDA8EA719479FFC006718B5;
 					};
 				};
@@ -400,6 +379,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 1BDA8E9F19479FFC006718B5;
 			productRefGroup = 1BDA8EA919479FFC006718B5 /* Products */;
@@ -486,7 +466,6 @@
 				1B75F205195F807900AFAFC4 /* TTHRHeartIndicatorView.m in Sources */,
 				1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */,
 				1BDA8EB819479FFC006718B5 /* main.m in Sources */,
-				1B058354194E2938000D43C2 /* ZHHHandyMacros.m in Sources */,
 				1BC002621947DFCA0040E828 /* UIDevice-Hardware.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -615,7 +594,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f7fb67c6-dfac-42ac-aa1c-bd5b07b5e2e3";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -634,7 +613,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "9f73a720-d32c-4863-9d08-a37ecd757521";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -643,6 +622,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Taptap Heart Rate.app/Taptap Heart Rate";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -656,6 +637,7 @@
 				);
 				INFOPLIST_FILE = "Taptap Heart RateTests/Taptap Heart RateTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -665,6 +647,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Taptap Heart Rate.app/Taptap Heart Rate";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -674,6 +658,7 @@
 				GCC_PREFIX_HEADER = "Taptap Heart Rate/Taptap Heart Rate-Prefix.pch";
 				INFOPLIST_FILE = "Taptap Heart RateTests/Taptap Heart RateTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};

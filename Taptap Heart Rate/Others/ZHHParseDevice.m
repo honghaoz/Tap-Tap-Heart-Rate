@@ -33,13 +33,13 @@ static NSString *deviceType;
             else {
                 // update found device
                 for (PFObject *object in objects) {
-                    NSLog(@"Query identifier succeed, update")
+					NSLog(@"Query identifier succeed, update");
                     object[@"Device_Name"] = deviceName;
                     object[@"Device_Type"] = deviceType;
                     object[@"System_Version"] = [[UIDevice currentDevice] systemVersion];
                     object[@"App_Version"] = [UIApplication appVersion];
                     object[@"Opens"] = [NSNumber numberWithInteger:[object[@"Opens"] integerValue] + 1];
-                    NSLog(@"%d", [object[@"Opens"] integerValue]);
+                    NSLog(@"%ld", [object[@"Opens"] integerValue]);
                     [object saveEventually];
                 }
             }
@@ -77,7 +77,7 @@ static NSString *deviceType;
             // Do something with the found objects
             else {
                 for (PFObject *object in objects) {
-                    NSLog(@"Query device name succeed, update")
+					NSLog(@"Query device name succeed, update");
                     object[@"Device_Name"] = deviceName;
                     object[@"Device_Type"] = deviceType;
                     object[@"System_Version"] = [[UIDevice currentDevice] systemVersion];
@@ -115,7 +115,7 @@ static NSString *deviceType;
             else {
                 // find the largest object
                 PFObject *theLastObject = [objects lastObject];
-                NSLog(@"Query default name succeed, create new one")
+				NSLog(@"Query default name succeed, create new one");
                 NSString *lastDefaultName = theLastObject[@"Device_Name"];
                 NSRange findRange = [lastDefaultName rangeOfString:@"+"];
                 NSInteger lastNumber = [[lastDefaultName substringFromIndex:findRange.location + 1] integerValue];

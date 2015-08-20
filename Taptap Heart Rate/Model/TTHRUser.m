@@ -43,7 +43,6 @@
     static TTHRUser *sharedUser = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        LogMethod;
         sharedUser = [[self alloc] init];
     });
     return sharedUser;
@@ -61,7 +60,6 @@
 }
 
 - (void)setAge:(NSInteger)age {
-    LogMethod;
     _age = age;
     [self updateMaxHR];
     [self updateIsCompleted];
@@ -69,7 +67,6 @@
 }
 
 - (void)setGender:(Gender)gender {
-    LogMethod;
     _gender = gender;
     [self updateMaxHR];
     [self updateIsCompleted];
@@ -88,7 +85,6 @@
 
 - (void)updateMaxHR {
     _maxHR = [self calculateMaxHR];
-    NSLog(@"maxHR: %d", _maxHR);
 }
 
 - (void)updateIsCompleted {
@@ -522,7 +518,6 @@
 
 - (void)save
 {
-    LogMethod;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setInteger:self.age forKey:@"UserAge"];
     [defaults setInteger:self.gender forKey:@"UserGender"];
@@ -534,14 +529,12 @@
 
 - (void)load
 {
-    LogMethod;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     _age = [defaults integerForKey:@"UserAge"];
     _gender = (int)[defaults integerForKey:@"UserGender"];
     _choosedMode = (int)[defaults integerForKey:@"UserChoosedMode"];
     _maxHR = [defaults integerForKey:@"MaxHR"];
     [self updateIsCompleted];
-    NSLog(@"Age: %d", _age);
 }
 
 @end
