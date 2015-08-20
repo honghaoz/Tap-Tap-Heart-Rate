@@ -538,7 +538,7 @@ typedef enum {
     _tappedTimes = [[NSMutableArray alloc] init];
     [self setNeedsStatusBarAppearanceUpdate];
 	
-	self.screenName = @"MainView";
+	self.screenName = @"Main View";
 	
     // Delay execution (iOS 8 Bugs?)
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.0001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -549,7 +549,7 @@ typedef enum {
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	[ZHHGoogleAnalytics trackScreen:@"MainView"];
+	[ZHHGoogleAnalytics trackScreen:@"Main View"];
 	
 	// iAd
 	self.adView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
@@ -1044,9 +1044,11 @@ typedef enum {
     if (screen == Screen0) {
         _tapButton.enabled = YES;
         _resetButton.enabled = YES;
+		[ZHHGoogleAnalytics trackScreen:@"Main View"];
     } else /*if (screen == Screen1)*/ {
         _tapButton.enabled = NO;
         _resetButton.enabled = NO;
+		[ZHHGoogleAnalytics trackScreen:@"Setting View"];
     }
 }
 
@@ -1118,6 +1120,7 @@ typedef enum {
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
+	[[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"App" action:@"AdShowing" label:@"" value:nil] build]];
 	if (!_bannerIsVisible)
 	{
 		// If banner isn't part of view hierarchy, add it
@@ -1145,8 +1148,7 @@ typedef enum {
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-	NSLog(@"Failed to retrieve ad");
-	
+	[[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"App" action:@"AdHidding" label:@"" value:nil] build]];
 	if (_bannerIsVisible)
 	{
 		[UIView beginAnimations:@"animateAdBannerOff" context:NULL];
