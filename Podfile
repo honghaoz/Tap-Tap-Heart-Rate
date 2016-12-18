@@ -2,12 +2,8 @@ platform :ios, '7.0'
 
 target 'Taptap Heart Rate' do
 
-pod 'Google/Analytics', '~> 1.0.0'
-pod 'Parse'
+pod 'Google/Analytics'
+pod 'Firebase/Core'
+pod 'Firebase/AdMob'
 
 end
-
-target 'Taptap Heart RateTests' do
-
-end
-

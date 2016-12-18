@@ -8,10 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B0583B7194E3BE5000D43C2 /* TTHRMainScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0583B6194E3BE5000D43C2 /* TTHRMainScrollView.m */; };
-		1B0583B9194E9737000D43C2 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583B8194E9737000D43C2 /* AdSupport.framework */; };
-		1B0583BB194E973F000D43C2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583BA194E973F000D43C2 /* CoreData.framework */; };
 		1B0F96CC1953F113004FD9BD /* ZHHGoogleAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0F96CB1953F113004FD9BD /* ZHHGoogleAnalytics.m */; };
-		1B0F96CF1953F141004FD9BD /* ZHHParseDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0F96CE1953F141004FD9BD /* ZHHParseDevice.m */; };
 		1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */; };
 		1B1B75D91947F18600C7FAC3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAB19479FFC006718B5 /* Foundation.framework */; };
 		1B3E9BBA195BC38E000D144E /* TTHRAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E9BB9195BC38E000D144E /* TTHRAnimatedView.m */; };
@@ -20,8 +17,6 @@
 		1B75F20A195F935500AFAFC4 /* Heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B75F208195F935500AFAFC4 /* Heart.png */; };
 		1B75F20B195F935500AFAFC4 /* Heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B75F209195F935500AFAFC4 /* Heart@2x.png */; };
 		1B75F212195FA3D000AFAFC4 /* TTHRUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B75F211195FA3D000AFAFC4 /* TTHRUser.m */; };
-		1BC002611947DFCA0040E828 /* UIApplication+AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC0025E1947DFCA0040E828 /* UIApplication+AppVersion.m */; };
-		1BC002621947DFCA0040E828 /* UIDevice-Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BC002601947DFCA0040E828 /* UIDevice-Hardware.m */; };
 		1BDA8EAE19479FFC006718B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAD19479FFC006718B5 /* CoreGraphics.framework */; };
 		1BDA8EB019479FFC006718B5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAF19479FFC006718B5 /* UIKit.framework */; };
 		1BDA8EB619479FFC006718B5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BDA8EB419479FFC006718B5 /* InfoPlist.strings */; };
@@ -34,18 +29,9 @@
 		1BDA8ECF19479FFC006718B5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BDA8ECD19479FFC006718B5 /* InfoPlist.strings */; };
 		1BDA8ED119479FFC006718B5 /* Taptap_Heart_RateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA8ED019479FFC006718B5 /* Taptap_Heart_RateTests.m */; };
 		1BDA8EDC1947A063006718B5 /* TTHRMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA8EDB1947A063006718B5 /* TTHRMainViewController.m */; };
-		1BDA8EDE1947BE7E006718B5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EDD1947BE7E006718B5 /* AudioToolbox.framework */; };
-		1BDA8EE01947BE84006718B5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EDF1947BE84006718B5 /* CFNetwork.framework */; };
-		1BDA8EE21947BE8F006718B5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EE11947BE8F006718B5 /* CoreLocation.framework */; };
-		1BDA8EE41947BE98006718B5 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EE31947BE98006718B5 /* libz.dylib */; };
-		1BDA8EE61947BE9E006718B5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EE51947BE9E006718B5 /* MobileCoreServices.framework */; };
-		1BDA8EE81947BEA2006718B5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EE71947BEA2006718B5 /* QuartzCore.framework */; };
-		1BDA8EEA1947BEA7006718B5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EE91947BEA7006718B5 /* Security.framework */; };
-		1BDA8EEE1947BEB4006718B5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EED1947BEB4006718B5 /* SystemConfiguration.framework */; };
 		1BF2FB9E1989F42C002DD49A /* ZHHBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF2FB9D1989F42C002DD49A /* ZHHBarChartView.m */; };
-		B9B6B1BC357920E593E1924B /* libPods-Taptap Heart Rate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A4230394B06141D6ACA7FB7D /* libPods-Taptap Heart Rate.a */; };
+		91E28D97BA0C658C5BEACD24 /* libPods-Taptap Heart Rate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCCFB4F6C6FD5774AC9852C7 /* libPods-Taptap Heart Rate.a */; };
 		E40A93DE1B8434940000EF57 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E40A93DD1B8434940000EF57 /* GoogleService-Info.plist */; };
-		E43824FB1B856A4100D85E41 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E43824FA1B856A4100D85E41 /* iAd.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,14 +45,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		157ED95B46E8220DFCA3E27F /* Pods-Taptap Heart Rate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taptap Heart Rate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate.debug.xcconfig"; sourceTree = "<group>"; };
 		1B0583B5194E3BE5000D43C2 /* TTHRMainScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRMainScrollView.h; path = Views/TTHRMainScrollView.h; sourceTree = "<group>"; };
 		1B0583B6194E3BE5000D43C2 /* TTHRMainScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRMainScrollView.m; path = Views/TTHRMainScrollView.m; sourceTree = "<group>"; };
 		1B0583B8194E9737000D43C2 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		1B0583BA194E973F000D43C2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1B0F96CA1953F113004FD9BD /* ZHHGoogleAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZHHGoogleAnalytics.h; path = "Taptap Heart Rate/Others/ZHHGoogleAnalytics.h"; sourceTree = "<group>"; };
 		1B0F96CB1953F113004FD9BD /* ZHHGoogleAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZHHGoogleAnalytics.m; path = "Taptap Heart Rate/Others/ZHHGoogleAnalytics.m"; sourceTree = "<group>"; };
-		1B0F96CD1953F141004FD9BD /* ZHHParseDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZHHParseDevice.h; path = "Taptap Heart Rate/Others/ZHHParseDevice.h"; sourceTree = "<group>"; };
-		1B0F96CE1953F141004FD9BD /* ZHHParseDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZHHParseDevice.m; path = "Taptap Heart Rate/Others/ZHHParseDevice.m"; sourceTree = "<group>"; };
 		1B1A376B194BFD6E00C9F9EC /* TTHRTapButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRTapButton.h; path = Views/TTHRTapButton.h; sourceTree = "<group>"; };
 		1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRTapButton.m; path = Views/TTHRTapButton.m; sourceTree = "<group>"; };
 		1B3E9BB8195BC38E000D144E /* TTHRAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRAnimatedView.h; path = Views/TTHRAnimatedView.h; sourceTree = "<group>"; };
@@ -79,10 +64,6 @@
 		1B75F209195F935500AFAFC4 /* Heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Heart@2x.png"; sourceTree = "<group>"; };
 		1B75F210195FA3D000AFAFC4 /* TTHRUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRUser.h; path = Model/TTHRUser.h; sourceTree = "<group>"; };
 		1B75F211195FA3D000AFAFC4 /* TTHRUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRUser.m; path = Model/TTHRUser.m; sourceTree = "<group>"; };
-		1BC0025D1947DFCA0040E828 /* UIApplication+AppVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+AppVersion.h"; sourceTree = "<group>"; };
-		1BC0025E1947DFCA0040E828 /* UIApplication+AppVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+AppVersion.m"; sourceTree = "<group>"; };
-		1BC0025F1947DFCA0040E828 /* UIDevice-Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Hardware.h"; sourceTree = "<group>"; };
-		1BC002601947DFCA0040E828 /* UIDevice-Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Hardware.m"; sourceTree = "<group>"; };
 		1BDA8EA819479FFC006718B5 /* Taptap Heart Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Taptap Heart Rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BDA8EAB19479FFC006718B5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1BDA8EAD19479FFC006718B5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -111,11 +92,11 @@
 		1BDA8EED1947BEB4006718B5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1BF2FB9C1989F42C002DD49A /* ZHHBarChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZHHBarChartView.h; path = Views/ZHHBarChartView.h; sourceTree = "<group>"; };
 		1BF2FB9D1989F42C002DD49A /* ZHHBarChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZHHBarChartView.m; path = Views/ZHHBarChartView.m; sourceTree = "<group>"; };
-		A4230394B06141D6ACA7FB7D /* libPods-Taptap Heart Rate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Taptap Heart Rate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C298DAF6FF0E8B43C1956D61 /* Pods-Taptap Heart Rate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taptap Heart Rate.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate.debug.xcconfig"; sourceTree = "<group>"; };
-		CFD764A380B765178F9F06C5 /* Pods-Taptap Heart Rate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taptap Heart Rate.release.xcconfig"; path = "Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate.release.xcconfig"; sourceTree = "<group>"; };
+		CCCFB4F6C6FD5774AC9852C7 /* libPods-Taptap Heart Rate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Taptap Heart Rate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9922B5D50B936B740398799 /* libPods-Taptap Heart RateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Taptap Heart RateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E40A93DD1B8434940000EF57 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E43824FA1B856A4100D85E41 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		E687F014DC64432A2E77B977 /* Pods-Taptap Heart Rate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taptap Heart Rate.release.xcconfig"; path = "Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,21 +104,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E43824FB1B856A4100D85E41 /* iAd.framework in Frameworks */,
-				1BDA8EE41947BE98006718B5 /* libz.dylib in Frameworks */,
-				1BDA8EEE1947BEB4006718B5 /* SystemConfiguration.framework in Frameworks */,
-				1B0583BB194E973F000D43C2 /* CoreData.framework in Frameworks */,
-				1B0583B9194E9737000D43C2 /* AdSupport.framework in Frameworks */,
 				1B1B75D91947F18600C7FAC3 /* Foundation.framework in Frameworks */,
-				1BDA8EEA1947BEA7006718B5 /* Security.framework in Frameworks */,
-				1BDA8EE81947BEA2006718B5 /* QuartzCore.framework in Frameworks */,
-				1BDA8EE61947BE9E006718B5 /* MobileCoreServices.framework in Frameworks */,
-				1BDA8EE21947BE8F006718B5 /* CoreLocation.framework in Frameworks */,
 				1BDA8EAE19479FFC006718B5 /* CoreGraphics.framework in Frameworks */,
-				1BDA8EE01947BE84006718B5 /* CFNetwork.framework in Frameworks */,
-				1BDA8EDE1947BE7E006718B5 /* AudioToolbox.framework in Frameworks */,
 				1BDA8EB019479FFC006718B5 /* UIKit.framework in Frameworks */,
-				B9B6B1BC357920E593E1924B /* libPods-Taptap Heart Rate.a in Frameworks */,
+				91E28D97BA0C658C5BEACD24 /* libPods-Taptap Heart Rate.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,36 +165,21 @@
 		1BC002571947DD510040E828 /* Others */ = {
 			isa = PBXGroup;
 			children = (
-				1B0F96CD1953F141004FD9BD /* ZHHParseDevice.h */,
-				1B0F96CE1953F141004FD9BD /* ZHHParseDevice.m */,
 				1B0F96CA1953F113004FD9BD /* ZHHGoogleAnalytics.h */,
 				1B0F96CB1953F113004FD9BD /* ZHHGoogleAnalytics.m */,
 			);
 			name = Others;
 			sourceTree = "<group>";
 		};
-		1BC0025C1947DFCA0040E828 /* Category */ = {
-			isa = PBXGroup;
-			children = (
-				1BC0025D1947DFCA0040E828 /* UIApplication+AppVersion.h */,
-				1BC0025E1947DFCA0040E828 /* UIApplication+AppVersion.m */,
-				1BC0025F1947DFCA0040E828 /* UIDevice-Hardware.h */,
-				1BC002601947DFCA0040E828 /* UIDevice-Hardware.m */,
-			);
-			name = Category;
-			path = "Taptap Heart Rate/Category";
-			sourceTree = "<group>";
-		};
 		1BDA8E9F19479FFC006718B5 = {
 			isa = PBXGroup;
 			children = (
-				1BC002571947DD510040E828 /* Others */,
-				1BC0025C1947DFCA0040E828 /* Category */,
 				1BDA8EB119479FFC006718B5 /* Taptap Heart Rate */,
 				1BDA8ECA19479FFC006718B5 /* Taptap Heart RateTests */,
+				1BC002571947DD510040E828 /* Others */,
 				1BDA8EAA19479FFC006718B5 /* Frameworks */,
 				1BDA8EA919479FFC006718B5 /* Products */,
-				FC7DB40923C19A5AC6D000B8 /* Pods */,
+				9738A01AC5D6B28A0923DF51 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -255,7 +210,8 @@
 				1BDA8EAD19479FFC006718B5 /* CoreGraphics.framework */,
 				1BDA8EAF19479FFC006718B5 /* UIKit.framework */,
 				1BDA8EC419479FFC006718B5 /* XCTest.framework */,
-				A4230394B06141D6ACA7FB7D /* libPods-Taptap Heart Rate.a */,
+				CCCFB4F6C6FD5774AC9852C7 /* libPods-Taptap Heart Rate.a */,
+				D9922B5D50B936B740398799 /* libPods-Taptap Heart RateTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -305,11 +261,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FC7DB40923C19A5AC6D000B8 /* Pods */ = {
+		9738A01AC5D6B28A0923DF51 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C298DAF6FF0E8B43C1956D61 /* Pods-Taptap Heart Rate.debug.xcconfig */,
-				CFD764A380B765178F9F06C5 /* Pods-Taptap Heart Rate.release.xcconfig */,
+				157ED95B46E8220DFCA3E27F /* Pods-Taptap Heart Rate.debug.xcconfig */,
+				E687F014DC64432A2E77B977 /* Pods-Taptap Heart Rate.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -321,11 +277,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1BDA8ED419479FFC006718B5 /* Build configuration list for PBXNativeTarget "Taptap Heart Rate" */;
 			buildPhases = (
-				F644B0EFA659C37604379AD7 /* Check Pods Manifest.lock */,
+				4D7ACF747F975973CFCC24AF /* [CP] Check Pods Manifest.lock */,
 				1BDA8EA419479FFC006718B5 /* Sources */,
 				1BDA8EA519479FFC006718B5 /* Frameworks */,
 				1BDA8EA619479FFC006718B5 /* Resources */,
-				5F116968B58EA95FD9946BDF /* Copy Pods Resources */,
+				91DD50834F6D866F14490D59 /* [CP] Embed Pods Frameworks */,
+				453D41D67CA9B9B058651505 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -361,7 +318,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = TTHR;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "org-honghao";
 				TargetAttributes = {
 					1BDA8EA719479FFC006718B5 = {
@@ -421,14 +378,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5F116968B58EA95FD9946BDF /* Copy Pods Resources */ = {
+		453D41D67CA9B9B058651505 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,19 +393,34 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F644B0EFA659C37604379AD7 /* Check Pods Manifest.lock */ = {
+		4D7ACF747F975973CFCC24AF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		91DD50834F6D866F14490D59 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -461,9 +433,7 @@
 				1B0583B7194E3BE5000D43C2 /* TTHRMainScrollView.m in Sources */,
 				1B75F202195F17C700AFAFC4 /* TTHRHintView.m in Sources */,
 				1BDA8EBC19479FFC006718B5 /* TTHRAppDelegate.m in Sources */,
-				1B0F96CF1953F141004FD9BD /* ZHHParseDevice.m in Sources */,
 				1B3E9BBA195BC38E000D144E /* TTHRAnimatedView.m in Sources */,
-				1BC002611947DFCA0040E828 /* UIApplication+AppVersion.m in Sources */,
 				1BF2FB9E1989F42C002DD49A /* ZHHBarChartView.m in Sources */,
 				1B75F212195FA3D000AFAFC4 /* TTHRUser.m in Sources */,
 				1B0F96CC1953F113004FD9BD /* ZHHGoogleAnalytics.m in Sources */,
@@ -471,7 +441,6 @@
 				1B75F205195F807900AFAFC4 /* TTHRHeartIndicatorView.m in Sources */,
 				1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */,
 				1BDA8EB819479FFC006718B5 /* main.m in Sources */,
-				1BC002621947DFCA0040E828 /* UIDevice-Hardware.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,13 +495,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -545,7 +520,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "f7fb67c6-dfac-42ac-aa1c-bd5b07b5e2e3";
 				SDKROOT = iphoneos;
@@ -565,20 +540,25 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PROVISIONING_PROFILE = "9f73a720-d32c-4863-9d08-a37ecd757521";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -587,7 +567,7 @@
 		};
 		1BDA8ED519479FFC006718B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C298DAF6FF0E8B43C1956D61 /* Pods-Taptap Heart Rate.debug.xcconfig */;
+			baseConfigurationReference = 157ED95B46E8220DFCA3E27F /* Pods-Taptap Heart Rate.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -597,8 +577,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Taptap Heart Rate/Taptap Heart Rate-Prefix.pch";
 				INFOPLIST_FILE = "Taptap Heart Rate/Taptap Heart Rate-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.honghao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -607,7 +588,7 @@
 		};
 		1BDA8ED619479FFC006718B5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CFD764A380B765178F9F06C5 /* Pods-Taptap Heart Rate.release.xcconfig */;
+			baseConfigurationReference = E687F014DC64432A2E77B977 /* Pods-Taptap Heart Rate.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -617,8 +598,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Taptap Heart Rate/Taptap Heart Rate-Prefix.pch";
 				INFOPLIST_FILE = "Taptap Heart Rate/Taptap Heart Rate-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.honghao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -643,6 +625,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Taptap Heart RateTests/Taptap Heart RateTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.honghao.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -664,6 +647,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Taptap Heart Rate/Taptap Heart Rate-Prefix.pch";
 				INFOPLIST_FILE = "Taptap Heart RateTests/Taptap Heart RateTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.honghao.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";

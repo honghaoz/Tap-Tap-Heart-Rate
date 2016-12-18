@@ -1,32 +1,51 @@
 PODS:
-  - Bolts/Tasks (1.2.0)
-  - Google/Analytics (1.0.7):
+  - Firebase/AdMob (3.11.0):
+    - Firebase/Core
+    - Google-Mobile-Ads-SDK (= 7.16.0)
+  - Firebase/Core (3.11.0):
+    - FirebaseAnalytics (= 3.6.0)
+    - FirebaseCore (= 3.4.6)
+  - FirebaseAnalytics (3.6.0):
+    - FirebaseCore (~> 3.4)
+    - FirebaseInstanceID (~> 1.0)
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleSymbolUtilities (~> 1.1)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseCore (3.4.6):
+    - GoogleInterchangeUtilities (~> 1.2)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+  - FirebaseInstanceID (1.0.8)
+  - Google-Mobile-Ads-SDK (7.16.0)
+  - Google/Analytics (3.0.3):
     - Google/Core
     - GoogleAnalytics (~> 3.12)
-  - Google/Core (1.0.7):
-    - GoogleNetworkingUtilities (~> 1.0)
-    - GoogleSymbolUtilities (~> 1.0)
-    - GoogleUtilities (~> 1.0)
-  - GoogleAnalytics (3.13.0)
-  - GoogleNetworkingUtilities (1.0.0):
-    - GoogleSymbolUtilities (~> 1.0)
-  - GoogleSymbolUtilities (1.0.0)
-  - GoogleUtilities (1.0.1):
-    - GoogleSymbolUtilities (~> 1.0)
-  - Parse (1.8.0):
-    - Bolts/Tasks (>= 1.2.0)
+  - Google/Core (3.0.3):
+    - FirebaseAnalytics (~> 3.2)
+  - GoogleAnalytics (3.17.0)
+  - GoogleInterchangeUtilities (1.2.2):
+    - GoogleSymbolUtilities (~> 1.1)
+  - GoogleSymbolUtilities (1.1.2)
+  - GoogleToolboxForMac/Defines (2.1.0)
+  - GoogleToolboxForMac/NSData+zlib (2.1.0):
+    - GoogleToolboxForMac/Defines (= 2.1.0)
 
 DEPENDENCIES:
-  - Google/Analytics (~> 1.0.0)
-  - Parse
+  - Firebase/AdMob
+  - Firebase/Core
+  - Google/Analytics
 
 SPEC CHECKSUMS:
-  Bolts: d176cb1e0012175589e389a9db49b85e27787576
-  Google: 875f5a8ade86dd02e36586e4a54814843938c7f6
-  GoogleAnalytics: fcf1f1cad57ae1a9a53520018f0f680ceeeb8b49
-  GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
-  GoogleSymbolUtilities: a7b0feed1fe667c8d5e647177938d0ecd62d6948
-  GoogleUtilities: e3475cd4d45134221d2f3f3626095a1c49b62041
-  Parse: 6ea05adb378fbfd6f8726ab67ef74330d96fc903
+  Firebase: b8134e285eb33201115bc688bc5d7f112923bc1f
+  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
+  FirebaseCore: 03da1cb32615569bbc2830a22f9ad753d9a02ef5
+  FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
+  Google: 813c467362eabc11385f5a5cc9ad0cb651a58f4e
+  Google-Mobile-Ads-SDK: 92dff0e9ce1cfdfe640d9d80ab86d5e4371e478f
+  GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
+  GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
+  GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
+  GoogleToolboxForMac: 2b2596cbb7186865e98cadf2b1e262d851c2b168
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: 458b5efca719428c5da45ab2f5fb1802fae54bc4
+
+COCOAPODS: 1.2.0.beta.1

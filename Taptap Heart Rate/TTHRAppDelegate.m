@@ -8,9 +8,8 @@
 
 #import "TTHRAppDelegate.h"
 #import "TTHRMainViewController.h"
-#import <Parse/Parse.h>
-#import "ZHHParseDevice.h"
 #import <Google/Analytics.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "TTHRUser.h"
 
@@ -28,19 +27,6 @@
 
     // Load User data
 //    [[TTHRUser sharedUser] load];
-    
-    // Parse services
-    [Parse setApplicationId:@"ifM1WwMLZMMsCWNgwsCbQteYiBjcBLZPuWKQULFH"
-                  clientKey:@"fEf84dVgJkeYojraNDbTgB9u8HLKwaYPratdEPEP"];
-    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-#if DEBUG
-    BOOL testMode = YES;
-#else
-	BOOL testMode = NO;
-#endif
-    if (testMode) {
-        [ZHHParseDevice trackDevice];
-    }
 
 	// Configure tracker from GoogleService-Info.plist.
 	NSError *configureError;
@@ -51,9 +37,10 @@
 	GAI *gai = [GAI sharedInstance];
 	gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
 	gai.dispatchInterval = 10;
-	gai.logger.logLevel = testMode ? kGAILogLevelVerbose : kGAILogLevelError;  // remove before app release
 
 	[gai.defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"App" action:@"Launch" label:@"" value:nil] build]];
+	
+	[GADMobileAds configureWithApplicationID:@"ca-app-pub-5080537428726834~5084068702"];
 	
     return YES;
 }

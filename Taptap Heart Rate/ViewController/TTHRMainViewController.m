@@ -20,7 +20,7 @@
 #import "GAIFields.h"
 #import "GAIDictionaryBuilder.h"
 
-#import <iAd/iAd.h>
+#import <GoogleMobileAds/GoogleMobileAds.h>
 
 // Define max and min heart rate
 #define MAX_HEART_RATE 229
@@ -38,7 +38,7 @@ typedef enum {
     TrackStop
 } TrackState;
 
-@interface TTHRMainViewController () <TTHRMainScrollViewDelegate, UITextFieldDelegate, ADBannerViewDelegate>
+@interface TTHRMainViewController () <TTHRMainScrollViewDelegate, UITextFieldDelegate, GADBannerViewDelegate>
 
 // Preference data
 @property (nonatomic, assign) NSInteger countModeNumber;
@@ -95,7 +95,7 @@ typedef enum {
 // Screen 1_ (Screen -1)
 @property (nonatomic, assign) BOOL screen1_IsLoaded;
 
-@property (nonatomic, strong) ADBannerView *adView;
+@property (nonatomic, strong) GADBannerView *adBannerView;
 @property (nonatomic, assign) BOOL bannerIsVisible;
 
 @end
@@ -552,10 +552,15 @@ typedef enum {
 	[ZHHGoogleAnalytics trackScreen:@"Main View"];
 	
 	// iAd
-	self.adView = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
-	self.adView.frame = CGRectMake(0, self.view.frame.size.height, self.adView.bounds.size.width, self.adView.bounds.size.height);
-	self.adView.delegate = self;
-	[self.view addSubview:self.adView];
+	self.adBannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
+	self.adBannerView.delegate = self;
+	self.adBannerView.adUnitID = @"ca-app-pub-5080537428726834/8037535102";
+	self.adBannerView.frame = CGRectMake(0, self.view.frame.size.height - 50, self.adBannerView.bounds.size.width, self.adBannerView.bounds.size.height);
+	[self.view addSubview:self.adBannerView];
+	self.adBannerView.rootViewController = self;
+	GADRequest *request = [GADRequest request];
+	request.testDevices = @[kGADSimulatorID];
+	[self.adBannerView loadRequest:request];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -896,7 +901,6 @@ typedef enum {
         case HRUnknown:
             [_indicator dismiss];
             break;
-        [_indicator setBlink:NO];
         case HRPoor:
             [_indicator setText:@"Poor"];
             break;
@@ -1118,26 +1122,26 @@ typedef enum {
 
 #pragma mark - iAd
 
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+- (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
 	[[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"App" action:@"AdShowing" label:@"" value:nil] build]];
 	if (!_bannerIsVisible)
 	{
 		// If banner isn't part of view hierarchy, add it
-		if (self.adView.superview == nil)
+		if (self.adBannerView.superview == nil)
 		{
-			[self.view addSubview:self.adView];
+			[self.view addSubview:self.adBannerView];
 		}
 		
 		[UIView beginAnimations:@"animateAdBannerOn" context:NULL];
 		
-		banner.frame = CGRectMake(0, self.view.frame.size.height - self.adView.bounds.size.height, self.adView.bounds.size.width, self.adView.bounds.size.height);
+		self.adBannerView.frame = CGRectMake(0, self.view.frame.size.height - self.self.adBannerView.bounds.size.height, self.self.adBannerView.bounds.size.width, self.self.adBannerView.bounds.size.height);
 		
-		self.tapButton.frame = CGRectOffset(self.tapButton.frame, 0, -banner.bounds.size.height / 2.0);
-		self.resetButton.frame = CGRectOffset(self.resetButton.frame, 0, -banner.bounds.size.height / 2.0);
+		self.tapButton.frame = CGRectOffset(self.tapButton.frame, 0, -self.adBannerView.bounds.size.height / 2.0);
+		self.resetButton.frame = CGRectOffset(self.resetButton.frame, 0, -self.adBannerView.bounds.size.height / 2.0);
 		
 		if (self.designLabel) {
-			self.designLabel.frame = CGRectOffset(self.designLabel.frame, 0, -banner.bounds.size.height);
+			self.designLabel.frame = CGRectOffset(self.designLabel.frame, 0, -self.adBannerView.bounds.size.height);
 		}
 		
 		[UIView commitAnimations];
@@ -1146,19 +1150,19 @@ typedef enum {
 	}
 }
 
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+- (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error
 {
 	[[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"App" action:@"AdHidding" label:@"" value:nil] build]];
 	if (_bannerIsVisible)
 	{
 		[UIView beginAnimations:@"animateAdBannerOff" context:NULL];
 		
-		banner.frame = CGRectMake(0, self.view.frame.size.height, self.adView.bounds.size.width, self.adView.bounds.size.height);
+		self.adBannerView.frame = CGRectMake(0, self.view.frame.size.height, self.self.adBannerView.bounds.size.width, self.self.adBannerView.bounds.size.height);
 		
-		self.tapButton.frame = CGRectOffset(self.tapButton.frame, 0, banner.bounds.size.height / 2.0);
-		self.resetButton.frame = CGRectOffset(self.resetButton.frame, 0, banner.bounds.size.height / 2.0);
+		self.tapButton.frame = CGRectOffset(self.tapButton.frame, 0, self.adBannerView.bounds.size.height / 2.0);
+		self.resetButton.frame = CGRectOffset(self.resetButton.frame, 0, self.adBannerView.bounds.size.height / 2.0);
 		if (self.designLabel) {
-			self.designLabel.frame = CGRectOffset(self.designLabel.frame, 0, banner.bounds.size.height);
+			self.designLabel.frame = CGRectOffset(self.designLabel.frame, 0, self.adBannerView.bounds.size.height);
 		}
 		
 		[UIView commitAnimations];
