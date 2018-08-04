@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '0BDB3E768BB24798F30047A716BB1DBA'
-               BlueprintName = 'Pods-Taptap Heart Rate'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libPods-Taptap Heart Rate.a'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B6293674C11500C4A5271E7268CBE589"
+               BlueprintName = "Pods-Taptap Heart Rate"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "libPods-Taptap Heart Rate.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

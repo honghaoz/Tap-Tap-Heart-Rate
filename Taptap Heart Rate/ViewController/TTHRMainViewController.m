@@ -142,8 +142,14 @@ typedef enum {
     [self.view setBackgroundColor:_backgroundColor];
 
     // Initialize view properties
-    _mainScreenSize = [UIScreen mainScreen].bounds.size;
-    _mainScrollView = [[TTHRMainScrollView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    CGFloat maxScreenHeight = 770;
+    CGFloat topInset =  MAX([UIScreen mainScreen].bounds.size.height - maxScreenHeight, 0);
+    _mainScreenSize = CGSizeMake([UIScreen mainScreen].bounds.size.width,
+                                 [UIScreen mainScreen].bounds.size.height - topInset);
+    _mainScrollView = [[TTHRMainScrollView alloc] initWithFrame:CGRectMake(0,
+                                                                           topInset,
+                                                                           [UIScreen mainScreen].bounds.size.width,
+                                                                           [UIScreen mainScreen].bounds.size.height - topInset)];
 
     CGSize bigSize = _mainScreenSize;
     bigSize.width *= 2.4;
@@ -551,16 +557,16 @@ typedef enum {
 	[super viewDidAppear:animated];
 	[ZHHGoogleAnalytics trackScreen:@"Main View"];
 	
-	// iAd
-	self.adBannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
-	self.adBannerView.delegate = self;
-	self.adBannerView.adUnitID = @"ca-app-pub-5080537428726834/8037535102";
-	self.adBannerView.frame = CGRectMake(0, self.view.frame.size.height - 50, self.adBannerView.bounds.size.width, self.adBannerView.bounds.size.height);
-	[self.view addSubview:self.adBannerView];
-	self.adBannerView.rootViewController = self;
-	GADRequest *request = [GADRequest request];
-	request.testDevices = @[kGADSimulatorID];
-	[self.adBannerView loadRequest:request];
+    // Ad
+    self.adBannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
+    self.adBannerView.delegate = self;
+    self.adBannerView.adUnitID = @"ca-app-pub-5080537428726834/8037535102";
+    self.adBannerView.frame = CGRectMake(0, self.view.frame.size.height - 50, self.adBannerView.bounds.size.width, self.adBannerView.bounds.size.height);
+    [self.view addSubview:self.adBannerView];
+    self.adBannerView.rootViewController = self;
+    GADRequest *request = [GADRequest request];
+    request.testDevices = @[kGADSimulatorID];
+    [self.adBannerView loadRequest:request];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -614,7 +620,6 @@ typedef enum {
 
 - (void)tapButtonTapped:(id)sender
 {
-    
     _beatNumber++;
     NSNumber *tappedTime = [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]];
     [_tappedTimes addObject:tappedTime];
