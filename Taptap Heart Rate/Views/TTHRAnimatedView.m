@@ -123,7 +123,7 @@
 
 - (void)setBlink:(BOOL)toBlink
 {
-    void (^blinkAnimationBlock)() = ^{
+    void (^blinkAnimationBlock)(void) = ^{
         
         [UIView animateWithDuration:0.5
                               delay:0.0
@@ -140,13 +140,13 @@
                          }
                          completion:NULL];
     };
-    void (^restoreAnimationBlock)() = ^{
+    void (^restoreAnimationBlock)(void) = ^{
         [self.layer removeAllAnimations];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             [self setAlpha: _initAlpha];
+                             [self setAlpha: self->_initAlpha];
                          } completion:NULL];
     };
     if (toBlink) {

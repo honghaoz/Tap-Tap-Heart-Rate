@@ -118,7 +118,7 @@
                           delay:0.0
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^{
-                         [_triangleView setFrame:newFrame];
+                         [self->_triangleView setFrame:newFrame];
                      }
                      completion:nil];
 }
@@ -136,7 +136,7 @@
                             options:UIViewAnimationOptionAllowUserInteraction
                          animations:^{
                              self.frame = newFrame;
-                             _roundRectView.frame = CGRectMake(0, 0, newFrame.size.width, newFrame.size.height);
+                             self->_roundRectView.frame = CGRectMake(0, 0, newFrame.size.width, newFrame.size.height);
                              self.alpha = 1.0;
                          }
                          completion:^(BOOL finished) {
@@ -192,7 +192,7 @@
                           delay:0.0
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^{
-                         _textView.alpha = 0;
+                         self->_textView.alpha = 0;
                      }
                      completion:nil];
     
@@ -201,16 +201,16 @@
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^{
                          self.frame = newFrame;
-                         _roundRectView.frame = CGRectMake(0, 0, newFrame.size.width, newFrame.size.height);
+                         self->_roundRectView.frame = CGRectMake(0, 0, newFrame.size.width, newFrame.size.height);
                          self.alpha = 1.0;
                      }
                      completion:^(BOOL finished) {
-                         [_textView setText:text];
+                         [self->_textView setText:text];
                          [UIView animateWithDuration:ANIMATION_DURATION
                                                delay:0.0
                                              options:UIViewAnimationOptionAllowUserInteraction
                                           animations:^{
-                                              _textView.alpha = 1.0;
+                                              self->_textView.alpha = 1.0;
                                           }
                                           completion:nil];
                          dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * 1e9), dispatch_get_main_queue(),^{

@@ -170,15 +170,15 @@
                 animations:^{
                                  switch (sc) {
                                      case Screen1_: {
-                                         [self setContentOffset:CGPointMake(_offset1_, 0) animated:NO];
+                                         [self setContentOffset:CGPointMake(self->_offset1_, 0) animated:NO];
                                          break;
                                      }
                                      case Screen0:{
-                                         [self setContentOffset:CGPointMake(_offset0, 0) animated:NO];
+                                         [self setContentOffset:CGPointMake(self->_offset0, 0) animated:NO];
                                          break;
                                      }
                                      case Screen1:{
-                                         [self setContentOffset:CGPointMake(_offset1, 0) animated:NO];
+                                         [self setContentOffset:CGPointMake(self->_offset1, 0) animated:NO];
                                          break;
                                      }
                                      default:
@@ -187,11 +187,11 @@
                                  }
                 }
                 completion:^(BOOL finished) {
-                                 isMoving = NO;
+                    self->isMoving = NO;
                                  if ([self.screenDelegate respondsToSelector:@selector(scrollView:didMoveToScreen:)]) {
                                      [self.screenDelegate scrollView:self didMoveToScreen:sc];
                                  }
-                    _currentScreen = sc;
+                    self->_currentScreen = sc;
                 }];
         }
     }

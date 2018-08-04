@@ -102,7 +102,7 @@
                                   delay:0.0
                                 options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
                              animations:^{
-                                 _pressableImageView.alpha = NORMAL_BUTTON_ALPHA;
+                                 self->_pressableImageView.alpha = NORMAL_BUTTON_ALPHA;
                              }
                              completion:nil];
         }
@@ -329,7 +329,7 @@
                               delay:0.0
                             options:UIViewAnimationOptionAllowUserInteraction
                          animations:^{
-                             _pressableImageView.alpha = NORMAL_BUTTON_ALPHA;
+                             self->_pressableImageView.alpha = NORMAL_BUTTON_ALPHA;
                          }
                          completion:nil];
         _isDimmed = NO;

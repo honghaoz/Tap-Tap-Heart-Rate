@@ -78,8 +78,8 @@
                         options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState |UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          // Update maskView and imageView frame
-                         [_maskView setFrame:CGRectMake(0, _imageView.frame.size.height * (1 - _percent), _imageView.frame.size.width, _percent * _imageView.frame.size.height)];
-                         [_imageView setFrame:CGRectMake(0, - _imageView.frame.size.height * (1 - _percent), _imageView.frame.size.width, _imageView.frame.size.height)];
+                         [self->_maskView setFrame:CGRectMake(0, self->_imageView.frame.size.height * (1 - self->_percent), self->_imageView.frame.size.width, self->_percent * self->_imageView.frame.size.height)];
+                         [self->_imageView setFrame:CGRectMake(0, - self->_imageView.frame.size.height * (1 - self->_percent), self->_imageView.frame.size.width, self->_imageView.frame.size.height)];
                      }
                      completion:nil];
 }
@@ -87,24 +87,24 @@
 - (void)setBlink:(BOOL)toBlink
 {
 //    LogMethod;
-    void (^blinkAnimationBlock)() = ^{
-        [_imageView setAlpha:0.0];
+    void (^blinkAnimationBlock)(void) = ^{
+        [self->_imageView setAlpha:0.0];
         [self setPercent:1.0 withDuration:0];
         [UIView animateWithDuration:1.0
                               delay:0.0
                             options:UIViewAnimationOptionAutoreverse | UIViewAnimationOptionRepeat | UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             [_imageView setAlpha:1.0];
+                             [self->_imageView setAlpha:1.0];
                          }
                          completion:NULL];
     };
-    void (^restoreAnimationBlock)() = ^{
-        [_imageView.layer removeAllAnimations];
+    void (^restoreAnimationBlock)(void) = ^{
+        [self->_imageView.layer removeAllAnimations];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             [_imageView setAlpha:_initAlpha];/////////
+                             [self->_imageView setAlpha:self->_initAlpha];/////////
                          } completion:^(BOOL finished) {
 //                             [self setPercent:_initPercent withDuration:0.0];
                          }];
@@ -132,7 +132,7 @@
                           delay:0.0
                         options:UIViewAnimationOptionAllowUserInteraction
                      animations:^{
-                         [_imageView setAlpha:alpha];
+                         [self->_imageView setAlpha:alpha];
 //                         NSLog(@"imageView alpha: %f", alpha);
                      }
                      completion:nil];
