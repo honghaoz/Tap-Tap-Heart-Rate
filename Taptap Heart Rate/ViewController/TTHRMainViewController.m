@@ -9,18 +9,13 @@
 #import "TTHRMainViewController.h"
 #import "TTHRTapButton.h"
 #import "TTHRMainScrollView.h"
-#import "ZHHGoogleAnalytics.h"
 #import "TTHRAnimatedView.h"
 #import "TTHRHintView.h"
 #import "TTHRHeartIndicatorView.h"
 #import "TTHRUser.h"
 
-#import "GAI.h"
-#import "GAITracker.h"
-#import "GAIFields.h"
-#import "GAIDictionaryBuilder.h"
-
 #import <GoogleMobileAds/GoogleMobileAds.h>
+@import FirebaseAnalytics;
 
 // Define max and min heart rate
 #define MAX_HEART_RATE 229
@@ -101,15 +96,6 @@ typedef enum {
 @end
 
 @implementation TTHRMainViewController
-
-- (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (id)init
 {
@@ -544,8 +530,6 @@ typedef enum {
     _tappedTimes = [[NSMutableArray alloc] init];
     [self setNeedsStatusBarAppearanceUpdate];
 	
-	self.screenName = @"Main View";
-	
     // Delay execution (iOS 8 Bugs?)
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.0001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self resetButtonTapped:nil];
@@ -555,7 +539,6 @@ typedef enum {
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	[ZHHGoogleAnalytics trackScreen:@"Main View"];
 	
     // Ad
     self.adBannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
@@ -1053,11 +1036,11 @@ typedef enum {
     if (screen == Screen0) {
         _tapButton.enabled = YES;
         _resetButton.enabled = YES;
-		[ZHHGoogleAnalytics trackScreen:@"Main View"];
+        [FIRAnalytics setScreenName:@"Main View" screenClass:[self description]];
     } else /*if (screen == Screen1)*/ {
         _tapButton.enabled = NO;
         _resetButton.enabled = NO;
-		[ZHHGoogleAnalytics trackScreen:@"Setting View"];
+        [FIRAnalytics setScreenName:@"Setting View" screenClass:[self description]];
     }
 }
 
@@ -1129,7 +1112,8 @@ typedef enum {
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
-	[[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"App" action:@"AdShowing" label:@"" value:nil] build]];
+    [FIRAnalytics logEventWithName:@"Ad Displayed"
+                        parameters:nil];
 	if (!_bannerIsVisible)
 	{
 		// If banner isn't part of view hierarchy, add it
@@ -1157,7 +1141,10 @@ typedef enum {
 
 - (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error
 {
-	[[GAI sharedInstance].defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"App" action:@"AdHidding" label:@"" value:nil] build]];
+    [FIRAnalytics logEventWithName:@"Ad Removed"
+                        parameters:@{
+                                     @"error": [error description],
+                                     }];
 	if (_bannerIsVisible)
 	{
 		[UIView beginAnimations:@"animateAdBannerOff" context:NULL];

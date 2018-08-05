@@ -64,7 +64,7 @@
 /**
  *  Set whether touches on this button could pass to its parent view
  *
- *  @param shouldPass <#shouldPass description#>
+ *  @param shouldPass whether touches on this button could pass.
  */
 - (void)setShouldPassTouch:(BOOL)shouldPass;
 
