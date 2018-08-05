@@ -984,37 +984,37 @@ typedef enum {
 
 #pragma mark - Rotation
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self prepareViewsForOrientation:toInterfaceOrientation];
-}
-
-- (void)prepareViewsForOrientation:(UIInterfaceOrientation)orientation
-{
-    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-        return;
-    }
-    CGSize mainScreenSize = [UIScreen mainScreen].bounds.size;
-    NSLog(@"%@", NSStringFromCGSize(mainScreenSize));
-
-    //    CGFloat temp = mainScreenSize.height;
-    //    mainScreenSize.height = mainScreenSize.width;
-    //    mainScreenSize.width = temp;
-
-    // Landscape
-    // Home button on left
-    if (orientation == UIInterfaceOrientationLandscapeLeft) {
-        NSLog(@"Left");
-    }
-    // Home button on right
-    else if (orientation == UIInterfaceOrientationLandscapeRight) {
-        NSLog(@"Right");
-    }
-    // Protrait
-    else {
-        NSLog(@"Portrait");
-    }
-}
+//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+//{
+//    [self prepareViewsForOrientation:toInterfaceOrientation];
+//}
+//
+//- (void)prepareViewsForOrientation:(UIInterfaceOrientation)orientation
+//{
+//    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+//        return;
+//    }
+//    CGSize mainScreenSize = [UIScreen mainScreen].bounds.size;
+//    NSLog(@"%@", NSStringFromCGSize(mainScreenSize));
+//
+//    //    CGFloat temp = mainScreenSize.height;
+//    //    mainScreenSize.height = mainScreenSize.width;
+//    //    mainScreenSize.width = temp;
+//
+//    // Landscape
+//    // Home button on left
+//    if (orientation == UIInterfaceOrientationLandscapeLeft) {
+//        NSLog(@"Left");
+//    }
+//    // Home button on right
+//    else if (orientation == UIInterfaceOrientationLandscapeRight) {
+//        NSLog(@"Right");
+//    }
+//    // Protrait
+//    else {
+//        NSLog(@"Portrait");
+//    }
+//}
 
 #pragma mark - TTHRMainScrollViewDelegate methods
 
