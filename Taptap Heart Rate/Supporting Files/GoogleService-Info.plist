@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>548209849224-097rf3odmkr665kl4im9he8guu0a7skg.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.548209849224-097rf3odmkr665kl4im9he8guu0a7skg</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAb39rYN7i2Otz-05KP7zFXtfMmZaF57bc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>548209849224</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.honghao.Taptap-Heart-Rate</string>
+	<key>PROJECT_ID</key>
+	<string>tap-tap-heart-rate</string>
+	<key>STORAGE_BUCKET</key>
+	<string>tap-tap-heart-rate.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<true/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:548209849224:ios:346ab0b154a660e7</string>
+	<key>DATABASE_URL</key>
+	<string>https://tap-tap-heart-rate.firebaseio.com</string>
+	<key>ADMOB_APP_ID</key>
+	<string>ca-app-pub-5080537428726834~5084068702</string>
+</dict>
+</plist>

@@ -8,40 +8,30 @@
 
 #import "TTHRAppDelegate.h"
 #import "TTHRMainViewController.h"
-#import <Google/Analytics.h>
-#import <GoogleMobileAds/GoogleMobileAds.h>
+//#import <GoogleMobileAds/GoogleMobileAds.h>
 
 #import "TTHRUser.h"
+
+@import Firebase;
 
 @implementation TTHRAppDelegate
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-
     self.window.rootViewController = [[TTHRMainViewController alloc] init];
-
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
 
     // Load User data
 //    [[TTHRUser sharedUser] load];
-
-	// Configure tracker from GoogleService-Info.plist.
-	NSError *configureError;
-	[[GGLContext sharedInstance] configureWithError:&configureError];
-	NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
+    
+    // Use Firebase library to configure APIs
+    [FIRApp configure];
 	
-	// Optional: configure GAI options.
-	GAI *gai = [GAI sharedInstance];
-	gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
-	gai.dispatchInterval = 10;
-
-	[gai.defaultTracker send:[[GAIDictionaryBuilder createEventWithCategory:@"App" action:@"Launch" label:@"" value:nil] build]];
-	
+    // Initialize the Google Mobile Ads SDK.
 	[GADMobileAds configureWithApplicationID:@"ca-app-pub-5080537428726834~5084068702"];
-	
+    
     return YES;
 }
 
@@ -59,6 +49,8 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    [FIRAnalytics logEventWithName:kFIREventAppOpen
+                        parameters:nil];
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
