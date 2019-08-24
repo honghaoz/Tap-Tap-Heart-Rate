@@ -323,11 +323,11 @@
 			};
 			buildConfigurationList = 1BDA8EA319479FFC006718B5 /* Build configuration list for PBXProject "Taptap Heart Rate" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
+				Base,
 			);
 			mainGroup = 1BDA8E9F19479FFC006718B5;
 			productRefGroup = 1BDA8EA919479FFC006718B5 /* Products */;
