@@ -8,8 +8,6 @@
 
 #import "TTHRAppDelegate.h"
 #import "TTHRMainViewController.h"
-//#import <GoogleMobileAds/GoogleMobileAds.h>
-
 #import "TTHRUser.h"
 
 @import Firebase;
@@ -28,9 +26,9 @@
     
     // Use Firebase library to configure APIs
     [FIRApp configure];
-	
+
     // Initialize the Google Mobile Ads SDK.
-	[GADMobileAds configureWithApplicationID:@"ca-app-pub-5080537428726834~5084068702"];
+    [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     
     return YES;
 }
@@ -49,8 +47,6 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    [FIRAnalytics logEventWithName:kFIREventAppOpen
-                        parameters:nil];
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 

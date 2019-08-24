@@ -43,7 +43,7 @@
 /* Begin PBXFileReference section */
 		0217A83B21177416002B2B89 /* TTHRMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTHRMainViewController.h; sourceTree = "<group>"; };
 		0217A83C21177416002B2B89 /* TTHRMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTHRMainViewController.m; sourceTree = "<group>"; };
-		0217A84321177476002B2B89 /* Taptap Heart Rate-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Taptap Heart Rate-Info.plist"; sourceTree = "<group>"; };
+		0217A84321177476002B2B89 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0217A84521177476002B2B89 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0217A84621177476002B2B89 /* Taptap Heart Rate-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Taptap Heart Rate-Prefix.pch"; sourceTree = "<group>"; };
 		0217A84F21177BD7002B2B89 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -128,7 +128,7 @@
 		0217A84221177476002B2B89 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0217A84321177476002B2B89 /* Taptap Heart Rate-Info.plist */,
+				0217A84321177476002B2B89 /* Info.plist */,
 				0217A84F21177BD7002B2B89 /* GoogleService-Info.plist */,
 				0217A84521177476002B2B89 /* main.m */,
 				0217A84621177476002B2B89 /* Taptap Heart Rate-Prefix.pch */,
@@ -183,6 +183,7 @@
 				1BDA8EA919479FFC006718B5 /* Products */,
 				9738A01AC5D6B28A0923DF51 /* Pods */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
 		};
 		1BDA8EA919479FFC006718B5 /* Products */ = {
@@ -324,6 +325,10 @@
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				en,
+			);
 			mainGroup = 1BDA8E9F19479FFC006718B5;
 			productRefGroup = 1BDA8EA919479FFC006718B5 /* Products */;
 			projectDirPath = "";
@@ -458,7 +463,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "f7fb67c6-dfac-42ac-aa1c-bd5b07b5e2e3";
 				SDKROOT = iphoneos;
@@ -504,7 +509,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				PROVISIONING_PROFILE = "9f73a720-d32c-4863-9d08-a37ecd757521";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -523,8 +528,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Taptap Heart Rate/Supporting Files/Taptap Heart Rate-Prefix.pch";
-				INFOPLIST_FILE = "Taptap Heart Rate/Supporting Files/Taptap Heart Rate-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				INFOPLIST_FILE = "Taptap Heart Rate/Supporting Files/Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honghao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -545,8 +549,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Taptap Heart Rate/Supporting Files/Taptap Heart Rate-Prefix.pch";
-				INFOPLIST_FILE = "Taptap Heart Rate/Supporting Files/Taptap Heart Rate-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				INFOPLIST_FILE = "Taptap Heart Rate/Supporting Files/Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honghao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

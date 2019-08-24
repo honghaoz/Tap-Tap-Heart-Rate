@@ -1,8 +1,11 @@
-platform :ios, '8.0'
+platform :ios, '11.0'
+inhibit_all_warnings!
 
 target 'Taptap Heart Rate' do
 
-pod 'Firebase/Core', '~> 5.1', :inhibit_warnings => true
-pod 'Firebase/AdMob', '~> 5.1', :inhibit_warnings => true
+  pod 'Firebase/Core'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/AdMob'
+  pod 'Crashlytics'
 
 end

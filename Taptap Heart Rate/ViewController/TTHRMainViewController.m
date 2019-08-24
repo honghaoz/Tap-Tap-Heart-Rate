@@ -14,7 +14,7 @@
 #import "TTHRHeartIndicatorView.h"
 #import "TTHRUser.h"
 
-#import <GoogleMobileAds/GoogleMobileAds.h>
+@import GoogleMobileAds;
 @import FirebaseAnalytics;
 
 // Define max and min heart rate
@@ -92,6 +92,8 @@ typedef enum {
 
 @property (nonatomic, strong) GADBannerView *adBannerView;
 @property (nonatomic, assign) BOOL bannerIsVisible;
+
+//@property(nonatomic, strong) GADInterstitial *interstitial;
 
 @end
 
@@ -477,9 +479,10 @@ typedef enum {
     designWidth  = _designLabel.frame.size.width;
     designHeight = _designLabel.frame.size.height;
     designX      = offsetX + (_mainScrollView.contentSize.width - offsetX - designWidth) / 2;
-	designY      = (_mainScreenSize.height - (_bannerIsVisible ? 50 : 0)) - designHeight - 10;
+    designY      = (_mainScreenSize.height - (_bannerIsVisible ? 50 : 0)) - designHeight - 10;
     designFrame  = CGRectMake(designX, designY, designWidth, designHeight);
     [_designLabel setFrame:designFrame];
+    [_designLabel setHidden:YES];
     
     [_mainScrollView addSubview:_segmentLabel];
     [_mainScrollView addSubview:_segmentHelpButton];
@@ -534,11 +537,19 @@ typedef enum {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.0001 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self resetButtonTapped:nil];
     });
-    
+
+//#if DEBUG
+//    self.interstitial = [[GADInterstitial alloc] initWithAdUnitID: @"ca-app-pub-3940256099942544/4411468910"];
+//#else
+//    self.interstitial = [[GADInterstitial alloc] initWithAdUnitID: @"ca-app-pub-5080537428726834/8850633095"];
+//#endif
+
+//    GADRequest *request = [GADRequest request];
+//    [self.interstitial loadRequest:request];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
+    [super viewDidAppear:animated];
 	
     // Ad
     self.adBannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
@@ -1036,11 +1047,11 @@ typedef enum {
     if (screen == Screen0) {
         _tapButton.enabled = YES;
         _resetButton.enabled = YES;
-        [FIRAnalytics setScreenName:@"Main View" screenClass:[self description]];
+        [FIRAnalytics setScreenName:@"main_view" screenClass:[self description]];
     } else /*if (screen == Screen1)*/ {
         _tapButton.enabled = NO;
         _resetButton.enabled = NO;
-        [FIRAnalytics setScreenName:@"Setting View" screenClass:[self description]];
+        [FIRAnalytics setScreenName:@"setting_view" screenClass:[self description]];
     }
 }
 
@@ -1112,7 +1123,7 @@ typedef enum {
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
-    [FIRAnalytics logEventWithName:@"Ad Displayed"
+    [FIRAnalytics logEventWithName:@"banner_displayed"
                         parameters:nil];
 	if (!_bannerIsVisible)
 	{
@@ -1141,7 +1152,7 @@ typedef enum {
 
 - (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error
 {
-    [FIRAnalytics logEventWithName:@"Ad Removed"
+    [FIRAnalytics logEventWithName:@"banner_ad_removed"
                         parameters:@{
                                      @"error": [error description],
                                      }];

@@ -38,5 +38,7 @@
 	<string>https://tap-tap-heart-rate.firebaseio.com</string>
 	<key>ADMOB_APP_ID</key>
 	<string>ca-app-pub-5080537428726834~5084068702</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-5080537428726834~5084068702</string>
 </dict>
 </plist>
