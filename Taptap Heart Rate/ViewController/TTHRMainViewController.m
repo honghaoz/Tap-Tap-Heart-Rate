@@ -559,7 +559,9 @@ typedef enum {
     [self.view addSubview:self.adBannerView];
     self.adBannerView.rootViewController = self;
     GADRequest *request = [GADRequest request];
-//    request.testDevices = @[kGADSimulatorID];
+#if DEBUG
+    request.testDevices = @[kGADSimulatorID];
+#endif
     [self.adBannerView loadRequest:request];
 }
 

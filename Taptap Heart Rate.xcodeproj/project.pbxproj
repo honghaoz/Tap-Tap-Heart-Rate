@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0217A83D21177416002B2B89 /* TTHRMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0217A83C21177416002B2B89 /* TTHRMainViewController.m */; };
 		0217A84921177477002B2B89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0217A84521177476002B2B89 /* main.m */; };
-		0217A84C2117777E002B2B89 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B0583B8194E9737000D43C2 /* AdSupport.framework */; };
 		0217A85021177BD8002B2B89 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0217A84F21177BD7002B2B89 /* GoogleService-Info.plist */; };
 		1B0583B7194E3BE5000D43C2 /* TTHRMainScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0583B6194E3BE5000D43C2 /* TTHRMainScrollView.m */; };
 		1B1A376D194BFD6E00C9F9EC /* TTHRTapButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1A376C194BFD6E00C9F9EC /* TTHRTapButton.m */; };
@@ -18,8 +17,6 @@
 		1B75F202195F17C700AFAFC4 /* TTHRHintView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B75F201195F17C700AFAFC4 /* TTHRHintView.m */; };
 		1B75F205195F807900AFAFC4 /* TTHRHeartIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B75F204195F807900AFAFC4 /* TTHRHeartIndicatorView.m */; };
 		1B75F212195FA3D000AFAFC4 /* TTHRUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B75F211195FA3D000AFAFC4 /* TTHRUser.m */; };
-		1BDA8EAE19479FFC006718B5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAD19479FFC006718B5 /* CoreGraphics.framework */; };
-		1BDA8EB019479FFC006718B5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EAF19479FFC006718B5 /* UIKit.framework */; };
 		1BDA8EBC19479FFC006718B5 /* TTHRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA8EBB19479FFC006718B5 /* TTHRAppDelegate.m */; };
 		1BDA8EBE19479FFC006718B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1BDA8EBD19479FFC006718B5 /* Images.xcassets */; };
 		1BDA8EC519479FFC006718B5 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BDA8EC419479FFC006718B5 /* XCTest.framework */; };
@@ -95,10 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0217A84C2117777E002B2B89 /* AdSupport.framework in Frameworks */,
 				1B1B75D91947F18600C7FAC3 /* Foundation.framework in Frameworks */,
-				1BDA8EAE19479FFC006718B5 /* CoreGraphics.framework in Frameworks */,
-				1BDA8EB019479FFC006718B5 /* UIKit.framework in Frameworks */,
 				91E28D97BA0C658C5BEACD24 /* libPods-Taptap Heart Rate.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
