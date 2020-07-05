@@ -319,7 +319,7 @@ typedef enum {
     CGRect segmentLabelFrame = CGRectMake(segmentLabelX, segmentLabelY, segmentLabelWidth, segmentLabelHeight);
     _segmentLabel = [[UILabel alloc] initWithFrame:segmentLabelFrame];
     [_segmentLabel setText:@"Choose Measure Mode"];
-    [_segmentLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
+    [_segmentLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Regular" size:17]];
     [_segmentLabel setTextAlignment:NSTextAlignmentCenter];
     [_segmentLabel setTextColor:_buttonColor];
     
@@ -371,7 +371,7 @@ typedef enum {
     CGRect personalLabelFrame = CGRectMake(personalLabelX, personalLabelY, personalLabelWidth, personalLabelHeight);
     _personalLabel = [[UILabel alloc] initWithFrame:personalLabelFrame];
     [_personalLabel setText:@"Personal Information"];
-    [_personalLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
+    [_personalLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Regular" size:17]];
     [_personalLabel setTextAlignment:NSTextAlignmentCenter];
     [_personalLabel setTextColor:_buttonColor];
     
@@ -470,7 +470,7 @@ typedef enum {
     CGFloat designHeight = 10;
     CGRect designFrame   = CGRectMake(designX, designY, designWidth, designHeight);
     _designLabel = [[UILabel alloc] initWithFrame:designFrame];
-    [_designLabel setText:@"Designed by HonghaoZ"];
+    [_designLabel setText:@"Designed and developed by ChouTi.io"];
     [_designLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
     [_designLabel setTextAlignment:NSTextAlignmentCenter];
     [_designLabel setTextColor:_buttonColor];
@@ -482,7 +482,6 @@ typedef enum {
     designY      = (_mainScreenSize.height - (_bannerIsVisible ? 50 : 0)) - designHeight - 10;
     designFrame  = CGRectMake(designX, designY, designWidth, designHeight);
     [_designLabel setFrame:designFrame];
-    [_designLabel setHidden:YES];
     
     [_mainScrollView addSubview:_segmentLabel];
     [_mainScrollView addSubview:_segmentHelpButton];
