@@ -25,6 +25,7 @@
 		1BDA8ED119479FFC006718B5 /* Taptap_Heart_RateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDA8ED019479FFC006718B5 /* Taptap_Heart_RateTests.m */; };
 		1BF2FB9E1989F42C002DD49A /* ZHHBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF2FB9D1989F42C002DD49A /* ZHHBarChartView.m */; };
 		91E28D97BA0C658C5BEACD24 /* libPods-Taptap Heart Rate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCCFB4F6C6FD5774AC9852C7 /* libPods-Taptap Heart Rate.a */; };
+		E532A66A24B26ACF003B5DA7 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E532A66924B26ACF003B5DA7 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,8 +58,6 @@
 		1B75F201195F17C700AFAFC4 /* TTHRHintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRHintView.m; path = Views/TTHRHintView.m; sourceTree = "<group>"; };
 		1B75F203195F807900AFAFC4 /* TTHRHeartIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRHeartIndicatorView.h; path = Views/TTHRHeartIndicatorView.h; sourceTree = "<group>"; };
 		1B75F204195F807900AFAFC4 /* TTHRHeartIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRHeartIndicatorView.m; path = Views/TTHRHeartIndicatorView.m; sourceTree = "<group>"; };
-		1B75F208195F935500AFAFC4 /* Heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Heart.png; sourceTree = "<group>"; };
-		1B75F209195F935500AFAFC4 /* Heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Heart@2x.png"; sourceTree = "<group>"; };
 		1B75F210195FA3D000AFAFC4 /* TTHRUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTHRUser.h; path = Model/TTHRUser.h; sourceTree = "<group>"; };
 		1B75F211195FA3D000AFAFC4 /* TTHRUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTHRUser.m; path = Model/TTHRUser.m; sourceTree = "<group>"; };
 		1BDA8EA819479FFC006718B5 /* Taptap Heart Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Taptap Heart Rate.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +83,7 @@
 		1BF2FB9D1989F42C002DD49A /* ZHHBarChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZHHBarChartView.m; path = Views/ZHHBarChartView.m; sourceTree = "<group>"; };
 		CCCFB4F6C6FD5774AC9852C7 /* libPods-Taptap Heart Rate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Taptap Heart Rate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9922B5D50B936B740398799 /* libPods-Taptap Heart RateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Taptap Heart RateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E532A66924B26ACF003B5DA7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		E687F014DC64432A2E77B977 /* Pods-Taptap Heart Rate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taptap Heart Rate.release.xcconfig"; path = "Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,8 +153,6 @@
 			children = (
 				1B75F203195F807900AFAFC4 /* TTHRHeartIndicatorView.h */,
 				1B75F204195F807900AFAFC4 /* TTHRHeartIndicatorView.m */,
-				1B75F208195F935500AFAFC4 /* Heart.png */,
-				1B75F209195F935500AFAFC4 /* Heart@2x.png */,
 			);
 			name = HeartIndicatorView;
 			sourceTree = "<group>";
@@ -220,7 +218,7 @@
 				1B75F20C195FA38400AFAFC4 /* Model */,
 				0217A83A21177416002B2B89 /* ViewController */,
 				1B1A376E194BFD7400C9F9EC /* Views */,
-				1BDA8EBD19479FFC006718B5 /* Images.xcassets */,
+				E532A66824B26ABA003B5DA7 /* Resources */,
 				0217A84221177476002B2B89 /* Supporting Files */,
 			);
 			path = "Taptap Heart Rate";
@@ -250,6 +248,15 @@
 				E687F014DC64432A2E77B977 /* Pods-Taptap Heart Rate.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		E532A66824B26ABA003B5DA7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1BDA8EBD19479FFC006718B5 /* Images.xcassets */,
+				E532A66924B26ACF003B5DA7 /* Launch Screen.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -339,6 +346,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E532A66A24B26ACF003B5DA7 /* Launch Screen.storyboard in Resources */,
 				1BDA8EBE19479FFC006718B5 /* Images.xcassets in Resources */,
 				0217A85021177BD8002B2B89 /* GoogleService-Info.plist in Resources */,
 			);
@@ -515,7 +523,6 @@
 			baseConfigurationReference = 157ED95B46E8220DFCA3E27F /* Pods-Taptap Heart Rate.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 8;
@@ -529,6 +536,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honghao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -538,7 +546,6 @@
 			baseConfigurationReference = E687F014DC64432A2E77B977 /* Pods-Taptap Heart Rate.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 8;
@@ -552,6 +559,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.honghao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

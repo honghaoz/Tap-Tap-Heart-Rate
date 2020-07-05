@@ -85,6 +85,8 @@ typedef enum {
 @property (nonatomic, strong) UILabel *maxHRTitleLabel;
 @property (nonatomic, strong) UILabel *maxHRLable;
 
+@property (nonatomic, strong) UILabel* iapLabel;
+
 @property (nonatomic, strong) UILabel *designLabel;
 
 // Screen 1_ (Screen -1)
@@ -319,7 +321,7 @@ typedef enum {
     CGRect segmentLabelFrame = CGRectMake(segmentLabelX, segmentLabelY, segmentLabelWidth, segmentLabelHeight);
     _segmentLabel = [[UILabel alloc] initWithFrame:segmentLabelFrame];
     [_segmentLabel setText:@"Choose Measure Mode"];
-    [_segmentLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Regular" size:17]];
+    [_segmentLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:15]];
     [_segmentLabel setTextAlignment:NSTextAlignmentCenter];
     [_segmentLabel setTextColor:_buttonColor];
     
@@ -371,7 +373,7 @@ typedef enum {
     CGRect personalLabelFrame = CGRectMake(personalLabelX, personalLabelY, personalLabelWidth, personalLabelHeight);
     _personalLabel = [[UILabel alloc] initWithFrame:personalLabelFrame];
     [_personalLabel setText:@"Personal Information"];
-    [_personalLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Regular" size:17]];
+    [_personalLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:15]];
     [_personalLabel setTextAlignment:NSTextAlignmentCenter];
     [_personalLabel setTextColor:_buttonColor];
     
@@ -461,6 +463,18 @@ typedef enum {
     [_maxHRLable setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]];
     [_maxHRLable setTextAlignment:NSTextAlignmentLeft];
     [_maxHRLable setTextColor:_buttonColor];
+
+    // Personal label
+    CGFloat iapLabelHeight = 30;
+    CGFloat iapLabelWidth  = 200;
+    CGFloat iapLabelX      = offsetX + (_mainScrollView.contentSize.width - offsetX - iapLabelWidth) / 2;
+    CGFloat iapLabelY      = CGRectGetMaxY(_maxHRLable.frame) + 37;
+    CGRect iapLabelFrame = CGRectMake(iapLabelX, iapLabelY, iapLabelWidth, iapLabelHeight);
+    _iapLabel = [[UILabel alloc] initWithFrame:iapLabelFrame];
+    [_iapLabel setText:@"In App Purchase"];
+    [_iapLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:15]];
+    [_iapLabel setTextAlignment:NSTextAlignmentCenter];
+    [_iapLabel setTextColor:_buttonColor];
     
     
     // CopyLabel
@@ -495,6 +509,8 @@ typedef enum {
     [_mainScrollView addSubview:_designLabel];
     [_mainScrollView addSubview:_maxHRTitleLabel];
     [_mainScrollView addSubview:_maxHRLable];
+
+    [_mainScrollView addSubview:_iapLabel];
     
     [_mainScrollView addSubview:_hintView];
     
