@@ -26,6 +26,7 @@
 		1BF2FB9E1989F42C002DD49A /* ZHHBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF2FB9D1989F42C002DD49A /* ZHHBarChartView.m */; };
 		91E28D97BA0C658C5BEACD24 /* libPods-Taptap Heart Rate.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCCFB4F6C6FD5774AC9852C7 /* libPods-Taptap Heart Rate.a */; };
 		E532A66A24B26ACF003B5DA7 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E532A66924B26ACF003B5DA7 /* Launch Screen.storyboard */; };
+		E532A67024B2D857003B5DA7 /* DEStoreKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E532A66E24B2D856003B5DA7 /* DEStoreKitManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,8 @@
 		CCCFB4F6C6FD5774AC9852C7 /* libPods-Taptap Heart Rate.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Taptap Heart Rate.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9922B5D50B936B740398799 /* libPods-Taptap Heart RateTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Taptap Heart RateTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E532A66924B26ACF003B5DA7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		E532A66E24B2D856003B5DA7 /* DEStoreKitManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEStoreKitManager.m; sourceTree = "<group>"; };
+		E532A66F24B2D857003B5DA7 /* DEStoreKitManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEStoreKitManager.h; sourceTree = "<group>"; };
 		E687F014DC64432A2E77B977 /* Pods-Taptap Heart Rate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taptap Heart Rate.release.xcconfig"; path = "Pods/Target Support Files/Pods-Taptap Heart Rate/Pods-Taptap Heart Rate.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -215,6 +218,7 @@
 			children = (
 				1BDA8EBA19479FFC006718B5 /* TTHRAppDelegate.h */,
 				1BDA8EBB19479FFC006718B5 /* TTHRAppDelegate.m */,
+				E532A67124B2D85C003B5DA7 /* DEStoreKitManager */,
 				1B75F20C195FA38400AFAFC4 /* Model */,
 				0217A83A21177416002B2B89 /* ViewController */,
 				1B1A376E194BFD7400C9F9EC /* Views */,
@@ -257,6 +261,15 @@
 				E532A66924B26ACF003B5DA7 /* Launch Screen.storyboard */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		E532A67124B2D85C003B5DA7 /* DEStoreKitManager */ = {
+			isa = PBXGroup;
+			children = (
+				E532A66F24B2D857003B5DA7 /* DEStoreKitManager.h */,
+				E532A66E24B2D856003B5DA7 /* DEStoreKitManager.m */,
+			);
+			path = DEStoreKitManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -387,6 +400,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E532A67024B2D857003B5DA7 /* DEStoreKitManager.m in Sources */,
 				1B0583B7194E3BE5000D43C2 /* TTHRMainScrollView.m in Sources */,
 				0217A83D21177416002B2B89 /* TTHRMainViewController.m in Sources */,
 				1B75F202195F17C700AFAFC4 /* TTHRHintView.m in Sources */,
@@ -525,7 +539,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = UYW9ZSKZAQ;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -548,7 +562,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = UYW9ZSKZAQ;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

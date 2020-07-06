@@ -13,6 +13,7 @@
 #import "TTHRHintView.h"
 #import "TTHRHeartIndicatorView.h"
 #import "TTHRUser.h"
+#import "DEStoreKitManager.h"
 
 @import GoogleMobileAds;
 @import FirebaseAnalytics;
@@ -85,7 +86,10 @@ typedef enum {
 @property (nonatomic, strong) UILabel *maxHRTitleLabel;
 @property (nonatomic, strong) UILabel *maxHRLable;
 
-@property (nonatomic, strong) UILabel* iapLabel;
+@property (nonatomic, strong) UILabel *iapLabel;
+@property (nonatomic, strong) UIButton *removeAdsButton;
+@property (nonatomic, strong) UIButton *restoreIAPButton;
+@property (nonatomic, assign) BOOL isAdsRemoved;
 
 @property (nonatomic, strong) UILabel *designLabel;
 
@@ -464,9 +468,9 @@ typedef enum {
     [_maxHRLable setTextAlignment:NSTextAlignmentLeft];
     [_maxHRLable setTextColor:_buttonColor];
 
-    // Personal label
+    // IAP label
     CGFloat iapLabelHeight = 30;
-    CGFloat iapLabelWidth  = 200;
+    CGFloat iapLabelWidth  = 150;
     CGFloat iapLabelX      = offsetX + (_mainScrollView.contentSize.width - offsetX - iapLabelWidth) / 2;
     CGFloat iapLabelY      = CGRectGetMaxY(_maxHRLable.frame) + 37;
     CGRect iapLabelFrame = CGRectMake(iapLabelX, iapLabelY, iapLabelWidth, iapLabelHeight);
@@ -475,7 +479,79 @@ typedef enum {
     [_iapLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:15]];
     [_iapLabel setTextAlignment:NSTextAlignmentCenter];
     [_iapLabel setTextColor:_buttonColor];
-    
+
+    CGFloat removeAdsButtonHeight = 35;
+    CGFloat removeAdsButtonWidth  = 175;
+    CGFloat removeAdsButtonX      = offsetX + (_mainScrollView.contentSize.width - offsetX - removeAdsButtonWidth) / 2;
+    CGFloat removeAdsButtonY      = CGRectGetMaxY(_iapLabel.frame) + 10;
+    CGRect removeAdsButtonFrame = CGRectMake(removeAdsButtonX, removeAdsButtonY, removeAdsButtonWidth, removeAdsButtonHeight);
+    _removeAdsButton = [[UIButton alloc] initWithFrame:removeAdsButtonFrame];
+    [_removeAdsButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:15]];
+    [_removeAdsButton setTitle:@"Remove Ads for $0.99" forState:UIControlStateNormal];
+    [_removeAdsButton setTitleColor:_backgroundColor forState:UIControlStateNormal];
+    [_removeAdsButton setTitleColor:[_backgroundColor colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    [_removeAdsButton setBackgroundColor:UIColor.whiteColor];
+    _removeAdsButton.adjustsImageWhenDisabled = NO;
+    _removeAdsButton.clipsToBounds = YES;
+    _removeAdsButton.layer.cornerRadius = 8;
+
+    [DEStoreKitManager.sharedManager fetchProductsWithIdentifiers:@[@"com.chouti.taptap_heart_rate.remove_ads"] onSuccess:^(NSArray *products, NSArray *invalidIdentifiers) {
+        if (products == nil && products.count == 0) {
+            return;
+        }
+        if ([DEStoreKitManager.sharedManager isProductPurchased:@"com.chouti.taptap_heart_rate.remove_ads"]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.iapLabel setHidden:YES];
+                [self.removeAdsButton setHidden:YES];
+                [self.restoreIAPButton setHidden:YES];
+            });
+        } else {
+            SKProduct *product= products[0];
+            NSString *priceString = [product localizedPrice];//[formatter stringFromNumber:products[0].price];
+            NSString *title = [NSString stringWithFormat:@"%@ for %@", product.localizedTitle, priceString];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.removeAdsButton setTitle:title forState:UIControlStateNormal];
+            });
+        }
+    } onFailure:^(NSError *error) {
+
+    }];
+
+//    [InAppPurchaseManager.shared loadProductsWithIds:@[@"com.chouti.taptap_heart_rate.remove_ads"] completion:^(NSArray<SKProduct *> * _Nullable products, NSError * _Nullable error) {
+//        if (products == nil) {
+//            return;
+//        }
+//        if ([InAppPurchaseManager.shared isProductPurchased:@"com.chouti.taptap_heart_rate.remove_ads"]) {
+//            [self.iapLabel setHidden:YES];
+//            [self.removeAdsButton setHidden:YES];
+//            [self.restoreIAPButton setHidden:YES];
+//        } else {
+//            NSNumberFormatter *formatter = [NSNumberFormatter new];
+//            formatter.formatterBehavior = NSDateFormatterBehavior10_4;
+//            formatter.numberStyle = NSNumberFormatterCurrencyStyle;
+//            formatter.locale = products[0].priceLocale;
+//            NSString *priceString = [formatter stringFromNumber:products[0].price];
+//
+//            NSString *title = [NSString stringWithFormat:@"%@ for %@", products[0].localizedTitle, priceString];
+//            [self.removeAdsButton setTitle:title forState:UIControlStateNormal];
+//        }
+//    }];
+
+    [_removeAdsButton addTarget:self action:@selector(removeAdsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+
+    CGFloat restoreIAPButtonHeight = 35;
+    CGFloat restoreIAPButtonWidth  = 175;
+    CGFloat restoreIAPButtonX      = offsetX + (_mainScrollView.contentSize.width - offsetX - restoreIAPButtonWidth) / 2;
+    CGFloat restoreIAPButtonY      = CGRectGetMaxY(_removeAdsButton.frame) + 5;
+    CGRect restoreIAPButtonFrame = CGRectMake(restoreIAPButtonX, restoreIAPButtonY, restoreIAPButtonWidth, restoreIAPButtonHeight);
+    _restoreIAPButton = [[UIButton alloc] initWithFrame:restoreIAPButtonFrame];
+    [_restoreIAPButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:13]];
+    [_restoreIAPButton setTitle:@"Restore Purchases" forState:UIControlStateNormal];
+    [_restoreIAPButton setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+    [_restoreIAPButton setTitleColor:[UIColor.whiteColor colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    _restoreIAPButton.adjustsImageWhenDisabled = NO;
+
+    [_restoreIAPButton addTarget:self action:@selector(restoreIAPButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     // CopyLabel
     CGFloat designX      = 0;
@@ -511,6 +587,8 @@ typedef enum {
     [_mainScrollView addSubview:_maxHRLable];
 
     [_mainScrollView addSubview:_iapLabel];
+    [_mainScrollView addSubview:_removeAdsButton];
+    [_mainScrollView addSubview:_restoreIAPButton];
     
     [_mainScrollView addSubview:_hintView];
     
@@ -561,11 +639,17 @@ typedef enum {
 
 //    GADRequest *request = [GADRequest request];
 //    [self.interstitial loadRequest:request];
+
+    _isAdsRemoved = [NSUserDefaults.standardUserDefaults boolForKey:@"isAdsRemoved"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-	
+
+    if (_isAdsRemoved) {
+        return;
+    }
+
     // Ad
     self.adBannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
     self.adBannerView.delegate = self;
@@ -575,7 +659,7 @@ typedef enum {
     self.adBannerView.rootViewController = self;
     GADRequest *request = [GADRequest request];
 #if DEBUG
-    request.testDevices = @[kGADSimulatorID];
+    GADMobileAds.sharedInstance.requestConfiguration.testDeviceIdentifiers = @[kGADSimulatorID];
 #endif
     [self.adBannerView loadRequest:request];
 }
@@ -744,6 +828,50 @@ typedef enum {
     }
     [self updateLabels];
     [_maxHRLable setText:[NSString stringWithFormat:@" %ld", (long)[TTHRUser sharedUser].maxHR]];
+}
+
+- (void)removeAdsButtonTapped:(id)sender
+{
+    [DEStoreKitManager.sharedManager purchaseProductWithIdentifier:@"com.chouti.taptap_heart_rate.remove_ads" onSuccess:^(SKPaymentTransaction *transaction) {
+        [self didRemoveAds];
+    } onRestore:^(SKPaymentTransaction *transaction) {
+        [self didRemoveAds];
+    } onFailure:nil onCancel:nil onVerify:nil];
+}
+
+- (void)restoreIAPButtonTapped:(id)sender
+{
+    [DEStoreKitManager.sharedManager restorePreviousPurchasesOnSuccess:^(NSArray *restoredTransactions, NSArray *invalidTransactions) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Purchases Restored" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alert addAction:cancel];
+        [self presentViewController:alert animated:YES completion:nil];
+
+        if ([DEStoreKitManager.sharedManager isProductPurchased:@"com.chouti.taptap_heart_rate.remove_ads"]) {
+            [self didRemoveAds];
+        }
+    } onFailure:^(NSError *error) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Restoring Purchases Failed" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *retry = [UIAlertAction actionWithTitle:@"Retry" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self restoreIAPButtonTapped:nil];
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alert addAction:retry];
+        [alert addAction:cancel];
+        [self presentViewController:alert animated:YES completion:nil];
+    } onVerify:nil];
+}
+
+- (void) didRemoveAds {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [NSUserDefaults.standardUserDefaults setBool:YES forKey:@"isAdsRemoved"];
+        self.isAdsRemoved = YES;
+        [self slideDownAdsBanner];
+
+        [self.iapLabel setHidden:YES];
+        [self.removeAdsButton setHidden:YES];
+        [self.restoreIAPButton setHidden:YES];
+    });
 }
 
 #pragma mark - UIViews update
@@ -1175,20 +1303,24 @@ typedef enum {
                                      }];
 	if (_bannerIsVisible)
 	{
-		[UIView beginAnimations:@"animateAdBannerOff" context:NULL];
-		
-		self.adBannerView.frame = CGRectMake(0, self.view.frame.size.height, self.self.adBannerView.bounds.size.width, self.self.adBannerView.bounds.size.height);
-		
-		self.tapButton.frame = CGRectOffset(self.tapButton.frame, 0, self.adBannerView.bounds.size.height / 2.0);
-		self.resetButton.frame = CGRectOffset(self.resetButton.frame, 0, self.adBannerView.bounds.size.height / 2.0);
-		if (self.designLabel) {
-			self.designLabel.frame = CGRectOffset(self.designLabel.frame, 0, self.adBannerView.bounds.size.height);
-		}
-		
-		[UIView commitAnimations];
-		
-		_bannerIsVisible = NO;
+        [self slideDownAdsBanner];
 	}
+}
+
+- (void)slideDownAdsBanner {
+    [UIView beginAnimations:@"animateAdBannerOff" context:NULL];
+
+    self.adBannerView.frame = CGRectMake(0, self.view.frame.size.height, self.self.adBannerView.bounds.size.width, self.self.adBannerView.bounds.size.height);
+
+    self.tapButton.frame = CGRectOffset(self.tapButton.frame, 0, self.adBannerView.bounds.size.height / 2.0);
+    self.resetButton.frame = CGRectOffset(self.resetButton.frame, 0, self.adBannerView.bounds.size.height / 2.0);
+    if (self.designLabel) {
+        self.designLabel.frame = CGRectOffset(self.designLabel.frame, 0, self.adBannerView.bounds.size.height);
+    }
+
+    [UIView commitAnimations];
+
+    _bannerIsVisible = NO;
 }
 
 @end
